@@ -1,3 +1,4 @@
+import AddToCart from "@/components/product/AddToCart";
 import { products } from "@/data/products";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -36,6 +37,7 @@ export default async function ProductDetailPage({
       <p>판매가: {product.salePrice.toLocaleString()}원</p>
 
       <p>{discountRate}% 할인</p>
+      <AddToCart productId={product.id} />
     </main>
   );
 }
