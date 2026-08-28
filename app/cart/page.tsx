@@ -6,18 +6,67 @@ import type { CartItem } from "@/types/cart";
 
 export default function CartPage() {
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const savedCart = localStorage.getItem("cart");
 
-    if (!savedCart) {
+    if (savedCart) {
+      const parsedCart: CartItem[] = JSON.parse(savedCart);
+
+      setCart(parsedCart);
+    }
+
+    setIsLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isLoaded) {
       return;
     }
 
-    const parsedCart: CartItem[] = JSON.parse(savedCart);
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart, isLoaded]);
 
-    setCart(parsedCart);
-  }, []);
+  const totalPrice = cart.reduce((total, item) => {
+    const product = products.find((product) => product.id === item.productId);
+
+    if (!product) {
+      return total;
+    }
+
+    return total + product.salePrice * item.quantity;
+  }, 0);
+
+  const handleIncrease = (productId: number) => {
+    setCart((prev) =>
+      prev.map((item) =>
+        item.productId === productId
+          ? {
+              ...item,
+              quantity: Math.min(10, item.quantity + 1),
+            }
+          : item,
+      ),
+    );
+  };
+
+  const handleDecrease = (productId: number) => {
+    setCart((prev) =>
+      prev.map((item) =>
+        item.productId === productId
+          ? {
+              ...item,
+              quantity: Math.max(1, item.quantity - 1),
+            }
+          : item,
+      ),
+    );
+  };
+
+  const handleRemove = (productId: number) => {
+    setCart((prev) => prev.filter((item) => item.productId !== productId));
+  };
 
   if (cart.length === 0) {
     return (
@@ -45,8 +94,18 @@ export default function CartPage() {
           return (
             <li key={item.productId}>
               <h2>{product.name}</h2>
-              <p>수량: {item.quantity}</p>
+              <div>
+                <button onClick={() => handleDecrease(item.productId)}>
+                  -
+                </button>
+                <span>{item.quantity}</span>
+                <button onClick={() => handleIncrease(item.productId)}>
+                  +
+                </button>
+              </div>
               <p>가격: {product.salePrice.toLocaleString()}원</p>
+              <p>총액: {totalPrice.toLocaleString()}원</p>
+              <button onClick={() => handleRemove(item.productId)}>삭제</button>
             </li>
           );
         })}
