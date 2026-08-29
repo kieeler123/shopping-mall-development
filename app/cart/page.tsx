@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { products } from "@/data/products";
 import type { CartItem } from "@/types/cart";
+import Link from "next/link";
 
 export default function CartPage() {
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -94,22 +95,33 @@ export default function CartPage() {
           return (
             <li key={item.productId}>
               <h2>{product.name}</h2>
+
               <div>
                 <button onClick={() => handleDecrease(item.productId)}>
                   -
                 </button>
+
                 <span>{item.quantity}</span>
+
                 <button onClick={() => handleIncrease(item.productId)}>
                   +
                 </button>
               </div>
+
               <p>가격: {product.salePrice.toLocaleString()}원</p>
-              <p>총액: {totalPrice.toLocaleString()}원</p>
+
+              <p>
+                소계: {(product.salePrice * item.quantity).toLocaleString()}원
+              </p>
+
               <button onClick={() => handleRemove(item.productId)}>삭제</button>
             </li>
           );
         })}
       </ul>
+      <p>총액: {totalPrice.toLocaleString()}원</p>
+
+      <Link href="/checkout">주문하기</Link>
     </main>
   );
 }
