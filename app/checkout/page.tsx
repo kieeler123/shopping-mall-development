@@ -2,6 +2,7 @@
 
 import { products } from "@/data/products";
 import { CartItem } from "@/types/cart";
+import { Order } from "@/types/order";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -35,13 +36,23 @@ export default function CheckoutPage() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log({
+    const order: Order = {
+      id: Date.now(),
       name,
       phone,
       address,
-      cart,
+      items: cart,
       totalPrice,
-    });
+      createdAt: new Date().toISOString(),
+    };
+
+    const savedOrders = localStorage.getItem("orders");
+
+    const parsedOrders: Order[] = savedOrders ? JSON.parse(savedOrders) : [];
+
+    const updatedOrders: Order[] = [...parsedOrders, order];
+
+    localStorage.setItem("orders", JSON.stringify(updatedOrders));
 
     localStorage.removeItem("cart");
     setCart([]);
