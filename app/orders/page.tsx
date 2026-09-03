@@ -3,6 +3,7 @@
 import { products } from "@/data/products";
 import { Order } from "@/types/order";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -43,6 +44,8 @@ export default function OrdersPage() {
             <p>주소: {order.address}</p>
             <p>총 주문금액: {order.totalPrice.toLocaleString()}원</p>
             <p>주문시간: {new Date(order.createdAt).toLocaleString("ko-KR")}</p>
+
+            <Link href={`/orders/${order.id}`}>상세보기</Link>
 
             <h2>주문 상품</h2>
 
