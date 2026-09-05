@@ -2,16 +2,31 @@
 
 import { products } from "@/data/products";
 import { Order } from "@/types/order";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function OrderDetailPage() {
   const params = useParams();
+  const router = useRouter();
 
   const orderId = Number(params.id);
 
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+
+  function handleCancelOrder() {
+    const confirmed = window.confirm("정말 이 주문을 취소하시겠습니까?");
+
+    if (!confirmed) return;
+
+    const updatedOrders = orders.filter((order) => order.id !== orderId);
+
+    localStorage.setItem("orders", JSON.stringify(updatedOrders));
+
+    setOrders(updatedOrders);
+
+    router.push("/orders");
+  }
 
   useEffect(() => {
     const savedOrders = localStorage.getItem("orders");
@@ -58,6 +73,10 @@ export default function OrderDetailPage() {
         <p>주문시간: {new Date(order.createdAt).toLocaleString("ko-KR")}</p>
 
         <h2>주문 상품</h2>
+
+        <button type="button" onClick={handleCancelOrder}>
+          주문 취소
+        </button>
 
         <ul>
           {order.items.map((item) => {
