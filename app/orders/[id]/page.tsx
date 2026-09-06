@@ -19,13 +19,20 @@ export default function OrderDetailPage() {
 
     if (!confirmed) return;
 
-    const updatedOrders = orders.filter((order) => order.id !== orderId);
+    const updatedOrders = orders.map((order) =>
+      order.id === orderId
+        ? {
+            ...order,
+            status: "취소완료",
+          }
+        : order,
+    );
 
     localStorage.setItem("orders", JSON.stringify(updatedOrders));
 
     setOrders(updatedOrders);
 
-    router.push("/orders");
+    // router.push("/orders");
   }
 
   useEffect(() => {
@@ -41,6 +48,8 @@ export default function OrderDetailPage() {
   }, []);
 
   const order = orders.find((order) => order.id === orderId);
+
+  console.log(order);
 
   if (loading) {
     return (
@@ -71,10 +80,15 @@ export default function OrderDetailPage() {
         <p>주소: {order.address}</p>
         <p>총 주문금액: {order.totalPrice.toLocaleString()}원</p>
         <p>주문시간: {new Date(order.createdAt).toLocaleString("ko-KR")}</p>
+        <p>주문상태: {order.status}</p>
 
         <h2>주문 상품</h2>
 
-        <button type="button" onClick={handleCancelOrder}>
+        <button
+          type="button"
+          onClick={handleCancelOrder}
+          disabled={order.status === "취소완료"}
+        >
           주문 취소
         </button>
 

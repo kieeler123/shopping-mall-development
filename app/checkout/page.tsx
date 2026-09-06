@@ -44,6 +44,7 @@ export default function CheckoutPage() {
       items: cart,
       totalPrice,
       createdAt: new Date().toISOString(),
+      status: "결제완료",
     };
 
     const savedOrders = localStorage.getItem("orders");

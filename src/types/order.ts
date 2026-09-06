@@ -8,4 +8,5 @@ export type Order = {
   items: CartItem[];
   totalPrice: number;
   createdAt: string;
+  status: string;
 };
