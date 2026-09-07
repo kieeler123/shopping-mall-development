@@ -23,7 +23,7 @@ export default function OrderDetailPage() {
       order.id === orderId
         ? {
             ...order,
-            status: "취소완료",
+            status: "취소완료" as Order["status"],
           }
         : order,
     );
@@ -32,7 +32,7 @@ export default function OrderDetailPage() {
 
     setOrders(updatedOrders);
 
-    // router.push("/orders");
+    router.push("/orders");
   }
 
   useEffect(() => {

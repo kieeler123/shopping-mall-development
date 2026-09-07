@@ -8,5 +8,13 @@ export type Order = {
   items: CartItem[];
   totalPrice: number;
   createdAt: string;
-  status: string;
+  status: OrderStatus;
 };
+
+export type OrderStatus =
+  | "결제완료"
+  | "상품준비중"
+  | "배송중"
+  | "배송완료"
+  | "취소완료"
+  | "주문완료";
