@@ -1,7 +1,7 @@
 # Day 10 --- Order Status Modeling / 注文ステータスのモデリング / 주문 상태 모델링
 
-[📝 Problems / 問題 / 문제](Day10-2-PROBLEMS-JA-EN-KO.md)\
-[✅ Answers / 解答 / 정답](Day10-3-ANSWER-JA-EN-KO.md)
+[📝 Problems / 問題 / 문제](2026-09-07-shopping-mall-development-day10-2-PROBLEMS-JA-EN-KO.md)\
+[✅ Answers / 解答 / 정답](2026-09-07-shopping-mall-development-day10-3-ANSWER-JA-EN-KO.md)
 
 ## 0. Day 10 Goal
 
@@ -30,11 +30,11 @@ Type과 Business Logic을 구분하고 주문 상태를 React UI와 연결합니
 > 핵심은 코드를 외우는 것이 아니라
 > `왜 string에서 OrderStatus로 바꿨는가?`를 설명할 수 있는 것입니다.
 
-------------------------------------------------------------------------
+---
 
 ## 1. `status: string`
 
-``` tsx
+```tsx
 type Order = {
   id: number;
   status: string;
@@ -63,11 +63,11 @@ string is a valid order status.
 > 타입의 범위가 너무 넓으면 TypeScript가 잡아낼 수 있는 실수도
 > 줄어듭니다.
 
-------------------------------------------------------------------------
+---
 
 ## 2. String Literal Type
 
-``` tsx
+```tsx
 type PaymentStatus = "결제완료";
 ```
 
@@ -86,9 +86,9 @@ possible string.
 String Literal Type은 모든 문자열이 아니라 **정확히 지정한 하나의
 문자열만** 허용하는 타입입니다.
 
-``` tsx
+```tsx
 const a: PaymentStatus = "결제완료"; // OK
-const b: PaymentStatus = "배송중";   // Type Error
+const b: PaymentStatus = "배송중"; // Type Error
 ```
 
 > **팁**
@@ -96,11 +96,11 @@ const b: PaymentStatus = "배송중";   // Type Error
 > 공백도 문자열의 일부입니다. `"배송완료"`와 `"배송 완료"`는 서로 다른
 > 문자열입니다.
 
-------------------------------------------------------------------------
+---
 
 ## 3. Union Type
 
-``` tsx
+```tsx
 export type OrderStatus =
   | "결제완료"
   | "상품준비중"
@@ -125,14 +125,14 @@ order status must be one of the five listed String Literal Types.
 Union Type은 `|`를 사용하여 여러 타입 중 하나를 허용합니다. 여기서는
 다섯 개의 String Literal Type 중 하나만 주문 상태로 사용할 수 있습니다.
 
-``` tsx
-const a: OrderStatus = "배송중";   // OK
+```tsx
+const a: OrderStatus = "배송중"; // OK
 const b: OrderStatus = "환불완료"; // Type Error
 ```
 
 ### 표현 연습 / 表現練習 / Expression Practice
 
-``` text
+```text
 쉬운 표현:
 OrderStatus에 "환불완료"가 없다.
 
@@ -151,11 +151,11 @@ Type Error가 발생한다.
 > `OrderStatus에 없는 값이다`라고 설명하고 점차 기술 표현을 붙이면
 > 됩니다.
 
-------------------------------------------------------------------------
+---
 
 ## 4. Apply `OrderStatus` to `Order`
 
-``` tsx
+```tsx
 export type Order = {
   id: number;
   name: string;
@@ -191,13 +191,13 @@ applies that rule to the `status` property.
 > 타입은 `담는다`보다 `정의한다`, `허용한다`, `제한한다`라는 표현으로
 > 설명하면 더 정확합니다.
 
-------------------------------------------------------------------------
+---
 
 ## 5. Type Error
 
-``` tsx
-const status1: OrderStatus = "결제완료";     // OK
-const status2: OrderStatus = "배송중";       // OK
+```tsx
+const status1: OrderStatus = "결제완료"; // OK
+const status2: OrderStatus = "배송중"; // OK
 const status3: OrderStatus = "배송완료오타"; // Type Error
 ```
 
@@ -221,11 +221,11 @@ Error가 발생합니다.
 > Type Error가 보이면 먼저 `이 값이 Union에 실제로 있는가?`를
 > 확인하세요.
 
-------------------------------------------------------------------------
+---
 
 ## 6. State Transition
 
-``` text
+```text
 결제완료 → 상품준비중 → 배송중 → 배송완료
 
 결제완료 → 취소완료
@@ -250,7 +250,7 @@ A change from one state to another can be modeled as a State Transition.
 >
 > 용어가 기억나지 않으면 먼저 `상태 변경`이라고 설명해도 됩니다.
 
-------------------------------------------------------------------------
+---
 
 ## 7. Type vs Business Logic
 
@@ -271,7 +271,7 @@ Type은 **어떤 상태가 존재할 수 있는지**를 제한합니다. Busines
 
 예:
 
-``` text
+```text
 배송중 → 결제완료
 ```
 
@@ -285,14 +285,14 @@ Type은 **어떤 상태가 존재할 수 있는지**를 제한합니다. Busines
 > `① 값 자체가 유효한가? ② 지금 상태에서 그 값으로 바꿔도 되는가?`를
 > 따로 질문하세요.
 
-------------------------------------------------------------------------
+---
 
 ## 8. Connect Status to React UI
 
-``` tsx
-{order.status === "결제완료" && (
-  <button>주문 취소</button>
-)}
+```tsx
+{
+  order.status === "결제완료" && <button>주문 취소</button>;
+}
 ```
 
 ### 日本語
@@ -314,7 +314,7 @@ button is not rendered.
 
 ### UI Rule vs Business Logic
 
-``` text
+```text
 UI Rule
 → 어떤 버튼을 보여줄지 결정
 
@@ -327,11 +327,11 @@ Business Logic
 > 버튼을 숨겼다고 해서 기능 자체가 완전히 차단되었다고 생각하면 안
 > 됩니다. UI 방어와 실제 로직 방어는 구분합니다.
 
-------------------------------------------------------------------------
+---
 
 ## 9. Day 10 Flow
 
-``` text
+```text
 status: string
 ↓
 String Literal Type

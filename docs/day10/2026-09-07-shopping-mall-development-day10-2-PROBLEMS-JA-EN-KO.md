@@ -1,14 +1,14 @@
 # Day 10 --- Review Problems / 復習問題 / 복습 문제
 
-[📖 Summary / 総まとめ / 총정리](Day10-1-SUMMARY-JA-EN-KO.md)\
-[✅ Answers / 解答 / 정답](Day10-3-ANSWER-JA-EN-KO.md)
+[📖 Summary / 総まとめ / 총정리](2026-09-07-shopping-mall-development-day10-1-SUMMARY-JA-EN-KO.md)\
+[✅ Answers / 解答 / 정답](2026-09-07-shopping-mall-development-day10-3-ANSWER-JA-EN-KO.md)
 
 > **팁**
 >
 > 각 문제는 일본어 → 영어 → 한국어 순서입니다. 가장 편한 언어로 먼저
 > 이해한 뒤 다른 두 언어의 개발 표현도 같이 확인하세요.
 
-------------------------------------------------------------------------
+---
 
 ## Problem 1 --- `string`
 
@@ -29,11 +29,11 @@ With `status: string`, which value causes a Type Error?
 3.  `"아무거나"`
 4.  `123`
 
-------------------------------------------------------------------------
+---
 
 ## Problem 2 --- String Literal Type
 
-``` tsx
+```tsx
 type Order = {
   status: "결제완료";
 };
@@ -51,11 +51,11 @@ Why does assigning `"취소완료"` cause a Type Error?
 
 `"취소완료"`를 넣으면 왜 Type Error가 발생하나요?
 
-------------------------------------------------------------------------
+---
 
 ## Problem 3 --- Union Type
 
-``` tsx
+```tsx
 type OrderStatus =
   | "결제완료"
   | "상품준비중"
@@ -84,11 +84,11 @@ String Literal Type을 사용해서 설명하세요.
 3.  `"환불완료"`
 4.  `"취소완료"`
 
-------------------------------------------------------------------------
+---
 
 ## Problem 4 --- Exact Strings
 
-``` tsx
+```tsx
 const a: OrderStatus = "배송완료";
 const b: OrderStatus = "배송 완료";
 const c: OrderStatus = "배송완료 ";
@@ -106,11 +106,11 @@ Select every assignment that causes a Type Error.
 
 Type Error가 발생하는 것을 모두 고르세요.
 
-------------------------------------------------------------------------
+---
 
 ## Problem 5 --- `Order` and `OrderStatus`
 
-``` tsx
+```tsx
 type Order = {
   id: number;
   status: OrderStatus;
@@ -129,7 +129,7 @@ What does `Order` define, and what does `OrderStatus` define?
 
 `Order`와 `OrderStatus`는 각각 무엇을 정의하나요?
 
-------------------------------------------------------------------------
+---
 
 ## Problem 6 --- Why `OrderStatus`?
 
@@ -145,19 +145,19 @@ Why did we change `status: string` to `status: OrderStatus`?
 
 왜 `status: string`을 `status: OrderStatus`로 변경했나요?
 
-------------------------------------------------------------------------
+---
 
 ## Problem 7 --- Type vs Business Logic
 
 현재 상태:
 
-``` tsx
+```tsx
 order.status = "배송중";
 ```
 
 변경:
 
-``` tsx
+```tsx
 order.status = "결제완료";
 ```
 
@@ -175,7 +175,7 @@ Logic perspective?
 Type Error가 발생하나요? Business Logic 관점에서는 올바른 상태
 전환인가요?
 
-------------------------------------------------------------------------
+---
 
 ## Problem 8 --- State Transition
 
@@ -194,14 +194,14 @@ Can TypeScript automatically prevent an invalid transition such as
 `OrderStatus`만으로 TypeScript가 `배송중 → 결제완료` 같은 잘못된 상태
 전환을 자동으로 막을 수 있나요? 이유도 설명하세요.
 
-------------------------------------------------------------------------
+---
 
 ## Problem 9 --- Conditional Rendering
 
-``` tsx
-{order.status === "결제완료" && (
-  <button>주문 취소</button>
-)}
+```tsx
+{
+  order.status === "결제완료" && <button>주문 취소</button>;
+}
 ```
 
 ### 日本語
@@ -218,7 +218,7 @@ What happens to the button when the status is `"결제완료"` versus
 
 상태가 `"결제완료"`일 때와 `"배송중"`일 때 버튼은 각각 어떻게 되나요?
 
-------------------------------------------------------------------------
+---
 
 ## Problem 10 --- UI vs Business Logic
 
@@ -236,7 +236,7 @@ completely prevent cancellation?
 배송 중인 주문에서 취소 버튼을 숨기면 취소 기능을 완전히 막았다고 볼 수
 있나요?
 
-------------------------------------------------------------------------
+---
 
 ## Problem 11 --- Final Review
 
@@ -253,7 +253,7 @@ own words.
 
 다음 키워드를 연결해서 Day 10의 전체 흐름을 자기 말로 설명하세요.
 
-``` text
+```text
 status: string
 String Literal Type
 Union Type

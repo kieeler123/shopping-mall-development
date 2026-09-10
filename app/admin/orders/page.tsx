@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 type OrderStatus = "결제완료" | "상품준비중" | "배송중" | "배송완료";
 
 type OrderItem = {
@@ -18,7 +22,7 @@ type Order = {
   status: OrderStatus;
 };
 
-const orders: Order[] = [
+const initialOrders: Order[] = [
   {
     id: 1,
     name: "김철수",
@@ -79,6 +83,7 @@ const orders: Order[] = [
 ];
 
 export default function AdminOrdersPage() {
+  const [orders, setOrders] = useState<Order[]>(initialOrders);
   return (
     <main className="min-h-screen bg-gray-100 px-6 py-10">
       <div className="mx-auto max-w-5xl">
@@ -108,9 +113,31 @@ export default function AdminOrdersPage() {
                     </p>
                   </div>
 
-                  <span className="rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700">
-                    {order.status}
-                  </span>
+                  <select
+                    value={order.status}
+                    onChange={(e) => {
+                      const newStatus = e.target.value as OrderStatus;
+
+                      setOrders(
+                        orders.map((currentOrder) => {
+                          if (currentOrder.id === order.id) {
+                            return {
+                              ...currentOrder,
+                              status: newStatus,
+                            };
+                          }
+
+                          return currentOrder;
+                        }),
+                      );
+                    }}
+                    className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700"
+                  >
+                    <option value="결제완료">결제완료</option>
+                    <option value="상품준비중">상품준비중</option>
+                    <option value="배송중">배송중</option>
+                    <option value="배송완료">배송완료</option>
+                  </select>
                 </div>
 
                 <div className="grid gap-3 border-b border-gray-200 pb-5 text-sm md:grid-cols-2">

@@ -3,7 +3,7 @@
 > 학습 흐름:
 > `Order → Order[] → map() → order → Admin UI → order.status → key`
 
-------------------------------------------------------------------------
+---
 
 # 日本語
 
@@ -13,8 +13,8 @@ Day 11では、管理者が複数の注文を確認できる「管理者注文�
 
 顧客画面と管理者画面では、同じ `Order` データを使っても目的が異なる。
 
--   顧客：自分の注文を確認する
--   管理者：複数の注文を一覧で確認・管理する
+- 顧客：自分の注文を確認する
+- 管理者：複数の注文を一覧で確認・管理する
 
 Day
 11では注文ステータスの「変更」はまだ行わず、正しく「表示」することに集中する。
@@ -24,13 +24,13 @@ Day
 データそのものと、そのデータをどの画面で何のために使うかは分けて考える。同じ
 `Order` でもUIの目的によって見せ方が変わる。
 
-------------------------------------------------------------------------
+---
 
 ## STEP 2 --- `Order` と `Order[]`
 
 `Order` は「1件の注文」を表す型。
 
-``` ts
+```ts
 type Order = {
   id: number;
   name: string;
@@ -41,7 +41,7 @@ type Order = {
 
 `Order[]` は「複数の注文」を表す。
 
-``` ts
+```ts
 const orders: Order[] = [
   { id: 1, name: "田中", totalPrice: 25000, status: "支払い完了" },
   { id: 2, name: "佐藤", totalPrice: 42000, status: "商品準備中" },
@@ -50,7 +50,7 @@ const orders: Order[] = [
 
 型の関係：
 
-``` text
+```text
 Order    → 注文1件
 Order[]  → 注文複数件
 ```
@@ -59,19 +59,19 @@ Order[]  → 注文複数件
 
 `[]` を見たら「複数」と考える。
 
-``` text
+```text
 string[]    → 複数の文字列
 number[]    → 複数の数値
 Order[]     → 複数の注文
 ```
 
-------------------------------------------------------------------------
+---
 
 ## STEP 3 --- 管理者用の注文データを準備する
 
 管理者画面では複数の注文が必要なので、`Order[]` 型のデータを準備する。
 
-``` ts
+```ts
 const orders: Order[] = [
   {
     id: 1,
@@ -92,28 +92,30 @@ const orders: Order[] = [
 最初からDB接続を考えず、まずモックデータで `Order[]`
 の構造とUI表示を確認すると理解しやすい。
 
-------------------------------------------------------------------------
+---
 
 ## STEP 4 --- `map()` で複数の注文を表示する
 
 `orders` は配列なので、`map()`
 を使って注文を1件ずつ取り出し、UIに変換できる。
 
-``` tsx
-{orders.map((order) => {
-  return (
-    <div key={order.id}>
-      <p>{order.name}</p>
-      <p>{order.totalPrice}</p>
-      <p>{order.status}</p>
-    </div>
-  );
-})}
+```tsx
+{
+  orders.map((order) => {
+    return (
+      <div key={order.id}>
+        <p>{order.name}</p>
+        <p>{order.totalPrice}</p>
+        <p>{order.status}</p>
+      </div>
+    );
+  });
+}
 ```
 
 型の流れ：
 
-``` text
+```text
 orders: Order[]
       ↓ map()
 order: Order
@@ -129,7 +131,7 @@ UI
 `map()`
 を「配列を1件ずつ見ながら、それぞれから新しい結果（ReactではUI）を作る処理」と考える。
 
-------------------------------------------------------------------------
+---
 
 ## STEP 5 --- 注文情報とネストした `map()`
 
@@ -137,7 +139,7 @@ UI
 
 注文の中に商品配列がある場合：
 
-``` ts
+```ts
 type OrderItem = {
   id: number;
   name: string;
@@ -153,25 +155,23 @@ type Order = {
 
 `order.items` も配列なので、もう一度 `map()` を使える。
 
-``` tsx
-{orders.map((order) => {
-  return (
-    <div key={order.id}>
-      {order.items.map((item) => {
-        return (
-          <div key={item.id}>
-            {item.name}
-          </div>
-        );
-      })}
-    </div>
-  );
-})}
+```tsx
+{
+  orders.map((order) => {
+    return (
+      <div key={order.id}>
+        {order.items.map((item) => {
+          return <div key={item.id}>{item.name}</div>;
+        })}
+      </div>
+    );
+  });
+}
 ```
 
 型の流れ：
 
-``` text
+```text
 orders       → Order[]
 order        → Order
 order.items  → OrderItem[]
@@ -184,18 +184,14 @@ item         → OrderItem
 が難しい場合は、先に「どこが配列か」を探す。配列ごとに `map()`
 が1段あると考える。
 
-------------------------------------------------------------------------
+---
 
 ## STEP 6 --- `OrderStatus` を再利用する
 
 Day 10で作った `OrderStatus` を `Order` の `status` に使う。
 
-``` ts
-type OrderStatus =
-  | "支払い完了"
-  | "商品準備中"
-  | "配送中"
-  | "配送完了";
+```ts
+type OrderStatus = "支払い完了" | "商品準備中" | "配送中" | "配送完了";
 
 type Order = {
   id: number;
@@ -205,7 +201,7 @@ type Order = {
 
 そして管理者画面では：
 
-``` tsx
+```tsx
 <p>{order.status}</p>
 ```
 
@@ -213,7 +209,7 @@ type Order = {
 
 全体の流れ：
 
-``` text
+```text
 OrderStatus
     ↓
 Order.status
@@ -230,26 +226,24 @@ Day 11は表示まで。状態変更はDay 12で扱う。
 `status: string` ではなく `status: OrderStatus`
 にすると、許可した注文状態だけを使える。
 
-------------------------------------------------------------------------
+---
 
 ## STEP 7 --- React の `key`
 
 `map()` で複数の要素を表示するとき、Reactが各項目を識別できるように
 `key` を指定する。
 
-``` tsx
-{orders.map((order) => {
-  return (
-    <div key={order.id}>
-      {order.name}
-    </div>
-  );
-})}
+```tsx
+{
+  orders.map((order) => {
+    return <div key={order.id}>{order.name}</div>;
+  });
+}
 ```
 
 `id` と `key` は同じものではない。
 
-``` text
+```text
 id  → データを識別する値
 key → Reactがリスト項目を識別するための情報
 ```
@@ -259,7 +253,7 @@ key → Reactがリスト項目を識別するための情報
 
 ネストした `map()` では：
 
-``` tsx
+```tsx
 <div key={order.id}>
   {order.items.map((item) => (
     <div key={item.id}>{item.name}</div>
@@ -272,13 +266,13 @@ key → Reactがリスト項目を識別するための情報
 安定した固有の `id` がある場合は、それを `key` に使う。`key`
 は画面に表示するための値ではなく、Reactがリストを追跡するための情報。
 
-------------------------------------------------------------------------
+---
 
 ## STEP 8 --- 統合とテスト
 
 Day 11の最終的な流れ：
 
-``` text
+```text
 Order
 ↓
 Order[]
@@ -303,7 +297,7 @@ key
 
 Day 11の完成条件：
 
-``` text
+```text
 管理者が複数の注文と
 各注文の現在のステータスを確認できる
 ```
@@ -314,7 +308,7 @@ Day
 11では「表示できるか」をテストする。ステータスを変更するUIやロジックはDay
 12に分ける。
 
-------------------------------------------------------------------------
+---
 
 # English
 
@@ -325,8 +319,8 @@ administrator can view multiple orders.
 
 The same `Order` data can serve different UI purposes:
 
--   Customer: views their own order.
--   Admin: views and manages multiple orders.
+- Customer: views their own order.
+- Admin: views and manages multiple orders.
 
 Day 11 focuses on displaying the data correctly. Updating the order
 status comes later.
@@ -336,13 +330,13 @@ status comes later.
 Separate the data model from the purpose of the UI. The same `Order` can
 be presented differently depending on who uses the page.
 
-------------------------------------------------------------------------
+---
 
 ## STEP 2 --- `Order` vs `Order[]`
 
 `Order` represents one order.
 
-``` ts
+```ts
 type Order = {
   id: number;
   name: string;
@@ -353,7 +347,7 @@ type Order = {
 
 `Order[]` represents multiple orders.
 
-``` ts
+```ts
 const orders: Order[] = [
   { id: 1, name: "John", totalPrice: 25000, status: "PAID" },
   { id: 2, name: "Jane", totalPrice: 42000, status: "PREPARING" },
@@ -362,7 +356,7 @@ const orders: Order[] = [
 
 The relationship is:
 
-``` text
+```text
 Order    → one order
 Order[]  → multiple orders
 ```
@@ -372,14 +366,14 @@ Order[]  → multiple orders
 When you see `[]`, think "multiple values": `string[]`, `number[]`,
 `Order[]`.
 
-------------------------------------------------------------------------
+---
 
 ## STEP 3 --- Prepare Admin Order Data
 
 The admin page needs multiple orders, so prepare data typed as
 `Order[]`.
 
-``` ts
+```ts
 const orders: Order[] = [
   {
     id: 1,
@@ -400,28 +394,30 @@ Every object inside the array must follow the `Order` type.
 Start with mock data before connecting a database. This makes it easier
 to verify the type structure and rendering logic first.
 
-------------------------------------------------------------------------
+---
 
 ## STEP 4 --- Render Multiple Orders with `map()`
 
 Because `orders` is an array, `map()` can process each order and return
 UI for it.
 
-``` tsx
-{orders.map((order) => {
-  return (
-    <div key={order.id}>
-      <p>{order.name}</p>
-      <p>{order.totalPrice}</p>
-      <p>{order.status}</p>
-    </div>
-  );
-})}
+```tsx
+{
+  orders.map((order) => {
+    return (
+      <div key={order.id}>
+        <p>{order.name}</p>
+        <p>{order.totalPrice}</p>
+        <p>{order.status}</p>
+      </div>
+    );
+  });
+}
 ```
 
 Type flow:
 
-``` text
+```text
 orders: Order[]
       ↓ map()
 order: Order
@@ -438,7 +434,7 @@ understand.
 Think of `map()` as: "Look at each item in an array and create a new
 result from each one." In React, that result is often UI.
 
-------------------------------------------------------------------------
+---
 
 ## STEP 5 --- Display Order Fields and Use Nested `map()`
 
@@ -448,7 +444,7 @@ status.
 
 If an order contains an array of items:
 
-``` ts
+```ts
 type OrderItem = {
   id: number;
   name: string;
@@ -464,25 +460,23 @@ type Order = {
 
 Then `order.items` can also use `map()`.
 
-``` tsx
-{orders.map((order) => {
-  return (
-    <div key={order.id}>
-      {order.items.map((item) => {
-        return (
-          <div key={item.id}>
-            {item.name}
-          </div>
-        );
-      })}
-    </div>
-  );
-})}
+```tsx
+{
+  orders.map((order) => {
+    return (
+      <div key={order.id}>
+        {order.items.map((item) => {
+          return <div key={item.id}>{item.name}</div>;
+        })}
+      </div>
+    );
+  });
+}
 ```
 
 Type flow:
 
-``` text
+```text
 orders       → Order[]
 order        → Order
 order.items  → OrderItem[]
@@ -494,18 +488,14 @@ item         → OrderItem
 When nested `map()` feels confusing, find the arrays first. Each array
 can correspond to one level of `map()`.
 
-------------------------------------------------------------------------
+---
 
 ## STEP 6 --- Reuse `OrderStatus`
 
 Reuse the `OrderStatus` type created on Day 10.
 
-``` ts
-type OrderStatus =
-  | "PAID"
-  | "PREPARING"
-  | "SHIPPING"
-  | "DELIVERED";
+```ts
+type OrderStatus = "PAID" | "PREPARING" | "SHIPPING" | "DELIVERED";
 
 type Order = {
   id: number;
@@ -515,13 +505,13 @@ type Order = {
 
 The admin UI can display it with:
 
-``` tsx
+```tsx
 <p>{order.status}</p>
 ```
 
 The full relationship is:
 
-``` text
+```text
 OrderStatus
     ↓
 Order.status
@@ -538,26 +528,24 @@ Day 11 displays the status. Day 12 will handle changing it.
 Using `status: OrderStatus` instead of `status: string` restricts the
 value to the allowed order statuses.
 
-------------------------------------------------------------------------
+---
 
 ## STEP 7 --- React `key`
 
 When rendering a list with `map()`, React needs a `key` to identify each
 list item.
 
-``` tsx
-{orders.map((order) => {
-  return (
-    <div key={order.id}>
-      {order.name}
-    </div>
-  );
-})}
+```tsx
+{
+  orders.map((order) => {
+    return <div key={order.id}>{order.name}</div>;
+  });
+}
 ```
 
 `id` and `key` are related but are not the same concept.
 
-``` text
+```text
 id  → identifies the data
 key → helps React identify a rendered list item
 ```
@@ -567,7 +555,7 @@ React's key.
 
 For nested lists:
 
-``` tsx
+```tsx
 <div key={order.id}>
   {order.items.map((item) => (
     <div key={item.id}>{item.name}</div>
@@ -580,13 +568,13 @@ For nested lists:
 Prefer a stable, unique ID when one exists. A React `key` is for list
 tracking; it is not something that is displayed to the user.
 
-------------------------------------------------------------------------
+---
 
 ## STEP 8 --- Integration and Testing
 
 The complete Day 11 flow is:
 
-``` text
+```text
 Order
 ↓
 Order[]
@@ -612,7 +600,7 @@ has an appropriate key.
 
 Day 11 completion goal:
 
-``` text
+```text
 The admin can view multiple orders
 and see the current status of each order.
 ```
@@ -622,7 +610,7 @@ and see the current status of each order.
 Test display behavior on Day 11. Keep status-changing UI and update
 logic separate for Day 12.
 
-------------------------------------------------------------------------
+---
 
 # 한국어
 
@@ -633,8 +621,8 @@ Day 11에서는 관리자가 여러 주문을 확인할 수 있는 **관리자 �
 
 같은 `Order` 데이터라도 사용하는 화면의 목적은 다를 수 있다.
 
--   고객: 자신의 주문을 확인한다.
--   관리자: 여러 주문을 한 번에 확인하고 관리한다.
+- 고객: 자신의 주문을 확인한다.
+- 관리자: 여러 주문을 한 번에 확인하고 관리한다.
 
 Day 11에서는 주문 상태를 변경하지 않고 **올바르게 표시하는 것**에
 집중한다.
@@ -644,13 +632,13 @@ Day 11에서는 주문 상태를 변경하지 않고 **올바르게 표시하는
 데이터와 UI의 목적을 분리해서 생각하자. 같은 `Order`라도 누가 어떤
 목적으로 보느냐에 따라 UI가 달라질 수 있다.
 
-------------------------------------------------------------------------
+---
 
 ## STEP 2 --- `Order`와 `Order[]`
 
 `Order`는 주문 하나를 나타내는 타입이다.
 
-``` ts
+```ts
 type Order = {
   id: number;
   name: string;
@@ -661,7 +649,7 @@ type Order = {
 
 `Order[]`는 주문 여러 개를 의미한다.
 
-``` ts
+```ts
 const orders: Order[] = [
   { id: 1, name: "김철수", totalPrice: 25000, status: "결제완료" },
   { id: 2, name: "이영희", totalPrice: 42000, status: "상품준비중" },
@@ -670,7 +658,7 @@ const orders: Order[] = [
 
 관계는 다음과 같다.
 
-``` text
+```text
 Order    → 주문 하나
 Order[]  → 주문 여러 개
 ```
@@ -679,19 +667,19 @@ Order[]  → 주문 여러 개
 
 `[]`를 보면 우선 "여러 개"라고 생각하자.
 
-``` text
+```text
 string[]    → 문자열 여러 개
 number[]    → 숫자 여러 개
 Order[]     → 주문 여러 개
 ```
 
-------------------------------------------------------------------------
+---
 
 ## STEP 3 --- 관리자용 주문 데이터 준비하기
 
 관리자는 여러 주문을 확인해야 하므로 `Order[]` 타입의 데이터를 준비한다.
 
-``` ts
+```ts
 const orders: Order[] = [
   {
     id: 1,
@@ -712,28 +700,30 @@ const orders: Order[] = [
 처음부터 DB 연결까지 생각하지 말고 임시 데이터로 `Order[]` 구조와 화면
 렌더링부터 확인하면 이해하기 쉽다.
 
-------------------------------------------------------------------------
+---
 
 ## STEP 4 --- `map()`으로 여러 주문 렌더링하기
 
 `orders`는 배열이므로 `map()`을 사용해 주문을 하나씩 접근하고 UI를 만들
 수 있다.
 
-``` tsx
-{orders.map((order) => {
-  return (
-    <div key={order.id}>
-      <p>{order.name}</p>
-      <p>{order.totalPrice}</p>
-      <p>{order.status}</p>
-    </div>
-  );
-})}
+```tsx
+{
+  orders.map((order) => {
+    return (
+      <div key={order.id}>
+        <p>{order.name}</p>
+        <p>{order.totalPrice}</p>
+        <p>{order.status}</p>
+      </div>
+    );
+  });
+}
 ```
 
 타입 흐름:
 
-``` text
+```text
 orders: Order[]
       ↓ map()
 order: Order
@@ -749,7 +739,7 @@ UI
 `map()`을 "배열의 데이터를 하나씩 보면서 각각 새로운 결과를 만든다"라고
 이해하자. React에서는 그 결과가 UI인 경우가 많다.
 
-------------------------------------------------------------------------
+---
 
 ## STEP 5 --- 주문 정보 표시와 중첩 `map()`
 
@@ -758,7 +748,7 @@ UI
 
 주문 하나 안에 상품 배열이 있다면:
 
-``` ts
+```ts
 type OrderItem = {
   id: number;
   name: string;
@@ -774,25 +764,23 @@ type Order = {
 
 `order.items` 역시 배열이므로 다시 `map()`을 사용할 수 있다.
 
-``` tsx
-{orders.map((order) => {
-  return (
-    <div key={order.id}>
-      {order.items.map((item) => {
-        return (
-          <div key={item.id}>
-            {item.name}
-          </div>
-        );
-      })}
-    </div>
-  );
-})}
+```tsx
+{
+  orders.map((order) => {
+    return (
+      <div key={order.id}>
+        {order.items.map((item) => {
+          return <div key={item.id}>{item.name}</div>;
+        })}
+      </div>
+    );
+  });
+}
 ```
 
 타입 관계:
 
-``` text
+```text
 orders       → Order[]
 order        → Order
 order.items  → OrderItem[]
@@ -804,18 +792,14 @@ item         → OrderItem
 중첩 `map()`이 헷갈리면 먼저 배열부터 찾자. `orders`가 배열이라 바깥
 `map()`, `order.items`도 배열이라 안쪽 `map()`이 있는 것이다.
 
-------------------------------------------------------------------------
+---
 
 ## STEP 6 --- `OrderStatus` 재사용하기
 
 Day 10에서 만든 `OrderStatus`를 `Order`의 `status` 타입으로 사용한다.
 
-``` ts
-type OrderStatus =
-  | "결제완료"
-  | "상품준비중"
-  | "배송중"
-  | "배송완료";
+```ts
+type OrderStatus = "결제완료" | "상품준비중" | "배송중" | "배송완료";
 
 type Order = {
   id: number;
@@ -825,7 +809,7 @@ type Order = {
 
 관리자 화면에서는:
 
-``` tsx
+```tsx
 <p>{order.status}</p>
 ```
 
@@ -833,7 +817,7 @@ type Order = {
 
 전체 흐름:
 
-``` text
+```text
 OrderStatus
     ↓
 Order.status
@@ -851,33 +835,31 @@ Day 11은 상태를 **표시**하는 단계이고, 상태 **변경**은 Day 12�
 `status: string`보다 `status: OrderStatus`를 사용하면 미리 허용한 주문
 상태만 사용할 수 있어 타입 안정성이 높아진다.
 
-------------------------------------------------------------------------
+---
 
 ## STEP 7 --- React의 `key`
 
 `map()`으로 여러 요소를 렌더링할 때 React가 각 항목을 식별할 수 있도록
 `key`를 제공한다.
 
-``` tsx
-{orders.map((order) => {
-  return (
-    <div key={order.id}>
-      {order.name}
-    </div>
-  );
-})}
+```tsx
+{
+  orders.map((order) => {
+    return <div key={order.id}>{order.name}</div>;
+  });
+}
 ```
 
 `id`와 `key`는 같은 개념이 아니다.
 
-``` text
+```text
 id  → 데이터 자체를 식별하는 값
 key → React가 렌더링된 목록 항목을 식별하는 정보
 ```
 
 따라서:
 
-``` tsx
+```tsx
 key={order.id}
 ```
 
@@ -886,7 +868,7 @@ key={order.id}
 
 중첩된 목록에서는:
 
-``` tsx
+```tsx
 <div key={order.id}>
   {order.items.map((item) => (
     <div key={item.id}>{item.name}</div>
@@ -901,13 +883,13 @@ key={order.id}
 고유하고 안정적인 `id`가 있다면 `key`로 사용하는 것이 자연스럽다.
 `key`는 화면에 보여주는 값이 아니라 React가 목록을 추적하기 위한 정보다.
 
-------------------------------------------------------------------------
+---
 
 ## STEP 8 --- 통합 및 테스트
 
 Day 11의 전체 흐름은 다음과 같다.
 
-``` text
+```text
 Order
 ↓
 Order[]
@@ -933,7 +915,7 @@ key
 
 Day 11 완료 기준:
 
-``` text
+```text
 관리자가 여러 주문을 확인할 수 있고
 각 주문의 현재 상태를 볼 수 있다.
 ```
@@ -943,11 +925,11 @@ Day 11 완료 기준:
 Day 11 테스트의 기준은 "잘 표시되는가?"이다. 상태를 변경하는 버튼과
 업데이트 로직은 Day 12로 분리해서 생각하자.
 
-------------------------------------------------------------------------
+---
 
 # Day 11 핵심 요약
 
-``` text
+```text
 Order
 → 주문 하나의 타입
 
@@ -975,7 +957,7 @@ Day 11의 핵심 문장:
 > **여러 주문(`Order[]`)을 `map()`으로 하나씩 렌더링하고, 각 주문의
 > 정보와 현재 상태를 관리자 화면에 표시한다.**
 
-------------------------------------------------------------------------
+---
 
 # Day 11 復習問題 / Review Questions / Day 11 복습문제
 
@@ -990,7 +972,7 @@ Day 11의 핵심 문장:
 
 **Q2.** `Order` と `Order[]` の違いは何ですか？
 
-``` ts
+```ts
 const orders: Order[] = [...]
 ```
 
@@ -1005,7 +987,7 @@ const orders: Order[] = [...]
 
 **Q4.** 次のコードで `orders` と `order` の型をそれぞれ答えてください。
 
-``` tsx
+```tsx
 orders.map((order) => {
   return <p>{order.name}</p>;
 });
@@ -1027,7 +1009,7 @@ orders.map((order) => {
 
 また、次のコードの意味を説明してください。
 
-``` tsx
+```tsx
 <div key={order.id}>
 ```
 
@@ -1037,7 +1019,6 @@ orders.map((order) => {
 11では注文ステータスを変更しますか？
 
 ### 日本語 --- 解答
-
 
 <details>
 <summary><strong>解答を見る</strong></summary>
@@ -1066,7 +1047,7 @@ orders.map((order) => {
 
 </details>
 
-------------------------------------------------------------------------
+---
 
 ## English --- Review Questions
 
@@ -1079,7 +1060,7 @@ customer page and an admin page?
 
 **Q2.** What is the difference between `Order` and `Order[]`?
 
-``` ts
+```ts
 const orders: Order[] = [...]
 ```
 
@@ -1095,7 +1076,7 @@ follow?
 **Q4.** Identify the types of `orders` and `order` in the following
 code.
 
-``` tsx
+```tsx
 orders.map((order) => {
   return <p>{order.name}</p>;
 });
@@ -1117,7 +1098,7 @@ represent inside `order.items.map((item) => ...)`?
 
 Also explain:
 
-``` tsx
+```tsx
 <div key={order.id}>
 ```
 
@@ -1127,7 +1108,6 @@ Also explain:
 changing the order status?
 
 ### English --- Answers
-
 
 <details>
 <summary><strong>Show answers</strong></summary>
@@ -1158,7 +1138,7 @@ changing it belongs to Day 12.
 
 </details>
 
-------------------------------------------------------------------------
+---
 
 ## 한국어 --- 복습문제
 
@@ -1171,7 +1151,7 @@ changing it belongs to Day 12.
 
 **Q2.** `Order`와 `Order[]`의 차이는 무엇인가요?
 
-``` ts
+```ts
 const orders: Order[] = [...]
 ```
 
@@ -1186,7 +1166,7 @@ const orders: Order[] = [...]
 
 **Q4.** 다음 코드에서 `orders`와 `order`의 타입을 각각 적어보세요.
 
-``` tsx
+```tsx
 orders.map((order) => {
   return <p>{order.name}</p>;
 });
@@ -1197,7 +1177,7 @@ orders.map((order) => {
 **Q5.** `order.items`의 타입이 `OrderItem[]`라면 다음 코드의 `item`은
 무엇을 의미하나요?
 
-``` tsx
+```tsx
 order.items.map((item) => ...)
 ```
 
@@ -1212,7 +1192,7 @@ order.items.map((item) => ...)
 
 그리고 다음 코드를 말로 설명해보세요.
 
-``` tsx
+```tsx
 <div key={order.id}>
 ```
 
@@ -1222,7 +1202,6 @@ order.items.map((item) => ...)
 상태까지 변경하나요?
 
 ### 한국어 --- 정답 및 해설
-
 
 <details>
 <summary><strong>정답 및 해설 보기</strong></summary>
@@ -1238,7 +1217,7 @@ order.items.map((item) => ...)
 
 **A4.** `orders`는 `Order[]`, `order`는 `Order`다.
 
-``` text
+```text
 orders: Order[]
       ↓ map()
 order: Order
@@ -1247,7 +1226,7 @@ order: Order
 **A5.** `item`은 현재 `map()`이 처리하고 있는 상품 하나이며 타입은
 `OrderItem`이다.
 
-``` text
+```text
 order.items: OrderItem[]
           ↓ map()
 item: OrderItem
@@ -1259,7 +1238,7 @@ item: OrderItem
 **A7.** `id`는 데이터 자체를 식별하는 값이고, `key`는 React가 렌더링된
 목록 항목을 식별하고 추적하기 위한 정보다.
 
-``` tsx
+```tsx
 key={order.id}
 ```
 
@@ -1272,13 +1251,13 @@ React의 `key`로 사용한다**는 뜻이다.
 
 </details>
 
-------------------------------------------------------------------------
+---
 
 ## 최종 확인 문제
 
 다음 타입 관계를 직접 설명해보자.
 
-``` text
+```text
 orders       → Order[]
 order        → Order
 order.items  → OrderItem[]
@@ -1288,19 +1267,20 @@ order.status → OrderStatus
 
 그리고 다음 코드를 한 문장으로 설명해보자.
 
-``` tsx
-{orders.map((order) => {
-  return (
-    <div key={order.id}>
-      <p>{order.name}</p>
-      <p>{order.status}</p>
-    </div>
-  );
-})}
+```tsx
+{
+  orders.map((order) => {
+    return (
+      <div key={order.id}>
+        <p>{order.name}</p>
+        <p>{order.status}</p>
+      </div>
+    );
+  });
+}
 ```
 
 **정답 예시**
-
 
 <details>
 <summary><strong>정답 예시 보기</strong></summary>
@@ -1310,4 +1290,3 @@ order.status → OrderStatus
 주문 상태를 화면에 렌더링한다.
 
 </details>
-
