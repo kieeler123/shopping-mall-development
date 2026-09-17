@@ -1,86 +1,86 @@
-import { useState } from "react";
-import { Order, OrderStatus } from "../type";
+"use client";
 
-const initialOrders: Order[] = [
-  {
-    id: 1,
-    name: "김철수",
-    phone: "010-1111-2222",
-    address: "서울특별시 강남구",
-    items: [
-      {
-        id: 101,
-        name: "티셔츠",
-        price: 20000,
-        quantity: 1,
-      },
-      {
-        id: 102,
-        name: "모자",
-        price: 15000,
-        quantity: 2,
-      },
-    ],
-    totalPrice: 50000,
-    createdAt: "2026-09-09 10:30",
-    status: "결제완료",
-  },
-  {
-    id: 2,
-    name: "이영희",
-    phone: "010-3333-4444",
-    address: "서울특별시 송파구",
-    items: [
-      {
-        id: 103,
-        name: "신발",
-        price: 42000,
-        quantity: 1,
-      },
-    ],
-    totalPrice: 42000,
-    createdAt: "2026-09-09 11:10",
-    status: "상품준비중",
-  },
-  {
-    id: 3,
-    name: "박민수",
-    phone: "010-5555-6666",
-    address: "대구광역시 중구",
-    items: [
-      {
-        id: 104,
-        name: "후드티",
-        price: 35000,
-        quantity: 1,
-      },
-    ],
-    totalPrice: 35000,
-    createdAt: "2026-09-09 12:20",
-    status: "배송중",
-  },
-];
+import { useCallback, useEffect, useState } from "react";
+
+import type { Order, OrderStatus } from "@/types/order";
 
 export default function useOrders() {
-  const [orders, setOrders] = useState<Order[]>(initialOrders);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  function updateOrderStatus(orderId: number, newStatus: OrderStatus) {
-    setOrders((prevOrders) =>
-      prevOrders.map((currentOrder) => {
-        if (currentOrder.id === orderId) {
-          return {
-            ...currentOrder,
-            status: newStatus,
-          };
+  const loadOrders = useCallback(async (): Promise<void> => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch("/api/orders");
+
+      if (!response.ok) {
+        throw new Error(`주문 목록 조회 실패: ${response.status}`);
+      }
+
+      const data: Order[] = await response.json();
+
+      setOrders(data);
+    } catch (error: unknown) {
+      setError(getErrorMessage(error));
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const updateOrderStatus = useCallback(
+    async (id: number, status: OrderStatus): Promise<Order | null> => {
+      setError(null);
+
+      try {
+        const response = await fetch(`/api/orders/${id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`주문 상태 변경 실패: ${response.status}`);
         }
 
-        return currentOrder;
-      }),
-    );
-  }
+        const updatedOrder: Order = await response.json();
+
+        setOrders((prevOrders) =>
+          prevOrders.map((order) =>
+            order.id === updatedOrder.id ? updatedOrder : order,
+          ),
+        );
+
+        return updatedOrder;
+      } catch (error: unknown) {
+        setError(getErrorMessage(error));
+
+        return null;
+      }
+    },
+    [],
+  );
+
+  useEffect(() => {
+    void loadOrders();
+  }, [loadOrders]);
 
   return {
     orders,
+    isLoading,
+    error,
     updateOrderStatus,
   };
+}
+
+function getErrorMessage(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  return "알 수 없는 오류가 발생했습니다.";
 }

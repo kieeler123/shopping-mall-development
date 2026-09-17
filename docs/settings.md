@@ -2,17 +2,28 @@ shopping-mall-development/
 │
 ├─ app/
 ├─ └─ admin
-├─ └─ └─ order
+├─ └─ └─ orders/
+├─ └─ └─ └─ components/
+│ └─ └─ └─ └─ OrderCard.tsx
+│ └─ └─ └─ └─ OrderItemList.tsx
+├─ └─ └─ └─ hooks/
+│ └─ └─ └─ └─ useOrders.tsx
 │ └─ └─ └─ page.tsx
-├─ └─ cart
+│ └─ └─ └─ type.tsx
+├─ └─ cart/
 │ └─ └─ page.tsx
-├─ └─ checkout
+├─ └─ checkout/
 │ ├─ ├─ page.tsx
-├─ └─ └─ order-complete
+├─ └─ └─ order-complete/
+│ ├─ ├─ page.tsx
+├─ └─ └─ orders/
+│ └─ └─ └─ [id]/
+│ └─ └─ └─ └─ page.tsx
 │ └─ └─ └─ page.tsx
 ├─ └─ products/
-│ ├─ ├─ [id]/
+│ └─ └─ [id]/
 │ └─ └─ └─ page.tsx
+│ └─ └─ page.tsx
 ├─ ├─ globals.css
 ├─ ├─ layout.tsx
 ├─ ├─ page.tsx

@@ -1,6 +1,6 @@
-import { OrderItemListProps } from "../type";
+import { OrderItem } from "@/types/order";
 
-export default function OrderItemList({ items }: OrderItemListProps) {
+export default function OrderItemList({ items }: { items: OrderItem[] }) {
   return (
     <div className="space-y-3">
       {items.map((item) => {

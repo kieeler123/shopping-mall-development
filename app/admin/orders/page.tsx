@@ -1,9 +1,10 @@
 "use client";
+
 import useOrders from "./hooks/useOrders";
 import OrderCard from "./components/OrderCard";
 
 export default function AdminOrdersPage() {
-  const { orders, updateOrderStatus } = useOrders();
+  const { orders, isLoading, error, updateOrderStatus } = useOrders();
 
   return (
     <main className="min-h-screen bg-gray-100 px-6 py-10">
@@ -16,17 +17,23 @@ export default function AdminOrdersPage() {
           </p>
         </div>
 
-        <div className="space-y-6">
-          {orders.map((order) => {
-            return (
+        {isLoading && <p>주문을 불러오는 중입니다...</p>}
+
+        {error && <p>오류: {error}</p>}
+
+        {!isLoading && !error && orders.length === 0 && <p>주문이 없습니다.</p>}
+
+        {!isLoading && !error && orders.length > 0 && (
+          <div className="space-y-6">
+            {orders.map((order) => (
               <OrderCard
                 key={order.id}
                 order={order}
                 onStatusChange={updateOrderStatus}
               />
-            );
-          })}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </main>
   );

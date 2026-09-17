@@ -1,7 +1,13 @@
 import OrderItemList from "./OrderItemList";
-import { OrderCardProps, OrderStatus } from "../type";
+import { Order, OrderStatus } from "@/types/order";
 
-export default function OrderCard({ order, onStatusChange }: OrderCardProps) {
+export default function OrderCard({
+  order,
+  onStatusChange,
+}: {
+  order: Order;
+  onStatusChange: (id: number, status: OrderStatus) => void;
+}) {
   return (
     <section className="rounded-xl bg-white p-6 shadow-sm">
       <div className="mb-5 flex items-start justify-between">
