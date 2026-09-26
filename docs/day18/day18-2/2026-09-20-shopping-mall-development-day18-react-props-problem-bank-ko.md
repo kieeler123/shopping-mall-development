@@ -112,8 +112,8 @@ State를 항상 `App`에 두어야 하나요? 이유와 함께 답하세요.
 `UserCard`에서 구조 분해로 Props를 받으세요.
 
 <details><summary>정답 보기</summary>
-`
-`` jsx
+
+```jsx
 function UserCard({ name, age }) {
   // ...
 }
@@ -198,8 +198,8 @@ function Item({ id, onDelete }) {
 전달하세요.
 
 <details><summary>정답 보기</summary>
-`
-`` jsx
+
+```jsx
 function List({ onRemove }) {
   return <Item onRemove={onRemove} />;
 }
@@ -237,8 +237,8 @@ App
 위 문제에서 함수 Props의 전달 경로를 컴포넌트 이름으로 작성하세요.
 
 <details><summary>정답 보기</summary>
-``
-` text
+
+```text
 App
 ↓
 ProductList
@@ -267,8 +267,8 @@ function App() {
 ```
 
 <details><summary>정답 보기</summary>
-`
-`` jsx
+
+```jsx
 <ProductList onAdd={addFavorite} />
 ```
 
@@ -281,8 +281,8 @@ Props 이름은 다른 이름도 가능하지만 전달과 수신에서 일관�
 문제 13의 Props를 `ProductList`에서 받으세요.
 
 <details><summary>정답 보기</summary>
-`
-`` jsx
+
+```jsx
 function ProductList({ onAdd }) {
   // ...
 }
@@ -295,8 +295,8 @@ function ProductList({ onAdd }) {
 `ProductList`가 받은 `onAdd`를 `ProductCard`로 전달하세요.
 
 <details><summary>정답 보기</summary>
-`
-`` jsx
+
+```jsx
 <ProductCard product={product} onAdd={onAdd} />
 ```
 
@@ -676,25 +676,23 @@ const activateUser = () => {
 ```
 
 <details><summary>정답 보기</summary>
-`
-`` jsx
+
+```jsx
 const activateUser = () => {
-  const updatedUsers = users.map(user => {
+  const updatedUsers = users.map((user) => {
     if (user.id === 2) {
       return {
         ...user,
-        active: true
+        active: true,
       };
     }
 
     return user;
+  });
 
-});
-
-setUsers(updatedUsers);
+  setUsers(updatedUsers);
 };
-
-````
+```
 
 </details>
 
@@ -703,38 +701,37 @@ setUsers(updatedUsers);
 다음 상품 중 id가 20인 상품의 가격을 **기존 가격에서 10,000
 증가**시키세요.
 
-``` jsx
+```jsx
 const [products, setProducts] = useState([
   { id: 10, name: "키보드", price: 50000 },
   { id: 20, name: "마우스", price: 30000 },
   { id: 30, name: "모니터", price: 200000 },
 ]);
-````
+```
 
 <details><summary>정답 보기</summary>
-`
-`` jsx
+
+```jsx
 const increasePrice = () => {
-  const updatedProducts = products.map(product => {
+  const updatedProducts = products.map((product) => {
     if (product.id === 20) {
       return {
         ...product,
-        price: product.price + 10000
+        price: product.price + 10000,
       };
     }
 
     return product;
+  });
 
-});
-
-setProducts(updatedProducts);
+  setProducts(updatedProducts);
 };
-
-````
+```
 
 **팁:** `price: 40000`도 현재 데이터에서는 같은 결과지만, 요구사항인
 "기존 가격에서 10,000 증가"를 일반적으로 구현하려면 기존 값을 이용해야
 합니다.
+
 </details>
 
 ### 문제 35
@@ -743,12 +740,12 @@ id가 30인 상품의 가격을 20,000 감소시키세요.
 
 <details><summary>정답 보기</summary>
 
-``` js
-const updatedProducts = products.map(product => {
+```js
+const updatedProducts = products.map((product) => {
   if (product.id === 30) {
     return {
       ...product,
-      price: product.price - 20000
+      price: product.price - 20000,
     };
   }
 
@@ -756,7 +753,7 @@ const updatedProducts = products.map(product => {
 });
 
 setProducts(updatedProducts);
-````
+```
 
 </details>
 
