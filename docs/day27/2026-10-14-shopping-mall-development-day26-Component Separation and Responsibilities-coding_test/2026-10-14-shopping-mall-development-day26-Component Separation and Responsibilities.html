@@ -1,0 +1,681 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Day 28 · Coding Test · 15 Questions</title><style>
+:root{color-scheme:light dark;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}body{margin:0;background:#f4f6f9;color:#182333;line-height:1.65}main{max-width:940px;margin:auto;padding:32px 18px 80px}header{background:#12253d;color:white;padding:32px;border-radius:18px;margin-bottom:24px}h1{margin:0 0 6px;font-size:clamp(1.4rem,4vw,2rem)}header p{margin:0;color:#d1dfef}.toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px}.toolbar button{background:white;border:1px solid #c9d4e0;border-radius:9px;padding:10px 14px;cursor:pointer;color:#18324e;font-weight:650}.toolbar button:hover{background:#e9f2fb}.status{margin-left:auto;font-weight:700}.question{background:white;border:1px solid #dce3ec;border-radius:16px;padding:24px;margin:20px 0;box-shadow:0 3px 12px #142b4309}.question h2{font-size:1.2rem;margin:0 0 14px;color:#193d67}.prompt p{margin:8px 0}.prompt strong{color:#233f61}.question label{display:block;font-size:.88rem;font-weight:700;margin:20px 0 8px;color:#365473}textarea{display:block;width:100%;box-sizing:border-box;min-height:175px;resize:vertical;padding:15px;border:1.5px solid #afc1d4;border-radius:10px;background:#f9fbfd;color:#172b43;font:14px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;tab-size:2}textarea:focus{outline:2px solid #387fd5;outline-offset:1px}details{margin-top:16px;border:1px solid #cbd8e5;border-radius:10px;overflow:hidden}summary{cursor:pointer;padding:13px 16px;font-weight:700;background:#eef5fc;color:#16476f}details[open] summary{border-bottom:1px solid #cbd8e5}.solution{padding:16px}.solution pre{overflow-x:auto;background:#17283e;color:#f3f7ff;padding:16px;border-radius:8px;line-height:1.6}.solution code{font-family:ui-monospace,Consolas,monospace}.solution p code,.prompt code{background:#edf1f5;padding:2px 5px;border-radius:4px;color:#183d61}.note{font-size:.88rem;color:#5b7089;margin:10px 0 24px}@media(prefers-color-scheme:dark){body{background:#101924;color:#dce7f3}header{background:#203d5c}.question{background:#1b2939;border-color:#32465c}.question h2,.prompt strong,.question label{color:#c2ddfa}textarea{background:#101e2e;border-color:#49647d;color:#e3edf9}details{border-color:#455e78}summary{background:#243d58;color:#c6e2ff}.toolbar button{background:#263b50;color:#e8f2ff;border-color:#4c657e}.solution p code,.prompt code{background:#30445b;color:#e5f3ff}.note{color:#a6b8ca}} 
+.lang-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 20px}.lang-tabs button{background:white;color:#18324e;border:1px solid #c9d4e0;border-radius:9px;padding:10px 18px;font-weight:700;cursor:pointer}.lang-tabs button[aria-pressed="true"]{background:#215b91;color:white;border-color:#215b91}.lang-panel[hidden]{display:none}.toolbar{position:sticky;top:0;background:inherit;padding:10px 0;z-index:2}@media(prefers-color-scheme:dark){.lang-tabs button{background:#263b50;color:#e8f2ff;border-color:#4c657e}.lang-tabs button[aria-pressed="true"]{background:#367ab5}}
+.compare-controls{margin-top:14px}.compare-toggle{cursor:pointer;background:#e8f0fa;color:#16476f;border:1px solid #b9cde3;border-radius:9px;padding:10px 14px;font-weight:700}.compare-toggle:hover{background:#d9eafb}.compare-panel{margin-top:12px;padding:14px;background:#f0f5fa;border:1px solid #cbd8e5;border-radius:12px}.compare-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}.compare-col{min-width:0;background:white;border:1px solid #dce3ec;border-radius:9px;padding:12px}.compare-col h3{margin:0 0 10px;font-size:1rem}.compare-mine,.compare-reference pre{white-space:pre-wrap;overflow-wrap:anywhere;overflow-x:auto;background:#17283e;color:#f3f7ff;border-radius:8px;padding:12px;font:13px/1.6 ui-monospace,Consolas,monospace;min-height:75px}.compare-reference pre{margin:0 0 10px}.compare-reference p{font-size:.9rem}.compare-reference p code{background:#edf1f5;color:#183d61}.compare-mine:empty::before{content:"(empty)";color:#a8b9cc}@media(max-width:650px){.compare-grid{grid-template-columns:1fr}}@media(prefers-color-scheme:dark){.compare-panel{background:#1a3047;border-color:#455e78}.compare-col{background:#1b2939;border-color:#32465c}.compare-toggle{background:#294563;color:#d6eaff;border-color:#4c657e}.compare-reference p code{background:#30445b;color:#e5f3ff}}</style></head><body><main><header><h1>Day 28 · Custom Hook Coding Test</h1><p>15 questions · 3 languages · Write code in your browser</p></header>
+<nav class="lang-tabs" aria-label="Language"><button type="button" data-lang="ja" aria-pressed="false">日本語</button><button type="button" data-lang="en" aria-pressed="false">English</button><button type="button" data-lang="ko" aria-pressed="true">한국어</button></nav>
+<div class="toolbar"><button id="export">내 답안 저장 (.txt)</button><button id="clear">전체 답안 초기화</button><span class="status" id="progress"></span></div>
+<p class="note" id="notice">코드를 입력하면 브라우저에 자동 저장됩니다. 정답은 각 문제 아래에서 펼쳐 볼 수 있습니다. 코드는 실행되지 않습니다.</p>
+<div class="lang-panel" data-panel="ja" hidden><section class="question"><h2>01. Props 型の復習</h2><div class="prompt"><p><strong>Review · 2 points</strong></p>
+<p><strong>課題:</strong> 親から渡された <code>order</code> と <code>onStatusChange</code> を分割代入し、型付きの <code>OrderCard</code> 関数シグネチャを書いてください。</p>
+<p><strong>ヒント:</strong> <code>Order</code> と <code>OrderStatus</code> を使用。</p>
+</div><label for="answer-1">TypeScript / TSX のコードや説明を入力してください。</label><textarea id="answer-1" placeholder="TypeScript / TSX のコードや説明を入力してください。" spellcheck="false"></textarea><details><summary>解答と解説を見る</summary><div class="solution"><pre><code class="language-tsx">type Props = {
+  order: Order;
+  onStatusChange: (id: number, status: OrderStatus) =&gt; void;
+};
+function OrderCard({ order, onStatusChange }: Props) {
+  return &lt;div&gt;{order.id}&lt;/div&gt;;
+}
+</code></pre>
+<p><strong>解説:</strong> 分割代入した引数の後に <code>: Props</code> を付けます。関数本体は例です。</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>02. 一覧描画の復習</h2><div class="prompt"><p><strong>Review · 2 points</strong></p>
+<p><strong>課題:</strong> <code>orders.map()</code> で <code>OrderCard</code> の一覧を描画してください。</p>
+<p><strong>ヒント:</strong> <code>key</code>、<code>order</code>、<code>onStatusChange</code> を渡す。</p>
+</div><label for="answer-2">TypeScript / TSX のコードや説明を入力してください。</label><textarea id="answer-2" placeholder="TypeScript / TSX のコードや説明を入力してください。" spellcheck="false"></textarea><details><summary>解答と解説を見る</summary><div class="solution"><pre><code class="language-tsx">{orders.map((order) =&gt; (
+  &lt;OrderCard
+    key={order.id}
+    order={order}
+    onStatusChange={updateOrderStatus}
+  /&gt;
+))}
+</code></pre>
+<p><strong>解説:</strong> <code>key</code> は各要素を識別し、コールバックは実行せずに渡します。</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>03. 商品一覧の復習</h2><div class="prompt"><p><strong>Review · 2 points</strong></p>
+<p><strong>課題:</strong> <code>items.map()</code> で商品名・数量・価格を表示してください。</p>
+<p><strong>ヒント:</strong> <code>key</code> と <code>toLocaleString()</code> を使う。</p>
+</div><label for="answer-3">TypeScript / TSX のコードや説明を入力してください。</label><textarea id="answer-3" placeholder="TypeScript / TSX のコードや説明を入力してください。" spellcheck="false"></textarea><details><summary>解答と解説を見る</summary><div class="solution"><pre><code class="language-tsx">{items.map((item) =&gt; (
+  &lt;div key={item.id}&gt;
+    {item.name} · {item.quantity}개 · {item.price.toLocaleString()}원
+  &lt;/div&gt;
+))}
+</code></pre>
+<p><strong>解説:</strong> 各商品に一意の <code>id</code> と <code>price</code> がある想定です。実際の型に合わせて調整してください。</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>04. 状態の型指定</h2><div class="prompt"><p><strong>Variation · 2 points</strong></p>
+<p><strong>課題:</strong> 初期値 <code>[]</code> の <code>Order[]</code> 状態を宣言してください。</p>
+<p><strong>ヒント:</strong> <code>useState&lt;Order[]&gt;([])</code> を参考に。</p>
+</div><label for="answer-4">TypeScript / TSX のコードや説明を入力してください。</label><textarea id="answer-4" placeholder="TypeScript / TSX のコードや説明を入力してください。" spellcheck="false"></textarea><details><summary>解答と解説を見る</summary><div class="solution"><pre><code class="language-tsx">const [orders, setOrders] = useState&lt;Order[]&gt;([]);
+</code></pre>
+<p><strong>解説:</strong> ジェネリクスで配列要素の型を指定します。</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>05. 読み込み状態</h2><div class="prompt"><p><strong>Variation · 2 points</strong></p>
+<p><strong>課題:</strong> 初期値 <code>true</code> の <code>isLoading</code> と setter を宣言してください。</p>
+<p><strong>ヒント:</strong> boolean 型を指定。</p>
+</div><label for="answer-5">TypeScript / TSX のコードや説明を入力してください。</label><textarea id="answer-5" placeholder="TypeScript / TSX のコードや説明を入力してください。" spellcheck="false"></textarea><details><summary>解答と解説を見る</summary><div class="solution"><pre><code class="language-tsx">const [isLoading, setIsLoading] = useState&lt;boolean&gt;(true);
+</code></pre>
+<p><strong>解説:</strong> この例では読み込み中の初期値を <code>true</code> にします。</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>06. エラー状態</h2><div class="prompt"><p><strong>Variation · 2 points</strong></p>
+<p><strong>課題:</strong> 文字列または <code>null</code> を保持する <code>error</code> 状態を宣言してください。</p>
+<p><strong>ヒント:</strong> ユニオン型を使う。</p>
+</div><label for="answer-6">TypeScript / TSX のコードや説明を入力してください。</label><textarea id="answer-6" placeholder="TypeScript / TSX のコードや説明を入力してください。" spellcheck="false"></textarea><details><summary>解答と解説を見る</summary><div class="solution"><pre><code class="language-tsx">const [error, setError] = useState&lt;string | null&gt;(null);
+</code></pre>
+<p><strong>解説:</strong> ユニオン型でエラー文とエラーなしを表現します。</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>07. Hook の戻り値</h2><div class="prompt"><p><strong>Basics · 2 points</strong></p>
+<p><strong>課題:</strong> <code>useOrders()</code> の4つの戻り値を分割代入してください。</p>
+<p><strong>ヒント:</strong> <code>orders</code>、<code>isLoading</code>、<code>error</code>、<code>updateOrderStatus</code>。</p>
+</div><label for="answer-7">TypeScript / TSX のコードや説明を入力してください。</label><textarea id="answer-7" placeholder="TypeScript / TSX のコードや説明を入力してください。" spellcheck="false"></textarea><details><summary>解答と解説を見る</summary><div class="solution"><pre><code class="language-tsx">const {
+  orders,
+  isLoading,
+  error,
+  updateOrderStatus,
+} = useOrders();
+</code></pre>
+<p><strong>解説:</strong> オブジェクトの分割代入で Hook の戻り値を受け取ります。</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>08. 読み込み UI</h2><div class="prompt"><p><strong>Basics · 2 points</strong></p>
+<p><strong>課題:</strong> 読み込み中だけ案内文を描画してください。</p>
+<p><strong>ヒント:</strong> 条件付き JSX。</p>
+</div><label for="answer-8">TypeScript / TSX のコードや説明を入力してください。</label><textarea id="answer-8" placeholder="TypeScript / TSX のコードや説明を入力してください。" spellcheck="false"></textarea><details><summary>解答と解説を見る</summary><div class="solution"><pre><code class="language-tsx">{isLoading &amp;&amp; &lt;p&gt;주문을 불러오는 중입니다.&lt;/p&gt;}
+</code></pre>
+<p><strong>解説:</strong> <code>isLoading</code> が true のときだけ表示します。</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>09. 空一覧 UI</h2><div class="prompt"><p><strong>Basics · 2 points</strong></p>
+<p><strong>課題:</strong> 読み込み中でもエラーでもなく、注文が0件のときだけ表示してください。</p>
+<p><strong>ヒント:</strong> 3条件を確認。</p>
+</div><label for="answer-9">TypeScript / TSX のコードや説明を入力してください。</label><textarea id="answer-9" placeholder="TypeScript / TSX のコードや説明を入力してください。" spellcheck="false"></textarea><details><summary>解答と解説を見る</summary><div class="solution"><pre><code class="language-tsx">{!isLoading &amp;&amp; !error &amp;&amp; orders.length === 0 &amp;&amp; &lt;p&gt;주문이 없습니다.&lt;/p&gt;}
+</code></pre>
+<p><strong>解説:</strong> 3条件を確認し、読み込み中の空表示を防ぎます。</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>10. Effect の基本</h2><div class="prompt"><p><strong>Basics · 2 points</strong></p>
+<p><strong>課題:</strong> マウント時に <code>loadOrders</code> を呼び出す Effect を書いてください。</p>
+<p><strong>ヒント:</strong> 依存配列と関数参照の安定性を説明。</p>
+</div><label for="answer-10">TypeScript / TSX のコードや説明を入力してください。</label><textarea id="answer-10" placeholder="TypeScript / TSX のコードや説明を入力してください。" spellcheck="false"></textarea><details><summary>解答と解説を見る</summary><div class="solution"><pre><code class="language-tsx">useEffect(() =&gt; {
+  // Assume loadOrders is defined inside this Effect or stable.
+  void loadOrders();
+}, [loadOrders]);
+</code></pre>
+<p><strong>解説:</strong> <code>loadOrders</code> が毎回再生成される場合は <code>useCallback</code> で安定化するか Effect 内で定義します。依存関係の警告は無視しません。</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>11. fetch の応答確認</h2><div class="prompt"><p><strong>Application · 4 points</strong></p>
+<p><strong>課題:</strong> <code>fetch('/api/orders')</code> の応答が失敗なら例外を投げる非同期関数を書いてください。</p>
+<p><strong>ヒント:</strong> <code>response.ok</code> を確認。</p>
+</div><label for="answer-11">TypeScript / TSX のコードや説明を入力してください。</label><textarea id="answer-11" placeholder="TypeScript / TSX のコードや説明を入力してください。" spellcheck="false"></textarea><details><summary>解答と解説を見る</summary><div class="solution"><pre><code class="language-tsx">async function fetchOrders(): Promise&lt;Order[]&gt; {
+  const response = await fetch("/api/orders");
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}`);
+  }
+  return (await response.json()) as Order[];
+}
+</code></pre>
+<p><strong>解説:</strong> API が <code>Order[]</code> を直接返す想定です。実行時の検証は別途必要です。</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>12. Hook の責務</h2><div class="prompt"><p><strong>Application · 4 points</strong></p>
+<p><strong>課題:</strong> <code>AdminOrdersPage</code> の fetch 処理を <code>useOrders</code> に移す最小設計を擬似コードで示してください。</p>
+<p><strong>ヒント:</strong> UI とデータ処理を分離。</p>
+</div><label for="answer-12">TypeScript / TSX のコードや説明を入力してください。</label><textarea id="answer-12" placeholder="TypeScript / TSX のコードや説明を入力してください。" spellcheck="false"></textarea><details><summary>解答と解説を見る</summary><div class="solution"><pre><code class="language-tsx">// useOrders: owns fetching and state
+function useOrders() {
+  // state + Effect + fetch + update logic
+  return { orders, isLoading, error, updateOrderStatus };
+}
+// AdminOrdersPage: calls Hook and renders JSX
+</code></pre>
+<p><strong>解説:</strong> 実行可能なコードではなく設計用の擬似コードです。通信は Hook、表示はページに置きます。</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>13. 状態変更コールバック</h2><div class="prompt"><p><strong>Application · 4 points</strong></p>
+<p><strong>課題:</strong> select の変更時に <code>onStatusChange(order.id, status)</code> を呼ぶコードを書いてください。</p>
+<p><strong>ヒント:</strong> <code>OrderStatus</code> を使用。</p>
+</div><label for="answer-13">TypeScript / TSX のコードや説明を入力してください。</label><textarea id="answer-13" placeholder="TypeScript / TSX のコードや説明を入力してください。" spellcheck="false"></textarea><details><summary>解答と解説を見る</summary><div class="solution"><pre><code class="language-tsx">&lt;select
+  value={order.status}
+  onChange={(e) =&gt;
+    onStatusChange(order.id, e.target.value as OrderStatus)
+  }
+&gt;
+  &lt;option value="결제완료"&gt;결제완료&lt;/option&gt;
+  &lt;option value="상품준비중"&gt;상품준비중&lt;/option&gt;
+  &lt;option value="배송중"&gt;배송중&lt;/option&gt;
+  &lt;option value="배송완료"&gt;배송완료&lt;/option&gt;
+&lt;/select&gt;
+</code></pre>
+<p><strong>解説:</strong> 選択肢の値が <code>OrderStatus</code> と一致する前提の型アサーションです。外部入力なら検証が必要です。</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>14. エラー修正</h2><div class="prompt"><p><strong>Debugging · 4 points</strong></p>
+<p><strong>課題:</strong> 誤ったコードを修正: <code>function OrderCard({order: Order}) { return &lt;p&gt;{order.id}&lt;/p&gt; }</code></p>
+<p><strong>ヒント:</strong> 型注釈と分割代入を区別。</p>
+</div><label for="answer-14">TypeScript / TSX のコードや説明を入力してください。</label><textarea id="answer-14" placeholder="TypeScript / TSX のコードや説明を入力してください。" spellcheck="false"></textarea><details><summary>解答と解説を見る</summary><div class="solution"><pre><code class="language-tsx">function OrderCard({ order }: { order: Order }) {
+  return &lt;p&gt;{order.id}&lt;/p&gt;;
+}
+</code></pre>
+<p><strong>解説:</strong> <code>{ order: Order }</code> は型指定ではなく変数名の変更です。型は引数の分割代入の後に書きます。</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>15. 実践フロー</h2><div class="prompt"><p><strong>Debugging · 4 points</strong></p>
+<p><strong>課題:</strong> 状態選択から <code>updateOrderStatus</code>、API/状態反映、再描画までを擬似コードで表現してください。</p>
+<p><strong>ヒント:</strong> 未確認の実装は仮定と明記。</p>
+</div><label for="answer-15">TypeScript / TSX のコードや説明を入力してください。</label><textarea id="answer-15" placeholder="TypeScript / TSX のコードや説明を入力してください。" spellcheck="false"></textarea><details><summary>解答と解説を見る</summary><div class="solution"><pre><code class="language-tsx">// 1. User selects a status in OrderCard.
+// 2. onStatusChange(order.id, selectedStatus) runs.
+// 3. AdminOrdersPage passes through updateOrderStatus.
+// 4. useOrders updates via API and/or local state.
+// 5. State change triggers React re-render.
+// Exact request/optimistic-update order depends on implementation.
+</code></pre>
+<p><strong>解説:</strong> API 成功後の更新か楽観的更新かは実際の Hook を確認するまで断定できません。</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section></div><div class="lang-panel" data-panel="en" hidden><section class="question"><h2>01. Props typing review</h2><div class="prompt"><p><strong>Review · 2 points</strong></p>
+<p><strong>Task:</strong> Write a typed <code>OrderCard</code> function signature destructuring <code>order</code> and <code>onStatusChange</code>.</p>
+<p><strong>Hint:</strong> Use <code>Order</code> and <code>OrderStatus</code>.</p>
+<pre><code class="language-tsx">// TODO
+</code></pre>
+<details>
+<summary>Show answer and explanation</summary>
+<pre><code class="language-tsx">type Props = {
+  order: Order;
+  onStatusChange: (id: number, status: OrderStatus) =&gt; void;
+};
+function OrderCard({ order, onStatusChange }: Props) {
+  return &lt;div&gt;{order.id}&lt;/div&gt;;
+}
+</code></pre>
+<p><strong>Explanation:</strong> Props type goes after the destructured parameter; the function body is illustrative.</p>
+</details>
+<hr/>
+</div><label for="answer-1">Write TypeScript / TSX code or an explanation here.</label><textarea id="answer-1" placeholder="Write TypeScript / TSX code or an explanation here." spellcheck="false"></textarea><details><summary>Show answer and explanation</summary><div class="solution"><pre><code class="language-tsx">type Props = {
+  order: Order;
+  onStatusChange: (id: number, status: OrderStatus) =&gt; void;
+};
+function OrderCard({ order, onStatusChange }: Props) {
+  return &lt;div&gt;{order.id}&lt;/div&gt;;
+}
+</code></pre>
+<p><strong>Explanation:</strong> Props type goes after the destructured parameter; the function body is illustrative.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>02. List rendering review</h2><div class="prompt"><p><strong>Review · 2 points</strong></p>
+<p><strong>Task:</strong> Render a list of <code>OrderCard</code> components using <code>orders.map()</code>.</p>
+<p><strong>Hint:</strong> Pass <code>key</code>, <code>order</code>, and <code>onStatusChange</code>.</p>
+<pre><code class="language-tsx">// TODO
+</code></pre>
+<details>
+<summary>Show answer and explanation</summary>
+<pre><code class="language-tsx">{orders.map((order) =&gt; (
+  &lt;OrderCard
+    key={order.id}
+    order={order}
+    onStatusChange={updateOrderStatus}
+  /&gt;
+))}
+</code></pre>
+<p><strong>Explanation:</strong> The key identifies each list entry, and the callback is passed without invoking it.</p>
+</details>
+<hr/>
+</div><label for="answer-2">Write TypeScript / TSX code or an explanation here.</label><textarea id="answer-2" placeholder="Write TypeScript / TSX code or an explanation here." spellcheck="false"></textarea><details><summary>Show answer and explanation</summary><div class="solution"><pre><code class="language-tsx">{orders.map((order) =&gt; (
+  &lt;OrderCard
+    key={order.id}
+    order={order}
+    onStatusChange={updateOrderStatus}
+  /&gt;
+))}
+</code></pre>
+<p><strong>Explanation:</strong> The key identifies each list entry, and the callback is passed without invoking it.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>03. Item list review</h2><div class="prompt"><p><strong>Review · 2 points</strong></p>
+<p><strong>Task:</strong> Render each item's name, quantity, and price with <code>items.map()</code>.</p>
+<p><strong>Hint:</strong> Use <code>key</code> and <code>toLocaleString()</code>.</p>
+<pre><code class="language-tsx">// TODO
+</code></pre>
+<details>
+<summary>Show answer and explanation</summary>
+<pre><code class="language-tsx">{items.map((item) =&gt; (
+  &lt;div key={item.id}&gt;
+    {item.name} · {item.quantity}개 · {item.price.toLocaleString()}원
+  &lt;/div&gt;
+))}
+</code></pre>
+<p><strong>Explanation:</strong> Assumes each item has a unique id and price; adapt fields to the actual OrderItem type.</p>
+</details>
+<hr/>
+</div><label for="answer-3">Write TypeScript / TSX code or an explanation here.</label><textarea id="answer-3" placeholder="Write TypeScript / TSX code or an explanation here." spellcheck="false"></textarea><details><summary>Show answer and explanation</summary><div class="solution"><pre><code class="language-tsx">{items.map((item) =&gt; (
+  &lt;div key={item.id}&gt;
+    {item.name} · {item.quantity}개 · {item.price.toLocaleString()}원
+  &lt;/div&gt;
+))}
+</code></pre>
+<p><strong>Explanation:</strong> Assumes each item has a unique id and price; adapt fields to the actual OrderItem type.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>04. State typing variation</h2><div class="prompt"><p><strong>Variation · 2 points</strong></p>
+<p><strong>Task:</strong> Declare an <code>Order[]</code> state initialized to <code>[]</code>.</p>
+<p><strong>Hint:</strong> Consider <code>useState&lt;Order[]&gt;([])</code>.</p>
+<pre><code class="language-tsx">// TODO
+</code></pre>
+<details>
+<summary>Show answer and explanation</summary>
+<pre><code class="language-tsx">const [orders, setOrders] = useState&lt;Order[]&gt;([]);
+</code></pre>
+<p><strong>Explanation:</strong> The generic type defines the element type of the array.</p>
+</details>
+<hr/>
+</div><label for="answer-4">Write TypeScript / TSX code or an explanation here.</label><textarea id="answer-4" placeholder="Write TypeScript / TSX code or an explanation here." spellcheck="false"></textarea><details><summary>Show answer and explanation</summary><div class="solution"><pre><code class="language-tsx">const [orders, setOrders] = useState&lt;Order[]&gt;([]);
+</code></pre>
+<p><strong>Explanation:</strong> The generic type defines the element type of the array.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>05. Loading state variation</h2><div class="prompt"><p><strong>Variation · 2 points</strong></p>
+<p><strong>Task:</strong> Declare <code>isLoading</code> and its setter, initially <code>true</code>.</p>
+<p><strong>Hint:</strong> Specify the boolean type.</p>
+<pre><code class="language-tsx">// TODO
+</code></pre>
+<details>
+<summary>Show answer and explanation</summary>
+<pre><code class="language-tsx">const [isLoading, setIsLoading] = useState&lt;boolean&gt;(true);
+</code></pre>
+<p><strong>Explanation:</strong> Loading begins as true in this example.</p>
+</details>
+<hr/>
+</div><label for="answer-5">Write TypeScript / TSX code or an explanation here.</label><textarea id="answer-5" placeholder="Write TypeScript / TSX code or an explanation here." spellcheck="false"></textarea><details><summary>Show answer and explanation</summary><div class="solution"><pre><code class="language-tsx">const [isLoading, setIsLoading] = useState&lt;boolean&gt;(true);
+</code></pre>
+<p><strong>Explanation:</strong> Loading begins as true in this example.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>06. Error state variation</h2><div class="prompt"><p><strong>Variation · 2 points</strong></p>
+<p><strong>Task:</strong> Declare an <code>error</code> state holding a string or <code>null</code>.</p>
+<p><strong>Hint:</strong> Use a union type.</p>
+<pre><code class="language-tsx">// TODO
+</code></pre>
+<details>
+<summary>Show answer and explanation</summary>
+<pre><code class="language-tsx">const [error, setError] = useState&lt;string | null&gt;(null);
+</code></pre>
+<p><strong>Explanation:</strong> A union type allows both an error message and no error.</p>
+</details>
+<hr/>
+</div><label for="answer-6">Write TypeScript / TSX code or an explanation here.</label><textarea id="answer-6" placeholder="Write TypeScript / TSX code or an explanation here." spellcheck="false"></textarea><details><summary>Show answer and explanation</summary><div class="solution"><pre><code class="language-tsx">const [error, setError] = useState&lt;string | null&gt;(null);
+</code></pre>
+<p><strong>Explanation:</strong> A union type allows both an error message and no error.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>07. Hook return values</h2><div class="prompt"><p><strong>Basics · 2 points</strong></p>
+<p><strong>Task:</strong> Destructure the four values returned by <code>useOrders()</code>.</p>
+<p><strong>Hint:</strong> <code>orders</code>, <code>isLoading</code>, <code>error</code>, <code>updateOrderStatus</code>.</p>
+<pre><code class="language-tsx">// TODO
+</code></pre>
+<details>
+<summary>Show answer and explanation</summary>
+<pre><code class="language-tsx">const {
+  orders,
+  isLoading,
+  error,
+  updateOrderStatus,
+} = useOrders();
+</code></pre>
+<p><strong>Explanation:</strong> Object destructuring extracts the values returned by the Hook.</p>
+</details>
+<hr/>
+</div><label for="answer-7">Write TypeScript / TSX code or an explanation here.</label><textarea id="answer-7" placeholder="Write TypeScript / TSX code or an explanation here." spellcheck="false"></textarea><details><summary>Show answer and explanation</summary><div class="solution"><pre><code class="language-tsx">const {
+  orders,
+  isLoading,
+  error,
+  updateOrderStatus,
+} = useOrders();
+</code></pre>
+<p><strong>Explanation:</strong> Object destructuring extracts the values returned by the Hook.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>08. Loading UI</h2><div class="prompt"><p><strong>Basics · 2 points</strong></p>
+<p><strong>Task:</strong> Render a message only while loading.</p>
+<p><strong>Hint:</strong> Use conditional JSX.</p>
+<pre><code class="language-tsx">// TODO
+</code></pre>
+<details>
+<summary>Show answer and explanation</summary>
+<pre><code class="language-tsx">{isLoading &amp;&amp; &lt;p&gt;주문을 불러오는 중입니다.&lt;/p&gt;}
+</code></pre>
+<p><strong>Explanation:</strong> The message appears only when isLoading is truthy.</p>
+</details>
+<hr/>
+</div><label for="answer-8">Write TypeScript / TSX code or an explanation here.</label><textarea id="answer-8" placeholder="Write TypeScript / TSX code or an explanation here." spellcheck="false"></textarea><details><summary>Show answer and explanation</summary><div class="solution"><pre><code class="language-tsx">{isLoading &amp;&amp; &lt;p&gt;주문을 불러오는 중입니다.&lt;/p&gt;}
+</code></pre>
+<p><strong>Explanation:</strong> The message appears only when isLoading is truthy.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>09. Empty-state UI</h2><div class="prompt"><p><strong>Basics · 2 points</strong></p>
+<p><strong>Task:</strong> Show a message only when not loading, no error, and zero orders.</p>
+<p><strong>Hint:</strong> Check all three conditions.</p>
+<pre><code class="language-tsx">// TODO
+</code></pre>
+<details>
+<summary>Show answer and explanation</summary>
+<pre><code class="language-tsx">{!isLoading &amp;&amp; !error &amp;&amp; orders.length === 0 &amp;&amp; &lt;p&gt;주문이 없습니다.&lt;/p&gt;}
+</code></pre>
+<p><strong>Explanation:</strong> Check all three conditions so the empty state does not flash during loading.</p>
+</details>
+<hr/>
+</div><label for="answer-9">Write TypeScript / TSX code or an explanation here.</label><textarea id="answer-9" placeholder="Write TypeScript / TSX code or an explanation here." spellcheck="false"></textarea><details><summary>Show answer and explanation</summary><div class="solution"><pre><code class="language-tsx">{!isLoading &amp;&amp; !error &amp;&amp; orders.length === 0 &amp;&amp; &lt;p&gt;주문이 없습니다.&lt;/p&gt;}
+</code></pre>
+<p><strong>Explanation:</strong> Check all three conditions so the empty state does not flash during loading.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>10. Effect basics</h2><div class="prompt"><p><strong>Basics · 2 points</strong></p>
+<p><strong>Task:</strong> Write an Effect that calls <code>loadOrders</code> on mount.</p>
+<p><strong>Hint:</strong> Discuss dependencies and stable function references.</p>
+<pre><code class="language-tsx">// TODO
+</code></pre>
+<details>
+<summary>Show answer and explanation</summary>
+<pre><code class="language-tsx">useEffect(() =&gt; {
+  // Assume loadOrders is defined inside this Effect or stable.
+  void loadOrders();
+}, [loadOrders]);
+</code></pre>
+<p><strong>Explanation:</strong> If loadOrders is recreated every render, memoize it with useCallback or define the async function inside the Effect. Avoid suppressing dependency warnings.</p>
+</details>
+<hr/>
+</div><label for="answer-10">Write TypeScript / TSX code or an explanation here.</label><textarea id="answer-10" placeholder="Write TypeScript / TSX code or an explanation here." spellcheck="false"></textarea><details><summary>Show answer and explanation</summary><div class="solution"><pre><code class="language-tsx">useEffect(() =&gt; {
+  // Assume loadOrders is defined inside this Effect or stable.
+  void loadOrders();
+}, [loadOrders]);
+</code></pre>
+<p><strong>Explanation:</strong> If loadOrders is recreated every render, memoize it with useCallback or define the async function inside the Effect. Avoid suppressing dependency warnings.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>11. Checking fetch responses</h2><div class="prompt"><p><strong>Application · 4 points</strong></p>
+<p><strong>Task:</strong> Write an async function that throws on an unsuccessful <code>fetch('/api/orders')</code> response.</p>
+<p><strong>Hint:</strong> Check <code>response.ok</code>.</p>
+<pre><code class="language-tsx">// TODO
+</code></pre>
+<details>
+<summary>Show answer and explanation</summary>
+<pre><code class="language-tsx">async function fetchOrders(): Promise&lt;Order[]&gt; {
+  const response = await fetch("/api/orders");
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}`);
+  }
+  return (await response.json()) as Order[];
+}
+</code></pre>
+<p><strong>Explanation:</strong> This assumes the API returns Order[] directly. Runtime validation is a separate concern.</p>
+</details>
+<hr/>
+</div><label for="answer-11">Write TypeScript / TSX code or an explanation here.</label><textarea id="answer-11" placeholder="Write TypeScript / TSX code or an explanation here." spellcheck="false"></textarea><details><summary>Show answer and explanation</summary><div class="solution"><pre><code class="language-tsx">async function fetchOrders(): Promise&lt;Order[]&gt; {
+  const response = await fetch("/api/orders");
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}`);
+  }
+  return (await response.json()) as Order[];
+}
+</code></pre>
+<p><strong>Explanation:</strong> This assumes the API returns Order[] directly. Runtime validation is a separate concern.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>12. Hook responsibility</h2><div class="prompt"><p><strong>Application · 4 points</strong></p>
+<p><strong>Task:</strong> Show minimal pseudocode for moving fetch logic from <code>AdminOrdersPage</code> into <code>useOrders</code>.</p>
+<p><strong>Hint:</strong> Separate UI from data operations.</p>
+<pre><code class="language-tsx">// TODO
+</code></pre>
+<details>
+<summary>Show answer and explanation</summary>
+<pre><code class="language-tsx">// useOrders: owns fetching and state
+function useOrders() {
+  // state + Effect + fetch + update logic
+  return { orders, isLoading, error, updateOrderStatus };
+}
+// AdminOrdersPage: calls Hook and renders JSX
+</code></pre>
+<p><strong>Explanation:</strong> This is architecture pseudocode, not executable implementation. Keep fetch logic in the Hook and presentation in the page.</p>
+</details>
+<hr/>
+</div><label for="answer-12">Write TypeScript / TSX code or an explanation here.</label><textarea id="answer-12" placeholder="Write TypeScript / TSX code or an explanation here." spellcheck="false"></textarea><details><summary>Show answer and explanation</summary><div class="solution"><pre><code class="language-tsx">// useOrders: owns fetching and state
+function useOrders() {
+  // state + Effect + fetch + update logic
+  return { orders, isLoading, error, updateOrderStatus };
+}
+// AdminOrdersPage: calls Hook and renders JSX
+</code></pre>
+<p><strong>Explanation:</strong> This is architecture pseudocode, not executable implementation. Keep fetch logic in the Hook and presentation in the page.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>13. Status change callback</h2><div class="prompt"><p><strong>Application · 4 points</strong></p>
+<p><strong>Task:</strong> Write a select change handler calling <code>onStatusChange(order.id, status)</code>.</p>
+<p><strong>Hint:</strong> Use <code>OrderStatus</code>.</p>
+<pre><code class="language-tsx">// TODO
+</code></pre>
+<details>
+<summary>Show answer and explanation</summary>
+<pre><code class="language-tsx">&lt;select
+  value={order.status}
+  onChange={(e) =&gt;
+    onStatusChange(order.id, e.target.value as OrderStatus)
+  }
+&gt;
+  &lt;option value="결제완료"&gt;결제완료&lt;/option&gt;
+  &lt;option value="상품준비중"&gt;상품준비중&lt;/option&gt;
+  &lt;option value="배송중"&gt;배송중&lt;/option&gt;
+  &lt;option value="배송완료"&gt;배송완료&lt;/option&gt;
+&lt;/select&gt;
+</code></pre>
+<p><strong>Explanation:</strong> The cast assumes option values match OrderStatus. A runtime check is preferable if values can be untrusted.</p>
+</details>
+<hr/>
+</div><label for="answer-13">Write TypeScript / TSX code or an explanation here.</label><textarea id="answer-13" placeholder="Write TypeScript / TSX code or an explanation here." spellcheck="false"></textarea><details><summary>Show answer and explanation</summary><div class="solution"><pre><code class="language-tsx">&lt;select
+  value={order.status}
+  onChange={(e) =&gt;
+    onStatusChange(order.id, e.target.value as OrderStatus)
+  }
+&gt;
+  &lt;option value="결제완료"&gt;결제완료&lt;/option&gt;
+  &lt;option value="상품준비중"&gt;상품준비중&lt;/option&gt;
+  &lt;option value="배송중"&gt;배송중&lt;/option&gt;
+  &lt;option value="배송완료"&gt;배송완료&lt;/option&gt;
+&lt;/select&gt;
+</code></pre>
+<p><strong>Explanation:</strong> The cast assumes option values match OrderStatus. A runtime check is preferable if values can be untrusted.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>14. Fix a typing error</h2><div class="prompt"><p><strong>Debugging · 4 points</strong></p>
+<p><strong>Task:</strong> Fix: <code>function OrderCard({order: Order}) { return &lt;p&gt;{order.id}&lt;/p&gt; }</code></p>
+<p><strong>Hint:</strong> Distinguish destructuring from type annotations.</p>
+<pre><code class="language-tsx">// TODO
+</code></pre>
+<details>
+<summary>Show answer and explanation</summary>
+<pre><code class="language-tsx">function OrderCard({ order }: { order: Order }) {
+  return &lt;p&gt;{order.id}&lt;/p&gt;;
+}
+</code></pre>
+<p><strong>Explanation:</strong> In <code>{ order: Order }</code>, Order would rename the local variable rather than declare a type. Put the annotation after the parameter pattern.</p>
+</details>
+<hr/>
+</div><label for="answer-14">Write TypeScript / TSX code or an explanation here.</label><textarea id="answer-14" placeholder="Write TypeScript / TSX code or an explanation here." spellcheck="false"></textarea><details><summary>Show answer and explanation</summary><div class="solution"><pre><code class="language-tsx">function OrderCard({ order }: { order: Order }) {
+  return &lt;p&gt;{order.id}&lt;/p&gt;;
+}
+</code></pre>
+<p><strong>Explanation:</strong> In <code>{ order: Order }</code>, Order would rename the local variable rather than declare a type. Put the annotation after the parameter pattern.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>15. End-to-end flow</h2><div class="prompt"><p><strong>Debugging · 4 points</strong></p>
+<p><strong>Task:</strong> Express the path from selecting a status through <code>updateOrderStatus</code>, API/state update, and rerender.</p>
+<p><strong>Hint:</strong> Label unverified implementation details as assumptions.</p>
+<pre><code class="language-tsx">// TODO
+</code></pre>
+<details>
+<summary>Show answer and explanation</summary>
+<pre><code class="language-tsx">// 1. User selects a status in OrderCard.
+// 2. onStatusChange(order.id, selectedStatus) runs.
+// 3. AdminOrdersPage passes through updateOrderStatus.
+// 4. useOrders updates via API and/or local state.
+// 5. State change triggers React re-render.
+// Exact request/optimistic-update order depends on implementation.
+</code></pre>
+<p><strong>Explanation:</strong> The API-first versus optimistic-update order cannot be determined without inspecting the real Hook.</p>
+</details>
+<hr/>
+<h2>Suggested scoring</h2>
+<p>Assess syntax/types, separation of responsibilities, and preservation of behavior.</p>
+</div><label for="answer-15">Write TypeScript / TSX code or an explanation here.</label><textarea id="answer-15" placeholder="Write TypeScript / TSX code or an explanation here." spellcheck="false"></textarea><details><summary>Show answer and explanation</summary><div class="solution"><pre><code class="language-tsx">// 1. User selects a status in OrderCard.
+// 2. onStatusChange(order.id, selectedStatus) runs.
+// 3. AdminOrdersPage passes through updateOrderStatus.
+// 4. useOrders updates via API and/or local state.
+// 5. State change triggers React re-render.
+// Exact request/optimistic-update order depends on implementation.
+</code></pre>
+<p><strong>Explanation:</strong> The API-first versus optimistic-update order cannot be determined without inspecting the real Hook.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section></div><div class="lang-panel" data-panel="ko" ><section class="question"><h2>01. Props 타입 복습</h2><div class="prompt"><p><strong>Review · 2 points</strong></p>
+<p><strong>문제:</strong> 부모가 전달한 <code>order</code>와 <code>onStatusChange</code>를 구조 분해 할당하고 타입을 지정하는 <code>OrderCard</code> 함수 시그니처를 작성하세요.</p>
+<p><strong>힌트:</strong> <code>Order</code>, <code>OrderStatus</code> 타입을 사용하세요.</p>
+</div><label for="answer-1">여기에 TypeScript / TSX 코드 또는 설명을 작성하세요.</label><textarea id="answer-1" placeholder="여기에 TypeScript / TSX 코드 또는 설명을 작성하세요." spellcheck="false"></textarea><details><summary>정답 및 해설 보기</summary><div class="solution"><pre><code class="language-tsx">type Props = {
+  order: Order;
+  onStatusChange: (id: number, status: OrderStatus) =&gt; void;
+};
+function OrderCard({ order, onStatusChange }: Props) {
+  return &lt;div&gt;{order.id}&lt;/div&gt;;
+}
+</code></pre>
+<p><strong>해설:</strong> 구조 분해된 매개변수 뒤에 <code>: Props</code>를 붙입니다. 함수 본문은 예시입니다.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>02. 목록 렌더링 복습</h2><div class="prompt"><p><strong>Review · 2 points</strong></p>
+<p><strong>문제:</strong> <code>orders.map()</code>으로 <code>OrderCard</code> 목록을 렌더링하세요.</p>
+<p><strong>힌트:</strong> <code>key</code>, <code>order</code>, <code>onStatusChange</code>를 전달하세요.</p>
+</div><label for="answer-2">여기에 TypeScript / TSX 코드 또는 설명을 작성하세요.</label><textarea id="answer-2" placeholder="여기에 TypeScript / TSX 코드 또는 설명을 작성하세요." spellcheck="false"></textarea><details><summary>정답 및 해설 보기</summary><div class="solution"><pre><code class="language-tsx">{orders.map((order) =&gt; (
+  &lt;OrderCard
+    key={order.id}
+    order={order}
+    onStatusChange={updateOrderStatus}
+  /&gt;
+))}
+</code></pre>
+<p><strong>해설:</strong> <code>key</code>는 각 항목을 구분하며 콜백은 실행하지 않고 전달합니다.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>03. 상품 목록 복습</h2><div class="prompt"><p><strong>Review · 2 points</strong></p>
+<p><strong>문제:</strong> <code>items.map()</code>으로 상품명, 수량, 가격을 출력하세요.</p>
+<p><strong>힌트:</strong> <code>key</code>와 <code>toLocaleString()</code>을 사용하세요.</p>
+</div><label for="answer-3">여기에 TypeScript / TSX 코드 또는 설명을 작성하세요.</label><textarea id="answer-3" placeholder="여기에 TypeScript / TSX 코드 또는 설명을 작성하세요." spellcheck="false"></textarea><details><summary>정답 및 해설 보기</summary><div class="solution"><pre><code class="language-tsx">{items.map((item) =&gt; (
+  &lt;div key={item.id}&gt;
+    {item.name} · {item.quantity}개 · {item.price.toLocaleString()}원
+  &lt;/div&gt;
+))}
+</code></pre>
+<p><strong>해설:</strong> 각 상품에 고유 <code>id</code>와 <code>price</code>가 있다고 가정합니다. 실제 <code>OrderItem</code> 타입에 맞춰 조정하세요.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>04. 상태 타입 변형</h2><div class="prompt"><p><strong>Variation · 2 points</strong></p>
+<p><strong>문제:</strong> <code>Order[]</code>를 초기값 <code>[]</code>로 저장하는 상태를 선언하세요.</p>
+<p><strong>힌트:</strong> <code>useState&lt;Order[]&gt;([])</code> 형태를 고려하세요.</p>
+</div><label for="answer-4">여기에 TypeScript / TSX 코드 또는 설명을 작성하세요.</label><textarea id="answer-4" placeholder="여기에 TypeScript / TSX 코드 또는 설명을 작성하세요." spellcheck="false"></textarea><details><summary>정답 및 해설 보기</summary><div class="solution"><pre><code class="language-tsx">const [orders, setOrders] = useState&lt;Order[]&gt;([]);
+</code></pre>
+<p><strong>해설:</strong> 제네릭 타입으로 배열 요소의 타입을 지정합니다.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>05. 로딩 상태 변형</h2><div class="prompt"><p><strong>Variation · 2 points</strong></p>
+<p><strong>문제:</strong> 초기값이 <code>true</code>인 <code>isLoading</code> 상태와 setter를 선언하세요.</p>
+<p><strong>힌트:</strong> boolean 타입을 명시하세요.</p>
+</div><label for="answer-5">여기에 TypeScript / TSX 코드 또는 설명을 작성하세요.</label><textarea id="answer-5" placeholder="여기에 TypeScript / TSX 코드 또는 설명을 작성하세요." spellcheck="false"></textarea><details><summary>정답 및 해설 보기</summary><div class="solution"><pre><code class="language-tsx">const [isLoading, setIsLoading] = useState&lt;boolean&gt;(true);
+</code></pre>
+<p><strong>해설:</strong> 이 예시에서는 로딩의 초기값을 <code>true</code>로 설정합니다.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>06. 오류 상태 변형</h2><div class="prompt"><p><strong>Variation · 2 points</strong></p>
+<p><strong>문제:</strong> 문자열 또는 <code>null</code>을 저장하는 <code>error</code> 상태를 선언하세요.</p>
+<p><strong>힌트:</strong> union 타입을 사용하세요.</p>
+</div><label for="answer-6">여기에 TypeScript / TSX 코드 또는 설명을 작성하세요.</label><textarea id="answer-6" placeholder="여기에 TypeScript / TSX 코드 또는 설명을 작성하세요." spellcheck="false"></textarea><details><summary>정답 및 해설 보기</summary><div class="solution"><pre><code class="language-tsx">const [error, setError] = useState&lt;string | null&gt;(null);
+</code></pre>
+<p><strong>해설:</strong> 유니언 타입으로 오류 메시지와 오류 없음 상태를 모두 표현합니다.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>07. Hook 반환값</h2><div class="prompt"><p><strong>Basics · 2 points</strong></p>
+<p><strong>문제:</strong> <code>useOrders()</code>가 반환한 네 값을 구조 분해 할당하세요.</p>
+<p><strong>힌트:</strong> <code>orders</code>, <code>isLoading</code>, <code>error</code>, <code>updateOrderStatus</code>.</p>
+</div><label for="answer-7">여기에 TypeScript / TSX 코드 또는 설명을 작성하세요.</label><textarea id="answer-7" placeholder="여기에 TypeScript / TSX 코드 또는 설명을 작성하세요." spellcheck="false"></textarea><details><summary>정답 및 해설 보기</summary><div class="solution"><pre><code class="language-tsx">const {
+  orders,
+  isLoading,
+  error,
+  updateOrderStatus,
+} = useOrders();
+</code></pre>
+<p><strong>해설:</strong> 객체 구조 분해 할당으로 Hook의 반환값을 받습니다.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>08. 로딩 UI</h2><div class="prompt"><p><strong>Basics · 2 points</strong></p>
+<p><strong>문제:</strong> 로딩 중에만 안내 문구를 렌더링하세요.</p>
+<p><strong>힌트:</strong> 조건부 JSX를 사용하세요.</p>
+</div><label for="answer-8">여기에 TypeScript / TSX 코드 또는 설명을 작성하세요.</label><textarea id="answer-8" placeholder="여기에 TypeScript / TSX 코드 또는 설명을 작성하세요." spellcheck="false"></textarea><details><summary>정답 및 해설 보기</summary><div class="solution"><pre><code class="language-tsx">{isLoading &amp;&amp; &lt;p&gt;주문을 불러오는 중입니다.&lt;/p&gt;}
+</code></pre>
+<p><strong>해설:</strong> <code>isLoading</code>이 참일 때만 문구를 렌더링합니다.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>09. 빈 목록 UI</h2><div class="prompt"><p><strong>Basics · 2 points</strong></p>
+<p><strong>문제:</strong> 로딩과 오류가 없고 주문이 0건일 때만 문구를 렌더링하세요.</p>
+<p><strong>힌트:</strong> 세 조건을 모두 검사하세요.</p>
+</div><label for="answer-9">여기에 TypeScript / TSX 코드 또는 설명을 작성하세요.</label><textarea id="answer-9" placeholder="여기에 TypeScript / TSX 코드 또는 설명을 작성하세요." spellcheck="false"></textarea><details><summary>정답 및 해설 보기</summary><div class="solution"><pre><code class="language-tsx">{!isLoading &amp;&amp; !error &amp;&amp; orders.length === 0 &amp;&amp; &lt;p&gt;주문이 없습니다.&lt;/p&gt;}
+</code></pre>
+<p><strong>해설:</strong> 세 조건을 모두 검사해 로딩 중 빈 목록 메시지가 나타나지 않도록 합니다.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>10. Effect 기본</h2><div class="prompt"><p><strong>Basics · 2 points</strong></p>
+<p><strong>문제:</strong> 컴포넌트 마운트 시 주문 조회 함수 <code>loadOrders</code>를 호출하는 Effect를 작성하세요.</p>
+<p><strong>힌트:</strong> 의존성 및 함수 참조 안정성을 고려해 설명하세요.</p>
+</div><label for="answer-10">여기에 TypeScript / TSX 코드 또는 설명을 작성하세요.</label><textarea id="answer-10" placeholder="여기에 TypeScript / TSX 코드 또는 설명을 작성하세요." spellcheck="false"></textarea><details><summary>정답 및 해설 보기</summary><div class="solution"><pre><code class="language-tsx">useEffect(() =&gt; {
+  // Assume loadOrders is defined inside this Effect or stable.
+  void loadOrders();
+}, [loadOrders]);
+</code></pre>
+<p><strong>해설:</strong> <code>loadOrders</code>가 매 렌더마다 새로 생성된다면 <code>useCallback</code>으로 안정화하거나 Effect 내부에 정의합니다. 의존성 경고를 무시하지 마세요.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>11. fetch 응답 검사</h2><div class="prompt"><p><strong>Application · 4 points</strong></p>
+<p><strong>문제:</strong> <code>fetch('/api/orders')</code> 결과가 실패 상태면 오류를 발생시키는 비동기 함수를 작성하세요.</p>
+<p><strong>힌트:</strong> <code>response.ok</code>를 검사하세요.</p>
+</div><label for="answer-11">여기에 TypeScript / TSX 코드 또는 설명을 작성하세요.</label><textarea id="answer-11" placeholder="여기에 TypeScript / TSX 코드 또는 설명을 작성하세요." spellcheck="false"></textarea><details><summary>정답 및 해설 보기</summary><div class="solution"><pre><code class="language-tsx">async function fetchOrders(): Promise&lt;Order[]&gt; {
+  const response = await fetch("/api/orders");
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}`);
+  }
+  return (await response.json()) as Order[];
+}
+</code></pre>
+<p><strong>해설:</strong> API가 <code>Order[]</code>를 직접 반환한다고 가정합니다. 런타임 데이터 검증은 별도 문제입니다.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>12. Hook 책임 판단</h2><div class="prompt"><p><strong>Application · 4 points</strong></p>
+<p><strong>문제:</strong> <code>AdminOrdersPage</code>에 들어 있는 fetch 코드를 <code>useOrders</code>로 옮기는 최소 설계를 의사코드로 작성하세요.</p>
+<p><strong>힌트:</strong> UI와 데이터 책임을 분리하세요.</p>
+</div><label for="answer-12">여기에 TypeScript / TSX 코드 또는 설명을 작성하세요.</label><textarea id="answer-12" placeholder="여기에 TypeScript / TSX 코드 또는 설명을 작성하세요." spellcheck="false"></textarea><details><summary>정답 및 해설 보기</summary><div class="solution"><pre><code class="language-tsx">// useOrders: owns fetching and state
+function useOrders() {
+  // state + Effect + fetch + update logic
+  return { orders, isLoading, error, updateOrderStatus };
+}
+// AdminOrdersPage: calls Hook and renders JSX
+</code></pre>
+<p><strong>해설:</strong> 실행 코드가 아닌 설계 의사코드입니다. fetch는 Hook에, 화면 표현은 페이지에 둡니다.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>13. 상태 변경 콜백</h2><div class="prompt"><p><strong>Application · 4 points</strong></p>
+<p><strong>문제:</strong> <code>OrderCard</code>의 select가 <code>onStatusChange(order.id, status)</code>를 호출하도록 작성하세요.</p>
+<p><strong>힌트:</strong> <code>OrderStatus</code> 타입을 사용하세요.</p>
+</div><label for="answer-13">여기에 TypeScript / TSX 코드 또는 설명을 작성하세요.</label><textarea id="answer-13" placeholder="여기에 TypeScript / TSX 코드 또는 설명을 작성하세요." spellcheck="false"></textarea><details><summary>정답 및 해설 보기</summary><div class="solution"><pre><code class="language-tsx">&lt;select
+  value={order.status}
+  onChange={(e) =&gt;
+    onStatusChange(order.id, e.target.value as OrderStatus)
+  }
+&gt;
+  &lt;option value="결제완료"&gt;결제완료&lt;/option&gt;
+  &lt;option value="상품준비중"&gt;상품준비중&lt;/option&gt;
+  &lt;option value="배송중"&gt;배송중&lt;/option&gt;
+  &lt;option value="배송완료"&gt;배송완료&lt;/option&gt;
+&lt;/select&gt;
+</code></pre>
+<p><strong>해설:</strong> 옵션 값이 <code>OrderStatus</code>와 일치한다는 전제의 타입 단언입니다. 외부 값이라면 검증이 필요합니다.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>14. 오류 수정</h2><div class="prompt"><p><strong>Debugging · 4 points</strong></p>
+<p><strong>문제:</strong> 다음 잘못된 코드를 고치세요: <code>function OrderCard({order: Order}) { return &lt;p&gt;{order.id}&lt;/p&gt; }</code></p>
+<p><strong>힌트:</strong> 타입 위치와 구조 분해 할당을 구분하세요.</p>
+</div><label for="answer-14">여기에 TypeScript / TSX 코드 또는 설명을 작성하세요.</label><textarea id="answer-14" placeholder="여기에 TypeScript / TSX 코드 또는 설명을 작성하세요." spellcheck="false"></textarea><details><summary>정답 및 해설 보기</summary><div class="solution"><pre><code class="language-tsx">function OrderCard({ order }: { order: Order }) {
+  return &lt;p&gt;{order.id}&lt;/p&gt;;
+}
+</code></pre>
+<p><strong>해설:</strong> <code>{ order: Order }</code>는 타입 지정이 아니라 변수 이름 변경입니다. 타입은 매개변수 구조 분해 뒤에 선언합니다.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section>
+<section class="question"><h2>15. 실전 흐름 설명</h2><div class="prompt"><p><strong>Debugging · 4 points</strong></p>
+<p><strong>문제:</strong> 주문 상태 선택부터 <code>updateOrderStatus</code>, API/상태 반영, 재렌더링까지 흐름을 코드 또는 단계별 의사코드로 표현하세요.</p>
+<p><strong>힌트:</strong> 실제 프로젝트 구현을 확인하지 못한 부분은 가정으로 표시하세요.</p>
+</div><label for="answer-15">여기에 TypeScript / TSX 코드 또는 설명을 작성하세요.</label><textarea id="answer-15" placeholder="여기에 TypeScript / TSX 코드 또는 설명을 작성하세요." spellcheck="false"></textarea><details><summary>정답 및 해설 보기</summary><div class="solution"><pre><code class="language-tsx">// 1. User selects a status in OrderCard.
+// 2. onStatusChange(order.id, selectedStatus) runs.
+// 3. AdminOrdersPage passes through updateOrderStatus.
+// 4. useOrders updates via API and/or local state.
+// 5. State change triggers React re-render.
+// Exact request/optimistic-update order depends on implementation.
+</code></pre>
+<p><strong>해설:</strong> API 성공 후 반영하는지 낙관적 업데이트인지 실제 Hook을 보기 전에는 확정할 수 없습니다.</p>
+</div></details><div class="compare-controls"><button type="button" class="compare-toggle" aria-expanded="false">내 답안 ↔ 정답 비교</button></div><div class="compare-panel" hidden><div class="compare-grid"><div class="compare-col"><h3 class="compare-mine-title">내 답안</h3><pre class="compare-mine"></pre></div><div class="compare-col"><h3 class="compare-solution-title">모범 답안 · 해설</h3><div class="compare-reference"></div></div></div></div></section></div>
+</main><script>
+(()=>{"use strict";
+const langs={ja:{export:"回答を保存 (.txt)",clear:"回答をすべて削除",notice:"入力内容はブラウザに自動保存されます。解答は各問題の下で確認できます。コードは実行されません。",progress:"記入済み",confirm:"この言語の回答をすべて削除しますか？"},en:{export:"Export answers (.txt)",clear:"Clear all answers",notice:"Your answers are saved in this browser. Expand each question to see the solution. Code is not executed.",progress:"Completed",confirm:"Clear all answers for this language?"},ko:{export:"내 답안 저장 (.txt)",clear:"전체 답안 초기화",notice:"코드를 입력하면 브라우저에 자동 저장됩니다. 정답은 각 문제 아래에서 펼쳐 볼 수 있습니다. 코드는 실행되지 않습니다.",progress:"작성 완료",confirm:"이 언어의 모든 답안을 삭제할까요?"}};
+let lang="ko";const getPanel=()=>document.querySelector('[data-panel="'+lang+'"]');const getFields=()=>[...getPanel().querySelectorAll("textarea")];const storageKey=l=>"day28-coding-test-"+l+"-v1";
+function update(){const f=getFields();document.getElementById("progress").textContent=langs[lang].progress+": "+f.filter(x=>x.value.trim()).length+" / "+f.length;}
+function switchLang(l){lang=l;document.documentElement.lang=l;document.querySelectorAll("[data-panel]").forEach(p=>p.hidden=p.dataset.panel!==l);document.querySelectorAll("[data-lang]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.lang===l)));document.getElementById("export").textContent=langs[l].export;document.getElementById("clear").textContent=langs[l].clear;document.getElementById("notice").textContent=langs[l].notice;update();}
+for(const l of Object.keys(langs)){let values={};try{values=JSON.parse(localStorage.getItem(storageKey(l))||"{}")||{};}catch{}document.querySelectorAll('[data-panel="'+l+'"] textarea').forEach((field,i)=>{field.value=values[i]||"";field.addEventListener("input",()=>{values[i]=field.value;try{localStorage.setItem(storageKey(l),JSON.stringify(values));}catch{}if(lang===l)update();});});}
+document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>switchLang(b.dataset.lang)));
+document.getElementById("clear").addEventListener("click",()=>{if(!confirm(langs[lang].confirm))return;getFields().forEach(f=>f.value="");try{localStorage.removeItem(storageKey(lang));}catch{}update();});
+document.getElementById("export").addEventListener("click",()=>{const titles=[...getPanel().querySelectorAll(".question h2")];const content=getFields().map((f,i)=>"## "+titles[i].textContent+"\n\n"+f.value).join("\n\n"+"=".repeat(48)+"\n\n");const blob=new Blob([content],{type:"text/plain;charset=utf-8"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="Day28_"+lang+"_answers.txt";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
+const compareLabels={ja:["自分の回答 ↔ 模範解答を比較","比較を閉じる","自分の回答","模範解答・解説","（未入力）"],en:["Compare my answer ↔ solution","Hide comparison","My answer","Sample answer & explanation","(Not written yet)"],ko:["내 답안 ↔ 정답 비교","비교 닫기","내 답안","모범 답안 · 해설","(아직 작성하지 않음)"]};
+document.querySelectorAll(".lang-panel").forEach(panel=>{const l=panel.dataset.panel;panel.querySelectorAll(".question").forEach(q=>{const btn=q.querySelector(".compare-toggle"),cmp=q.querySelector(".compare-panel"),field=q.querySelector("textarea"),mine=q.querySelector(".compare-mine"),ref=q.querySelector(".compare-reference");const labels=compareLabels[l];const refresh=()=>{mine.textContent=field.value||labels[4];};btn.textContent=labels[0];q.querySelector(".compare-mine-title").textContent=labels[2];q.querySelector(".compare-solution-title").textContent=labels[3];btn.addEventListener("click",()=>{const opening=cmp.hidden;cmp.hidden=!opening;btn.setAttribute("aria-expanded",String(opening));btn.textContent=opening?labels[1]:labels[0];if(opening){refresh();if(!ref.hasChildNodes()){ref.appendChild(q.querySelector(".solution").cloneNode(true));}}});field.addEventListener("input",()=>{if(!cmp.hidden)refresh();});});});
+switchLang("ko");
+})();
+</script></body></html>
