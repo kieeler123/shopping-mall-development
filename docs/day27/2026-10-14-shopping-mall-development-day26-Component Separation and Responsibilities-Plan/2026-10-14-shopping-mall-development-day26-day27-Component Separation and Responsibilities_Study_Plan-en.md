@@ -1,4 +1,4 @@
-# Day 29 — Data Flow and State Updates
+# Day 28 — Data Flow and State Updates
 
 Key question: How can UI components safely use state and functions from a Custom Hook and reflect updates?
 
@@ -21,15 +21,15 @@ Key question: How can UI components safely use state and functions from a Custom
 
 ## 3. 90-minute schedule
 
-| Stage | Time | Activity |
-|---|---:|---|
-| Days 27–28 review | 10 min | Component/Hook responsibilities |
-| Data flow | 15 min | Props and callbacks |
-| State updates | 15 min | Array/object immutability |
-| API update flow | 15 min | Success and failure |
-| Project practice | 15 min | Inspect existing function |
-| Concepts and coding test | 20 min | 15 questions |
-| **Total** | **90 min** | |
+| Stage                    |       Time | Activity                        |
+| ------------------------ | ---------: | ------------------------------- |
+| Days 27–28 review        |     10 min | Component/Hook responsibilities |
+| Data flow                |     15 min | Props and callbacks             |
+| State updates            |     15 min | Array/object immutability       |
+| API update flow          |     15 min | Success and failure             |
+| Project practice         |     15 min | Inspect existing function       |
+| Concepts and coding test |     20 min | 15 questions                    |
+| **Total**                | **90 min** |                                 |
 
 ## 4. Practice plan
 
@@ -45,33 +45,27 @@ Avoid changes when the existing behavior is already correct.
 ```tsx
 const { orders, isLoading, error, updateOrderStatus } = useOrders();
 
-<OrderCard
-  key={order.id}
-  order={order}
-  onStatusChange={updateOrderStatus}
-/>
+<OrderCard key={order.id} order={order} onStatusChange={updateOrderStatus} />;
 ```
 
 ```tsx
 setOrders((prev) =>
   prev.map((order) =>
-    order.id === targetId
-      ? { ...order, status: newStatus }
-      : order
-  )
+    order.id === targetId ? { ...order, status: newStatus } : order,
+  ),
 );
 ```
 
 ## 5. Coding test plan (15 questions)
 
-| Category | Questions |
-|---|---:|
-| Prior lessons | 3 |
-| Variations | 3 |
-| New fundamentals | 4 |
-| Project applications | 3 |
-| Debugging | 2 |
-| **Total** | **15** |
+| Category             | Questions |
+| -------------------- | --------: |
+| Prior lessons        |         3 |
+| Variations           |         3 |
+| New fundamentals     |         4 |
+| Project applications |         3 |
+| Debugging            |         2 |
+| **Total**            |    **15** |
 
 A separate HTML exercise will support editable answers, collapsible solutions, side-by-side comparison, and local autosave.
 
@@ -91,4 +85,3 @@ A separate HTML exercise will support editable answers, collapsible solutions, s
 **Tip:** Read the actual `useOrders()` implementation before changing code; confirm the order of server calls and local state updates.
 
 ## 8. Study tip
-
