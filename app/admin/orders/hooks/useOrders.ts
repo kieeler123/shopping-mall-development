@@ -9,25 +9,40 @@ export default function useOrders() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const loadOrders = useCallback(async (): Promise<void> => {
-    setIsLoading(true);
-    setError(null);
+  useEffect(() => {
+    const controller = new AbortController();
 
-    try {
-      const response = await fetch("/api/orders");
+    async function loadOrders(): Promise<void> {
+      try {
+        const response = await fetch("/api/orders", {
+          signal: controller.signal,
+        });
 
-      if (!response.ok) {
-        throw new Error(`주문 목록 조회 실패: ${response.status}`);
+        if (!response.ok) {
+          throw new Error(`주문 목록 조회 실패: ${response.status}`);
+        }
+
+        const data: Order[] = await response.json();
+
+        if (!controller.signal.aborted) {
+          setOrders(data);
+        }
+      } catch (error: unknown) {
+        if (!controller.signal.aborted) {
+          setError(getErrorMessage(error));
+        }
+      } finally {
+        if (!controller.signal.aborted) {
+          setIsLoading(false);
+        }
       }
-
-      const data: Order[] = await response.json();
-
-      setOrders(data);
-    } catch (error: unknown) {
-      setError(getErrorMessage(error));
-    } finally {
-      setIsLoading(false);
     }
+
+    void loadOrders();
+
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   const updateOrderStatus = useCallback(
@@ -58,16 +73,11 @@ export default function useOrders() {
         return updatedOrder;
       } catch (error: unknown) {
         setError(getErrorMessage(error));
-
         return null;
       }
     },
     [],
   );
-
-  useEffect(() => {
-    void loadOrders();
-  }, [loadOrders]);
 
   return {
     orders,

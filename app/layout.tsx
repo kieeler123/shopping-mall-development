@@ -5,8 +5,6 @@ import "./globals.css";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 
-import "./globals.css";
-
 export const metadata: Metadata = {
   title: {
     default: "Shopping Mall",
@@ -23,7 +21,6 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        {children}
         <Header />
 
         <main>{children}</main>

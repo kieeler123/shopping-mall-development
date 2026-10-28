@@ -1,57 +1,39 @@
 "use client";
 
-import { products } from "@/data/products";
-import { Order } from "@/types/order";
+import { useOrdersStorage } from "@/hooks/useOrdersStorage";
+import type { Order } from "@/types/order";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
 export default function OrderDetailPage() {
   const params = useParams();
   const router = useRouter();
 
   const orderId = Number(params.id);
+  const { orders, isReady } = useOrdersStorage();
 
-  const [orders, setOrders] = useState<Order[]>([]);
-  const [loading, setLoading] = useState(true);
+  const order = orders.find((item) => item.id === orderId);
 
   function handleCancelOrder() {
+    if (!order || order.status === "취소완료") {
+      return;
+    }
+
     const confirmed = window.confirm("정말 이 주문을 취소하시겠습니까?");
 
     if (!confirmed) return;
 
-    const updatedOrders = orders.map((order) =>
-      order.id === orderId
-        ? {
-            ...order,
-            status: "취소완료" as Order["status"],
-          }
-        : order,
+    const updatedOrders: Order[] = orders.map((item) =>
+      item.id === orderId ? { ...item, status: "취소완료" } : item,
     );
 
     localStorage.setItem("orders", JSON.stringify(updatedOrders));
 
-    setOrders(updatedOrders);
+    window.dispatchEvent(new Event("orders-updated"));
 
     router.push("/orders");
   }
 
-  useEffect(() => {
-    const savedOrders = localStorage.getItem("orders");
-
-    if (savedOrders) {
-      const parsedOrders: Order[] = JSON.parse(savedOrders);
-
-      setOrders(parsedOrders);
-    }
-
-    setLoading(false);
-  }, []);
-
-  const order = orders.find((order) => order.id === orderId);
-
-  console.log(order);
-
-  if (loading) {
+  if (!isReady) {
     return (
       <main>
         <h1>주문 상세</h1>
@@ -82,8 +64,6 @@ export default function OrderDetailPage() {
         <p>주문시간: {new Date(order.createdAt).toLocaleString("ko-KR")}</p>
         <p>주문상태: {order.status}</p>
 
-        <h2>주문 상품</h2>
-
         <button
           type="button"
           onClick={handleCancelOrder}
@@ -92,25 +72,17 @@ export default function OrderDetailPage() {
           주문 취소
         </button>
 
+        <h2>주문 상품</h2>
+
         <ul>
-          {order.items.map((item) => {
-            const product = products.find(
-              (product) => product.id === item.productId,
-            );
-
-            if (!product) return null;
-
-            return (
-              <li key={item.productId}>
-                <p>상품명: {product.name}</p>
-                <p>가격: {product.salePrice.toLocaleString()}원</p>
-                <p>수량: {item.quantity}</p>
-                <p>
-                  소계: {(product.salePrice * item.quantity).toLocaleString()}원
-                </p>
-              </li>
-            );
-          })}
+          {order.items.map((item) => (
+            <li key={item.productId}>
+              <p>상품명: {item.name}</p>
+              <p>가격: {item.price.toLocaleString()}원</p>
+              <p>수량: {item.quantity}</p>
+              <p>소계: {(item.price * item.quantity).toLocaleString()}원</p>
+            </li>
+          ))}
         </ul>
       </section>
     </main>

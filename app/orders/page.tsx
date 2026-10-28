@@ -1,26 +1,13 @@
 "use client";
 
-import { products } from "@/data/products";
-import { Order } from "@/types/order";
-import { useEffect, useState } from "react";
+import type { Order } from "@/types/order";
+import { useOrdersStorage } from "@/hooks/useOrdersStorage";
 import Link from "next/link";
 
 export default function OrdersPage() {
-  const [orders, setOrders] = useState<Order[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { orders, isReady } = useOrdersStorage();
 
-  useEffect(() => {
-    const savedOrders = localStorage.getItem("orders");
-
-    if (savedOrders) {
-      const parsedOrders: Order[] = JSON.parse(savedOrders);
-
-      setOrders(parsedOrders);
-    }
-
-    setLoading(false);
-  }, []);
-  if (loading) {
+  if (!isReady) {
     return (
       <main>
         <h1>주문 내역</h1>
@@ -36,7 +23,7 @@ export default function OrdersPage() {
       {orders.length === 0 ? (
         <p>주문 내역이 없습니다.</p>
       ) : (
-        [...orders].reverse().map((order) => (
+        [...orders].reverse().map((order: Order) => (
           <section key={order.id}>
             <p>주문번호: {order.id}</p>
             <p>이름: {order.name}</p>
@@ -48,27 +35,15 @@ export default function OrdersPage() {
             <Link href={`/orders/${order.id}`}>상세보기</Link>
 
             <h2>주문 상품</h2>
-
             <ul>
-              {order.items.map((item) => {
-                const product = products.find(
-                  (product) => product.id === item.productId,
-                );
-
-                if (!product) return null;
-
-                return (
-                  <li key={item.productId}>
-                    <p>상품명: {product.name}</p>
-                    <p>가격: {product.salePrice.toLocaleString()}원</p>
-                    <p>수량: {item.quantity}</p>
-                    <p>
-                      소계:{" "}
-                      {(product.salePrice * item.quantity).toLocaleString()}원
-                    </p>
-                  </li>
-                );
-              })}
+              {order.items.map((item) => (
+                <li key={item.productId}>
+                  <p>상품명: {item.name}</p>
+                  <p>가격: {item.price.toLocaleString()}원</p>
+                  <p>수량: {item.quantity}</p>
+                  <p>소계: {(item.price * item.quantity).toLocaleString()}원</p>
+                </li>
+              ))}
             </ul>
           </section>
         ))

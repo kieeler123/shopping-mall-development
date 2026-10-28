@@ -1,27 +1,19 @@
 "use client";
 
 import { products } from "@/data/products";
-import { CartItem } from "@/types/cart";
 import { Order } from "@/types/order";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useCartStorage } from "@/hooks/useCartStorage";
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const [cart, setCart] = useState<CartItem[]>([]);
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
 
-  useEffect(() => {
-    const savedCart = localStorage.getItem("cart");
-
-    if (savedCart) {
-      const parsedCart = JSON.parse(savedCart);
-      setCart(parsedCart);
-    }
-  }, []);
+  const cart = useCartStorage();
 
   const totalPrice = cart.reduce((total, item) => {
     const product = products.find((product) => product.id === item.productId);
@@ -36,13 +28,39 @@ export default function CheckoutPage() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (cart.length === 0) {
+      alert("장바구니가 비어 있습니다.");
+      return;
+    }
+
+    const orderItems: Order["items"] = [];
+
+    for (const item of cart) {
+      const product = products.find((product) => product.id === item.productId);
+
+      if (!product) {
+        alert("상품 정보를 찾을 수 없습니다.");
+        return;
+      }
+
+      orderItems.push({
+        productId: item.productId,
+        name: product.name,
+        price: product.salePrice,
+        quantity: item.quantity,
+      });
+    }
+
     const order: Order = {
       id: Date.now(),
       name,
       phone,
       address,
-      items: cart,
-      totalPrice,
+      items: orderItems,
+      totalPrice: orderItems.reduce(
+        (total, item) => total + item.price * item.quantity,
+        0,
+      ),
       createdAt: new Date().toISOString(),
       status: "결제완료",
     };
@@ -54,9 +72,10 @@ export default function CheckoutPage() {
     const updatedOrders: Order[] = [...parsedOrders, order];
 
     localStorage.setItem("orders", JSON.stringify(updatedOrders));
+    window.dispatchEvent(new Event("orders-updated"));
 
     localStorage.removeItem("cart");
-    setCart([]);
+    window.dispatchEvent(new Event("cart-updated"));
 
     router.push("/order-complete");
   };

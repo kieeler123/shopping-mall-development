@@ -6,7 +6,7 @@ export default function OrderItemList({ items }: { items: OrderItem[] }) {
       {items.map((item) => {
         return (
           <div
-            key={item.id}
+            key={item.productId}
             className="flex items-center justify-between rounded-lg bg-gray-50 p-4"
           >
             <div>

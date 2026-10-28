@@ -1,33 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCartStorage } from "@/hooks/useCartStorage";
 import { products } from "@/data/products";
 import type { CartItem } from "@/types/cart";
 import Link from "next/link";
 
 export default function CartPage() {
-  const [cart, setCart] = useState<CartItem[]>([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
-    const savedCart = localStorage.getItem("cart");
-
-    if (savedCart) {
-      const parsedCart: CartItem[] = JSON.parse(savedCart);
-
-      setCart(parsedCart);
-    }
-
-    setIsLoaded(true);
-  }, []);
-
-  useEffect(() => {
-    if (!isLoaded) {
-      return;
-    }
-
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart, isLoaded]);
+  const cart = useCartStorage();
 
   const totalPrice = cart.reduce((total, item) => {
     const product = products.find((product) => product.id === item.productId);
@@ -39,44 +18,36 @@ export default function CartPage() {
     return total + product.salePrice * item.quantity;
   }, 0);
 
+  const updateCart = (updatedCart: CartItem[]) => {
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    window.dispatchEvent(new Event("cart-updated"));
+  };
+
   const handleIncrease = (productId: number) => {
-    setCart((prev) =>
-      prev.map((item) =>
-        item.productId === productId
-          ? {
-              ...item,
-              quantity: Math.min(10, item.quantity + 1),
-            }
-          : item,
-      ),
+    const updatedCart = cart.map((item) =>
+      item.productId === productId
+        ? { ...item, quantity: Math.min(10, item.quantity + 1) }
+        : item,
     );
+
+    updateCart(updatedCart);
   };
 
   const handleDecrease = (productId: number) => {
-    setCart((prev) =>
-      prev.map((item) =>
-        item.productId === productId
-          ? {
-              ...item,
-              quantity: Math.max(1, item.quantity - 1),
-            }
-          : item,
-      ),
+    const updatedCart = cart.map((item) =>
+      item.productId === productId
+        ? { ...item, quantity: Math.max(1, item.quantity - 1) }
+        : item,
     );
+
+    updateCart(updatedCart);
   };
 
   const handleRemove = (productId: number) => {
-    setCart((prev) => prev.filter((item) => item.productId !== productId));
-  };
+    const updatedCart = cart.filter((item) => item.productId !== productId);
 
-  if (cart.length === 0) {
-    return (
-      <main>
-        <h1>장바구니</h1>
-        <p>장바구니가 비어 있습니다.</p>
-      </main>
-    );
-  }
+    updateCart(updatedCart);
+  };
 
   return (
     <main>

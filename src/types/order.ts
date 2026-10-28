@@ -7,7 +7,7 @@ export type OrderStatus =
   | "주문완료";
 
 export type OrderItem = {
-  id: number;
+  productId: number;
   name: string;
   price: number;
   quantity: number;
