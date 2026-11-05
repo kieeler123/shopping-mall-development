@@ -1,0 +1,784 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DAY 31 | Developer Learning Archive</title>
+<style>
+:root{color-scheme:dark;--bg:#080c1b;--panel:#11182c;--muted:#9eaccb;--line:rgba(255,255,255,.12);--aqua:#66f1e5;--violet:#aa88ff}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:#eff4ff;font:15px/1.75 "Segoe UI","Noto Sans",system-ui,sans-serif;background:radial-gradient(ellipse 900px 500px at 90% -5%,#44217b75,transparent),radial-gradient(ellipse 700px 500px at 0% 12%,#126b7d45,transparent),var(--bg)}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;background-image:linear-gradient(#fff1 1px,transparent 1px),linear-gradient(90deg,#fff1 1px,transparent 1px);background-size:45px 45px;mask-image:linear-gradient(to bottom,black,transparent 70%)}
+header{max-width:1480px;margin:auto;padding:54px 38px 40px;position:relative}.eyebrow{font-size:11px;letter-spacing:.22em;font-weight:800;color:var(--aqua);text-transform:uppercase}.hero{display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap}h1{font-size:clamp(38px,6vw,82px);letter-spacing:-.065em;line-height:1.04;margin:12px 0 16px;font-weight:850}.gradient{background:linear-gradient(95deg,#fff 5%,#a2d9ff 50%,#bb96ff);background-clip:text;color:transparent}.subtitle{font-size:17px;color:var(--muted);max-width:750px}.score{min-width:225px;padding:26px;border:1px solid #7de6e65a;background:linear-gradient(145deg,#173b51b0,#33235a90);border-radius:25px;box-shadow:0 20px 80px #14d8c31c}.score strong{font-size:68px;line-height:1;letter-spacing:-.08em}.score small{font-size:19px;color:#b6c7e1}.score .pass{color:#72f4b6;font-size:12px;font-weight:800;letter-spacing:.18em}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:35px}.stat{padding:17px 20px;background:#ffffff09;border:1px solid var(--line);border-radius:16px}.stat b{display:block;font-size:25px}.stat span{font-size:12px;color:var(--muted)}
+.shell{max-width:1480px;margin:auto;padding:0 38px 90px;display:grid;grid-template-columns:265px minmax(0,1fr);gap:28px;align-items:start}.sidebar{position:sticky;top:20px;border:1px solid var(--line);background:#0e1427e8;backdrop-filter:blur(20px);border-radius:22px;padding:20px;max-height:calc(100vh - 40px);overflow:auto}.sidebar h3{font-size:11px;letter-spacing:.16em;color:#a3b0cb;margin:0 0 15px}.navitem{width:100%;display:flex;align-items:center;gap:10px;background:none;color:#c3cde2;border:0;border-radius:10px;padding:11px 8px;text-align:left;cursor:pointer;font-size:12px}.navitem:hover,.navitem.active{background:linear-gradient(90deg,#5d58c444,#11b3a822);color:white}.navdot{width:7px;height:7px;background:#746bd0;border-radius:50%;flex-shrink:0}.navitem.active .navdot{background:var(--aqua);box-shadow:0 0 14px var(--aqua)}.arr{margin-left:auto;color:#7585a4}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.chip{background:#171f37;border:1px solid var(--line);color:#b7c5df;padding:10px 17px;border-radius:30px;cursor:pointer;font-weight:650}.chip:hover,.chip.active{color:#071324;background:linear-gradient(120deg,#77efe5,#a6baff);border-color:transparent}.doc{display:none;background:linear-gradient(155deg,#131b32f5,#0e1426f5);border:1px solid var(--line);border-radius:25px;overflow:hidden;box-shadow:0 20px 90px #0004}.doc.active{display:block;animation:appear .35s ease}@keyframes appear{from{opacity:.4;transform:translateY(8px)}to{opacity:1;transform:none}}.section-head{padding:35px 42px;background:linear-gradient(110deg,#236a7a33,#7b43bb36);border-bottom:1px solid var(--line)}.section-head h2{font-size:35px;letter-spacing:-.04em;margin:8px 0}.section-head p{color:var(--muted);margin:0}.markdown{padding:24px 42px 50px;overflow-wrap:anywhere}.markdown h1{font-size:28px;letter-spacing:-.04em;margin:22px 0}.markdown h2{font-size:21px;letter-spacing:-.02em;color:#b5f5ff;margin:38px 0 13px;padding-top:10px;border-top:1px solid var(--line)}.markdown h3{font-size:17px;color:#d9c5ff;margin:25px 0 8px}.markdown p,.markdown li{color:#d2dbec}.markdown strong{color:#fff}.markdown blockquote{margin:14px 0 28px;padding:12px 20px;border-left:3px solid var(--aqua);background:#5ee4da0d;border-radius:0 10px 10px 0}.markdown blockquote p{margin:0}.markdown pre{background:#070e1c;border:1px solid #354260;border-radius:14px;padding:20px;overflow-x:auto;box-shadow:inset 0 0 30px #0003}.markdown pre code{color:#b8e6ff;font-size:13px;line-height:1.7}.markdown code:not(pre code){background:#69e6e41a;color:#8df6e8;padding:2px 6px;border-radius:5px}.markdown table{border-collapse:collapse;width:100%;display:block;overflow:auto}.markdown th,.markdown td{border-bottom:1px solid #ffffff19;padding:11px 14px;text-align:left}.markdown th{color:#a8eaf6;background:#ffffff0b}.markdown ol,.markdown ul{padding-left:24px}.markdown li{margin:6px 0}footer{max-width:1480px;margin:auto;padding:0 38px 38px;color:#7d8eae;font-size:12px}.mobile-menu{display:none}
+@media(max-width:900px){header{padding:32px 20px}.shell{display:block;padding:0 16px 60px}.sidebar{position:relative;top:auto;max-height:230px;margin-bottom:20px}.stats{grid-template-columns:repeat(2,1fr)}.section-head,.markdown{padding-left:22px;padding-right:22px}.hero{align-items:flex-start}.score{min-width:200px}}
+@media print{body{background:white;color:#111}.sidebar,.toolbar{display:none}.shell{display:block}.doc{display:block!important;break-before:page;box-shadow:none;border:0}.markdown p,.markdown li{color:#222}.markdown h2{color:#18435c}.markdown pre{white-space:pre-wrap}.score{color:#111}}
+.difficulty-nav{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:17px}.difficulty-btn{background:#17233d;border:1px solid #53618a66;color:#bfcdf2;border-radius:999px;padding:9px 14px;font-weight:800;cursor:pointer;transition:.2s}.difficulty-btn.active,.difficulty-btn:hover{background:linear-gradient(120deg,#5b47b8,#168b9e);color:white;border-color:#8a9cf0;box-shadow:0 5px 22px #5a65e444}.quiz-meter{height:8px;background:#26324b;border-radius:20px;overflow:hidden;margin:10px 0 16px}.quiz-meter>div{height:100%;width:0;background:linear-gradient(90deg,#66f1e5,#aa88ff);transition:width .35s}.level-tag{display:inline-block;border-radius:8px;padding:2px 9px;margin-right:10px;font-size:11px;font-weight:900;letter-spacing:.08em;background:#3b3568;color:#e2d6ff}.level-easy{background:#123d3a;color:#83ffe4}.level-medium{background:#493b23;color:#ffd38a}.level-hard{background:#4a2943;color:#ffb3d8}@media(max-width:520px){.difficulty-btn{font-size:11px;padding:7px 10px}}.adaptive-panel{padding:22px;margin:20px 0;border:1px solid #65e9e866;border-radius:20px;background:linear-gradient(130deg,#14374799,#2d255a99);box-shadow:0 12px 38px #080d2055}.adaptive-head{display:flex;justify-content:space-between;gap:10px;align-items:center}.adaptive-head h3{margin:0;color:#a8fff0}.adaptive-head span{font-size:12px;color:#dac9ff}.adaptive-panel p{color:#bbcae4}.adaptive-chip{display:inline-flex;align-items:center;gap:8px;border:1px solid #7588b766;background:#111d35;padding:9px 12px;margin:5px;border-radius:12px;color:#e7edff;font-size:13px}.adaptive-chip strong{color:#ffb8c8}.adaptive-start{margin-top:12px;background:linear-gradient(100deg,#2a8e95,#6952c6)!important;color:white!important;font-weight:800}.adaptive-panel[hidden]{display:none}.growth-panel{margin:22px 0;padding:25px;border-radius:22px;border:1px solid #6ce8e54d;background:radial-gradient(ellipse at top right,#38458675,transparent 60%),linear-gradient(145deg,#101e39,#1d1b39);box-shadow:0 20px 50px #080d1f77}.growth-heading{display:flex;align-items:start;justify-content:space-between;gap:16px;flex-wrap:wrap}.growth-kicker{font-size:10px;letter-spacing:.22em;color:#6bf3e1;font-weight:900}.growth-heading h3{font-size:23px;margin:6px 0;color:#f1eaff}.growth-heading p,.growth-disclaimer{font-size:12px;color:#aebddb}.growth-pill{border:1px solid #8a88e277;border-radius:99px;padding:7px 12px;color:#d7d3ff;font-size:12px;font-weight:700}.growth-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:20px 0}.growth-stat{border:1px solid #ffffff19;border-radius:13px;background:#111b33b5;padding:14px}.growth-stat strong{display:block;font-size:23px;color:#a8fff0}.growth-stat span{font-size:11px;color:#aab8d4}.growth-chart-wrap{background:#0d1830a3;border:1px solid #ffffff16;border-radius:16px;padding:14px 12px}.growth-chart-title,.growth-topic-title{font-size:14px;color:#e5ecff;font-weight:800;margin:4px 0 12px}.growth-topic-title{margin:22px 0 10px}.growth-chart-wrap svg{display:block;width:100%;height:auto;max-height:270px}.growth-topic{display:grid;grid-template-columns:minmax(120px,1.6fr) minmax(100px,2fr) auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid #ffffff14;font-size:12px}.growth-topic-label{color:#e5e9fa}.growth-topic-track{height:9px;background:#2d3652;border-radius:12px;overflow:hidden}.growth-topic-fill{height:100%;border-radius:12px;background:linear-gradient(90deg,#5e9dff,#6bf3dd)}.growth-topic-note{color:#d1c4f6;white-space:nowrap}.growth-disclaimer{margin:15px 0 0}@media(max-width:560px){.growth-panel{padding:15px}.growth-stat{padding:9px}.growth-stat strong{font-size:18px}.growth-topic{grid-template-columns:1fr auto}.growth-topic-track{grid-column:1/-1;grid-row:2}.growth-topic-note{grid-column:2;grid-row:1}}.goal-panel{margin:20px 0;padding:18px 20px;border:1px solid #7f8fbd77;border-radius:17px;background:#101a31a6}.goal-heading{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}.goal-heading label{font-weight:850;color:#a7fff2}.goal-input-wrap{display:flex;align-items:center;gap:9px}.goal-input-wrap input{width:75px;background:#0b1529;border:1px solid #7b8cbd;border-radius:10px;padding:10px;color:white;font-size:17px;font-weight:800}.goal-input-wrap span{color:#aebcdd}.goal-input-wrap button{padding:9px 13px}.goal-meter{height:11px;background:#2c3856;border-radius:999px;margin:17px 0;overflow:hidden}.goal-meter span{display:block;height:100%;width:0;background:linear-gradient(90deg,#6aece0,#a78bfa);transition:width .35s}.goal-insights{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:10px}.goal-insight{background:#1a2945;border:1px solid #4b5c8466;border-radius:12px;padding:12px}.goal-insight strong{display:block;color:#e4faff;font-size:18px}.goal-insight span{display:block;color:#b6c6e5;font-size:11px;margin-top:5px}.goal-insight.note{grid-column:1/-1}.goal-insight.note strong{font-size:13px;color:#9cf5e8}.goal-panel .growth-disclaimer{margin-bottom:0}</style>
+<style id="premium-motion">
+:root{--pointer-x:50%;--pointer-y:25%}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(550px circle at var(--pointer-x) var(--pointer-y),rgba(94,225,255,.075),transparent 75%);transition:opacity .3s}
+header,.shell,footer{z-index:1;position:relative}
+.eyebrow{animation:glowText 5s ease-in-out infinite alternate}
+@keyframes glowText{to{text-shadow:0 0 22px rgba(102,241,229,.65)}}
+.score{position:relative;overflow:hidden;animation:floatScore 5s ease-in-out infinite;transition:transform .3s,box-shadow .3s}
+.score::after{content:"";position:absolute;inset:-100%;background:linear-gradient(110deg,transparent 43%,rgba(255,255,255,.13) 50%,transparent 57%);transform:translateX(-65%);animation:sheen 7s ease-in-out infinite}
+@keyframes sheen{0%,35%{transform:translateX(-65%)}70%,100%{transform:translateX(65%)}}
+@keyframes floatScore{50%{transform:translateY(-7px)}}
+.stat{transition:transform .25s,border-color .25s,box-shadow .25s}
+.stat:hover{transform:translateY(-5px);border-color:#66f1e56b;box-shadow:0 15px 40px #0005}
+.doc.active{animation:premiumIn .48s cubic-bezier(.2,.8,.2,1)}
+@keyframes premiumIn{from{opacity:0;transform:translateY(17px) scale(.992);filter:blur(4px)}to{opacity:1;transform:none;filter:none}}
+.chip,.navitem{transition:transform .2s,background .25s,box-shadow .25s}
+.chip:hover,.navitem:hover{transform:translateY(-2px)}
+.chip.active{box-shadow:0 5px 25px #66f1e533}
+#reading-progress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,#5af7e4,#9b8bff,#ff84c2);z-index:999;box-shadow:0 0 16px #66f1e5}
+#toast{position:fixed;right:24px;bottom:25px;padding:13px 18px;background:#1d3045;border:1px solid #5ce6d777;color:#efffff;border-radius:12px;box-shadow:0 15px 55px #0008;z-index:999;opacity:0;transform:translateY(12px);pointer-events:none;transition:.25s}
+#toast.show{opacity:1;transform:translateY(0)}
+.codewrap{position:relative}
+.copy-code{position:absolute;right:12px;top:12px;z-index:2;background:#273750;color:#c5f7f4;border:1px solid #ffffff33;border-radius:9px;padding:6px 12px;font-size:12px;cursor:pointer}
+.copy-code:hover{background:#37606a}
+.quick-help{font-size:12px;color:#a5b5d5;margin:0 0 15px}
+kbd{border:1px solid #66728c;border-radius:5px;padding:1px 5px;background:#ffffff0c}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media print{#reading-progress,#toast,.copy-code,.quick-help{display:none!important}}
+</style>
+
+<style id="learning-lab-style">
+.lab{margin:22px 0 24px;border:1px solid #7d8cff55;border-radius:24px;padding:26px;background:linear-gradient(135deg,#172a48ed,#261c48e8 55%,#102f3de8);box-shadow:0 18px 70px #060b23aa;position:relative;overflow:hidden}
+.lab:before{content:"";position:absolute;width:300px;height:300px;right:-130px;top:-160px;background:#a66dff44;filter:blur(65px);pointer-events:none}
+.lab>*{position:relative}.lab-top{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}.lab-tag{color:#72eee2;font-size:11px;font-weight:800;letter-spacing:.18em}.lab h2{font-size:clamp(22px,3vw,30px);margin:5px 0;color:#f6f2ff}.lab-sub{color:#b9c9e6;margin:0 0 20px}.lab-stats{display:flex;gap:12px;flex-wrap:wrap}.lab-metric{background:#0b1328a8;border:1px solid #ffffff24;border-radius:14px;padding:10px 16px;min-width:110px}.lab-metric b{display:block;font-size:22px;color:#a6fff2}.lab-metric small{color:#b9c7e4}.lab-meter{height:10px;background:#070d20;border-radius:30px;overflow:hidden;margin:18px 0 22px}.lab-meter span{display:block;width:0;height:100%;background:linear-gradient(90deg,#64f4dc,#9185ff,#e18bff);border-radius:30px;transition:width .45s}
+.lab-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}.lab-tab{background:#ffffff0c;border:1px solid #ffffff30;border-radius:12px;padding:10px 16px;color:#d5def3;cursor:pointer;font-weight:700}.lab-tab[aria-selected=true]{background:linear-gradient(110deg,#74eedd,#a89bff);color:#0a142b;border-color:transparent}
+.lab-pane[hidden]{display:none}.task-list{display:grid;gap:9px}.task{display:flex;align-items:flex-start;gap:12px;padding:13px 15px;border:1px solid #ffffff20;background:#090f24a8;border-radius:13px;cursor:pointer}.task:hover{border-color:#80eddf88}.task input{accent-color:#6af1d9;width:19px;height:19px;margin-top:3px;flex-shrink:0}.task span{line-height:1.5}.task:has(input:checked){background:#1a4c4b6b}.task:has(input:checked) span{text-decoration:line-through;color:#a9c6c9}
+.lab-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.lab-btn{padding:10px 15px;border:1px solid #93c9e477;border-radius:11px;background:#152a44;color:#d7f7ff;cursor:pointer;font-weight:700}.lab-btn.primary{background:linear-gradient(100deg,#6ff0df,#a69cff);color:#0b1730;border:0}.lab-btn:disabled{opacity:.45;cursor:not-allowed}
+.quiz-q{font-size:17px;font-weight:750;color:#fff;margin:0 0 15px}.quiz-options{display:grid;gap:10px}.quiz-option{display:flex;gap:11px;align-items:flex-start;border:1px solid #ffffff2b;background:#0a1328a6;border-radius:12px;padding:12px;cursor:pointer}.quiz-option:has(input:checked){border-color:#77ebdc;background:#2b586244}.quiz-option input{accent-color:#71efde;margin-top:5px}.quiz-feedback{margin-top:14px;padding:13px;border-radius:12px;background:#152b44;border:1px solid #91a8e255;color:#d8e8fa}.quiz-feedback.good{border-color:#6cf0b6}.quiz-feedback.bad{border-color:#f1a07f}.quiz-count{color:#93a7ce;font-size:12px;letter-spacing:.1em;margin-bottom:8px}.quiz-result{padding:14px;border:1px solid #70efcf88;background:#13454155;border-radius:12px;margin-top:14px}.lab-note{font-size:12px;color:#9db1d0;margin-top:15px}
+@media(max-width:650px){.lab{padding:18px}.lab-metric{min-width:90px}.lab-tabs{display:grid;grid-template-columns:1fr 1fr}}
+@media(prefers-reduced-motion:reduce){.lab-meter span{transition:none}}
+</style>
+<style>
+.diagnostic{margin-top:22px;border:1px solid #6c7ba455;background:linear-gradient(140deg,#172641ee,#1d1a3aee);padding:20px;border-radius:20px;color:#e5edff}
+.diag-head{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}.diag-head h3{margin:0;font-size:20px;background:linear-gradient(90deg,#7ff9e8,#c9a4ff);color:transparent;background-clip:text}.diag-actions{display:flex;gap:8px;flex-wrap:wrap}.diag-actions .lab-btn{font-size:12px;padding:8px 12px}.diag-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:18px 0}.diag-stat{padding:14px;background:#111c34;border:1px solid #ffffff18;border-radius:14px}.diag-stat strong{display:block;font-size:23px;color:#80f5e6}.diag-stat span{font-size:12px;color:#c2cfe8}.diag-topics{display:grid;gap:12px;margin-bottom:20px}.diag-topic{padding:14px;border:1px solid #ffffff20;background:#101b32;border-radius:14px}.diag-topic-head{display:flex;justify-content:space-between;gap:10px;font-size:13px;font-weight:700}.diag-bar{height:7px;background:#303958;border-radius:20px;overflow:hidden;margin:10px 0}.diag-bar span{display:block;height:100%;background:linear-gradient(90deg,#ec7299,#ffbf70);border-radius:20px}.diag-tip{font-size:12px;color:#c1d2eb;line-height:1.7}.diag-wrong{display:grid;gap:12px}.wrong-card{background:#101b32;border:1px solid #ff9ab047;border-radius:14px;padding:14px}.wrong-card h5{margin:0 0 9px;font-size:14px;color:#f0e7ff}.wrong-card p{margin:5px 0;font-size:12px;line-height:1.7;color:#c9d6ef}.wrong-card .wrong-choice{color:#ffb6c5}.wrong-card .right-choice{color:#7cf0d9}.diag-empty{font-size:13px;color:#b9c8e2;padding:14px 0}
+</style></head><body><div id="reading-progress" aria-hidden="true"></div><div id="toast" role="status" aria-live="polite"></div>
+<header><span class="eyebrow">DEVELOPER LEARNING ARCHIVE / NEXT.JS + TYPESCRIPT</span>
+<div class="hero"><div><h1><span class="gradient">DAY 31</span><br>THE FULL COLLECTION</h1><p class="subtitle">Server / Client Boundaries · Order Data Flow · Architecture Review<br>한국어 · 日本語 · English — 12 curated learning documents</p></div>
+<div class="score"><div class="pass">● LEARNING COMPLETE</div><div><strong>94</strong><small> / 100</small></div><div style="color:#9cb0ce;margin-top:8px">20 + 50 + 24 · PASS</div></div></div>
+<div class="stats"><div class="stat"><b>12</b><span>DOCUMENTS</span></div><div class="stat"><b>03</b><span>LANGUAGES</span></div><div class="stat"><b>04</b><span>COLLECTIONS</span></div><div class="stat"><b>120m</b><span>PLANNED STUDY</span></div></div></header>
+<div class="shell"><aside class="sidebar"><h3>EXPLORE THE COLLECTION</h3><button class="navitem" data-target="ko-summary"><span class="navdot"></span><span>한국어 · 총정리</span><span class="arr">↗</span></button><button class="navitem" data-target="ko-qa"><span class="navdot"></span><span>한국어 · 문제·답변</span><span class="arr">↗</span></button><button class="navitem" data-target="ko-coding"><span class="navdot"></span><span>한국어 · 코딩 테스트</span><span class="arr">↗</span></button><button class="navitem" data-target="ko-log"><span class="navdot"></span><span>한국어 · 학습 기록</span><span class="arr">↗</span></button><button class="navitem" data-target="ja-summary"><span class="navdot"></span><span>日本語 · 総まとめ</span><span class="arr">↗</span></button><button class="navitem" data-target="ja-qa"><span class="navdot"></span><span>日本語 · 問題・解答</span><span class="arr">↗</span></button><button class="navitem" data-target="ja-coding"><span class="navdot"></span><span>日本語 · コーディングテスト</span><span class="arr">↗</span></button><button class="navitem" data-target="ja-log"><span class="navdot"></span><span>日本語 · 学習記録</span><span class="arr">↗</span></button><button class="navitem" data-target="en-summary"><span class="navdot"></span><span>English · Complete Review</span><span class="arr">↗</span></button><button class="navitem" data-target="en-qa"><span class="navdot"></span><span>English · Questions &amp; Answers</span><span class="arr">↗</span></button><button class="navitem" data-target="en-coding"><span class="navdot"></span><span>English · Coding Challenge</span><span class="arr">↗</span></button><button class="navitem" data-target="en-log"><span class="navdot"></span><span>English · Learning Log</span><span class="arr">↗</span></button></aside><main>
+<section class="lab" id="learning-lab" aria-label="Interactive learning lab">
+ <div class="lab-top"><div><div class="lab-tag">✦ INTERACTIVE LEARNING LAB</div><h2 id="lab-heading">학습 진도 & 실전 퀴즈</h2></div><div class="lab-stats"><div class="lab-metric"><b id="task-count">0 / 8</b><small id="task-caption">체크리스트</small></div><div class="lab-metric"><b id="quiz-best">—</b><small id="quiz-caption">최고 퀴즈 점수</small></div></div></div>
+ <p class="lab-sub" id="lab-intro">오늘 배운 내용을 체크하고, 퀴즈로 이해도를 확인하세요. 진행 상황은 이 브라우저에 저장됩니다.</p>
+ <div class="lab-meter" role="progressbar" aria-label="Study checklist progress" aria-valuemin="0" aria-valuemax="8" aria-valuenow="0" id="lab-progress"><span id="lab-fill"></span></div>
+ <div class="lab-tabs" role="tablist" aria-label="Learning activities"><button type="button" class="lab-tab" role="tab" aria-selected="true" aria-controls="lab-checks" id="tab-checks">✓ 학습 체크</button><button type="button" class="lab-tab" role="tab" aria-selected="false" aria-controls="lab-quiz" id="tab-quiz">⚡ 실전 퀴즈</button></div>
+ <div class="lab-pane" id="lab-checks" role="tabpanel" aria-labelledby="tab-checks"><div class="task-list" id="lab-task-list"></div><div class="lab-actions"><button type="button" class="lab-btn" id="reset-tasks">체크 초기화</button></div></div>
+ <div class="lab-pane" id="lab-quiz" role="tabpanel" aria-labelledby="tab-quiz" hidden><div class="difficulty-nav" id="difficulty-nav"><button type="button" class="difficulty-btn active" data-level="all">ALL · 20</button><button type="button" class="difficulty-btn" data-level="easy">01 · EASY · 7</button><button type="button" class="difficulty-btn" data-level="medium">02 · MEDIUM · 7</button><button type="button" class="difficulty-btn" data-level="hard">03 · HARD · 6</button></div><div class="quiz-meter"><div id="quiz-meter-fill"></div></div><div class="quiz-count" id="quiz-count"></div><div class="quiz-q" id="quiz-question"></div><div class="quiz-options" id="quiz-options"></div><div class="quiz-feedback" id="quiz-feedback" role="status" hidden></div><div class="lab-actions"><button type="button" class="lab-btn primary" id="quiz-submit">정답 확인</button><button type="button" class="lab-btn" id="quiz-next" hidden>다음 문제 →</button><button type="button" class="lab-btn" id="quiz-restart">다시 풀기</button></div><div class="quiz-result" id="quiz-result" hidden></div>
+<div class="diagnostic" id="diagnostic">
+ <div class="diag-head"><h3 id="diag-title">성적 분석 · 오답노트</h3><div class="diag-actions"><button type="button" class="lab-btn" id="retry-wrong">오답만 다시 풀기</button><button type="button" class="lab-btn" id="clear-history">분석 기록 초기화</button></div></div>
+ <div id="diag-summary" class="diag-summary"></div><div class="growth-panel" id="growth-panel"><div class="growth-heading"><div><span class="growth-kicker">LEARNING GROWTH</span><h3 id="growth-title">학습 성장 분석</h3><p id="growth-subtitle"></p></div><span class="growth-pill" id="growth-status"></span></div><div class="goal-panel"><div class="goal-heading"><label for="goal-target" id="goal-label">목표 정답률</label><div class="goal-input-wrap"><input type="number" id="goal-target" min="50" max="100" step="5" value="90" aria-label="Target accuracy percentage"><span>%</span><button type="button" id="goal-save" class="lab-btn">목표 저장</button></div></div><div class="goal-meter" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="goal-meter"><span id="goal-meter-fill"></span></div><div class="goal-insights" id="goal-insights" aria-live="polite"></div><p id="goal-method" class="growth-disclaimer"></p></div><div class="growth-stats" id="growth-stats"></div><div class="growth-chart-wrap"><div class="growth-chart-title" id="growth-chart-title"></div><svg id="growth-chart" viewBox="0 0 720 245" role="img" aria-label="Quiz accuracy over time" preserveAspectRatio="xMidYMid meet"></svg></div><div class="growth-topic-title" id="growth-topic-title"></div><div class="growth-topics" id="growth-topics"></div><p class="growth-disclaimer" id="growth-disclaimer"></p></div><div class="adaptive-panel" id="adaptive-panel"><div class="adaptive-head"><h3 id="adaptive-title">맞춤 추가 문제 추천</h3><span id="adaptive-count"></span></div><p id="adaptive-description"></p><div id="adaptive-recommendations"></div><button type="button" class="lab-btn adaptive-start" id="adaptive-start">추천 문제 풀기</button></div><div id="diag-topics" class="diag-topics"></div>
+ <h4 id="diag-wrong-title">오답노트</h4><div id="diag-wrong" class="diag-wrong"></div>
+</div></div>
+ <p class="lab-note" id="lab-note">* 이 퀴즈는 추가 복습용입니다. Day 31 공식 평가 94/100점과는 별개입니다.</p>
+</section>
+<div class="toolbar" id="langs"><button class="chip active" data-lang="ko">한국어</button><button class="chip" data-lang="ja">日本語</button><button class="chip" data-lang="en">English</button></div><div class="toolbar" id="kinds"><button class="chip active" data-kind="summary">01 / Overview</button><button class="chip" data-kind="qa">02 / Q&amp;A</button><button class="chip" data-kind="coding">03 / Coding</button><button class="chip" data-kind="log">04 / Log</button></div><section class="doc" data-lang="ko" data-kind="summary" id="ko-summary"><div class="section-head"><span class="eyebrow">DAY 31 / 한국어 / 총정리</span><h2>총정리</h2><p>기존 프로젝트 점검과 Server / Client 구분</p></div><article class="markdown"><h1>Day 31 — 총정리</h1>
+<blockquote>
+<p>기존 프로젝트 점검과 Server / Client 구분</p>
+</blockquote>
+<p><strong>학습일:</strong> 2026-11-05  |  <strong>계획 학습 시간:</strong> 120 min  |  <strong>Score:</strong> 94/100 (PASS)</p>
+<h2>학습 목표</h2>
+<p>Next.js App Router의 컴포넌트 경계와 쇼핑몰 주문 데이터 흐름을 이해한다.</p>
+<h2>핵심 개념</h2>
+<h3>Server Component</h3>
+<p>서버 데이터 접근과 렌더링. App Router의 기본 컴포넌트 유형.</p>
+<h3>Client Component</h3>
+<p>&quot;use client&quot; 경계. 이벤트·React 상태·브라우저 API 사용.</p>
+<h3>Route Handler</h3>
+<p>app/api/**/route.ts에서 GET·POST·PATCH 요청 처리.</p>
+<h3>useSyncExternalStore</h3>
+<p>외부 저장소 구독과 SSR/하이드레이션 스냅샷 관리.</p>
+<h2>파일별 책임</h2>
+<ul>
+<li><code>app/cart/page.tsx</code></li>
+<li><code>app/checkout/page.tsx</code></li>
+<li><code>app/order-complete/page.tsx</code></li>
+<li><code>app/orders/page.tsx</code></li>
+<li><code>app/orders/[id]/page.tsx</code></li>
+<li><code>src/hooks/useCartStorage.ts</code></li>
+<li><code>src/hooks/useOrdersStorage.ts</code></li>
+<li><code>app/admin/orders/hooks/useOrders.ts</code></li>
+</ul>
+<h2>주문 데이터 흐름</h2>
+<ol>
+<li>상품 데이터(products.ts) 확인</li>
+<li>장바구니 localStorage[&quot;cart&quot;] 읽기</li>
+<li>체크아웃에서 name·price·quantity 주문 스냅샷 생성</li>
+<li>localStorage[&quot;orders&quot;] 저장 및 orders-updated 알림</li>
+<li>장바구니 삭제 및 cart-updated 알림</li>
+<li>주문 완료 페이지로 이동</li>
+<li>주문 목록·상세에서 조회 및 취소</li>
+</ol>
+<h2>발견 사항</h2>
+<p>관리자 API Route Handler 두 개가 존재하지 않으며, 사용자 주문은 브라우저 localStorage에 저장됩니다.</p>
+<h2>개선 과제</h2>
+<ul>
+<li>관리자 API 및 공통 서버 저장소 설계</li>
+<li>주문 ID로 완료 페이지 조회</li>
+<li>체크아웃 JSON 파싱 예외 처리</li>
+<li>장바구니 준비 상태 분리</li>
+<li>서버 측 권한·주문 상태 검증</li>
+</ul>
+</article></section><section class="doc" data-lang="ko" data-kind="qa" id="ko-qa"><div class="section-head"><span class="eyebrow">DAY 31 / 한국어 / 문제·답변</span><h2>문제·답변</h2><p>기존 프로젝트 점검과 Server / Client 구분</p></div><article class="markdown"><h1>Day 31 — 문제·답변</h1>
+<blockquote>
+<p>기존 프로젝트 점검과 Server / Client 구분</p>
+</blockquote>
+<p><strong>학습일:</strong> 2026-11-05  |  <strong>계획 학습 시간:</strong> 120 min  |  <strong>Score:</strong> 94/100 (PASS)</p>
+<h2>1. Route Handler와 Client Component의 차이는?</h2>
+<p>정답 B: Route Handler는 HTTP 요청·응답을 처리하고 Client Component는 사용자 상호작용을 담당한다. 실제 제출 정답 B, 20/20점.</p>
+<h2>2. 서버에서 localStorage를 읽으면 왜 안 되는가?</h2>
+<p>서버에는 브라우저 localStorage가 존재하지 않는다.</p>
+<h2>3. &quot;use client&quot;면 모든 코드가 브라우저에서만 실행되는가?</h2>
+<p>아니다. 초기 서버 프리렌더링이 가능하므로 렌더링 중 브라우저 API 접근에 주의한다.</p>
+<h2>4. useSyncExternalStore의 목적은?</h2>
+<p>외부 저장소 구독 및 서버/클라이언트 스냅샷 관리.</p>
+<h2>5. 주문 스냅샷이 필요한 이유는?</h2>
+<p>상품명과 가격이 나중에 바뀌어도 주문 당시 정보를 보존하기 위해서다.</p>
+<h2>6. storage 이벤트가 같은 문서에서 발생하는가?</h2>
+<p>변경을 수행한 문서에는 발생하지 않는다. 별도 사용자 정의 이벤트를 활용한다.</p>
+<h2>7. 관리자 주문과 사용자 주문은 연결되어 있는가?</h2>
+<p>현재 확인한 코드에서는 연결되어 있지 않다. 관리자 API 경로 파일도 없다.</p>
+<h2>8. 주문 완료 페이지의 한계는?</h2>
+<p>orders[orders.length - 1]은 마지막 저장 주문이지 반드시 방금 완료한 주문은 아니다.</p>
+<p><strong>Tip / 팁 / コツ:</strong> 실행 위치와 데이터 저장 위치를 먼저 확인하세요.</p>
+</article></section><section class="doc" data-lang="ko" data-kind="coding" id="ko-coding"><div class="section-head"><span class="eyebrow">DAY 31 / 한국어 / 코딩 테스트</span><h2>코딩 테스트</h2><p>기존 프로젝트 점검과 Server / Client 구분</p></div><article class="markdown"><h1>Day 31 — 코딩 테스트</h1>
+<blockquote>
+<p>기존 프로젝트 점검과 Server / Client 구분</p>
+</blockquote>
+<p><strong>학습일:</strong> 2026-11-05  |  <strong>계획 학습 시간:</strong> 120 min  |  <strong>Score:</strong> 94/100 (PASS)</p>
+<h2>문제</h2>
+<pre><code class="language-tsx">export default function CartPage() {
+  const cart = JSON.parse(localStorage.getItem(&quot;cart&quot;) ?? &quot;[]&quot;);
+  return &lt;p&gt;상품 종류: {cart.length}&lt;/p&gt;;
+}
+</code></pre>
+<h2>요구사항</h2>
+<ul>
+<li>&quot;use client&quot; 선언</li>
+<li>기존 useCartStorage Hook 재사용</li>
+<li>렌더링 중 localStorage 직접 접근 금지</li>
+<li>SSR·하이드레이션 고려</li>
+</ul>
+<h2>제출한 코드</h2>
+<pre><code class="language-tsx">&quot;use client&quot;;
+
+import { useCartStorage } from &quot;@/hooks/useCartStorage&quot;;
+import { CartItem } from &quot;@/types/cart&quot;;
+
+export default function CartPage() {
+  const cart = useCartStorage();
+  const updateCart = (updatedCart: CartItem[]) =&gt; {
+    localStorage.setItem(&quot;cart&quot;, JSON.stringify(updatedCart));
+    window.dispatchEvent(new Event(&quot;cart-updated&quot;));
+    updateCart(updatedCart);
+  };
+
+  return &lt;p&gt;상품 종류: {cart.length}&lt;/p&gt;;
+}
+</code></pre>
+<h2>채점 및 피드백</h2>
+<p><strong>24 / 30</strong> — 5/5 + 10/10 + 5/5 + 4/10</p>
+<p>사용하지 않는 updateCart 함수가 자기 자신을 종료 조건 없이 호출한다. 현재 호출되지 않아 즉시 오류는 발생하지 않지만, 호출 시 스택 초과가 발생할 수 있다. 미사용 함수와 import도 제거한다.</p>
+<h2>수정된 정답</h2>
+<pre><code class="language-tsx">&quot;use client&quot;;
+
+import { useCartStorage } from &quot;@/hooks/useCartStorage&quot;;
+
+export default function CartPage() {
+  const cart = useCartStorage();
+
+  return &lt;p&gt;상품 종류: {cart.length}&lt;/p&gt;;
+}
+</code></pre>
+<p>실행 위치와 데이터 저장 위치를 먼저 확인하세요.</p>
+</article></section><section class="doc" data-lang="ko" data-kind="log" id="ko-log"><div class="section-head"><span class="eyebrow">DAY 31 / 한국어 / 학습 기록</span><h2>학습 기록</h2><p>기존 프로젝트 점검과 Server / Client 구분</p></div><article class="markdown"><h1>Day 31 — 학습 기록</h1>
+<blockquote>
+<p>기존 프로젝트 점검과 Server / Client 구분</p>
+</blockquote>
+<p><strong>학습일:</strong> 2026-11-05  |  <strong>계획 학습 시간:</strong> 120 min  |  <strong>Score:</strong> 94/100 (PASS)</p>
+<h2>수행한 학습</h2>
+<ul>
+<li><p>상품 데이터(products.ts) 확인</p>
+</li>
+<li><p>장바구니 localStorage[&quot;cart&quot;] 읽기</p>
+</li>
+<li><p>체크아웃에서 name·price·quantity 주문 스냅샷 생성</p>
+</li>
+<li><p>localStorage[&quot;orders&quot;] 저장 및 orders-updated 알림</p>
+</li>
+<li><p>장바구니 삭제 및 cart-updated 알림</p>
+</li>
+<li><p>주문 완료 페이지로 이동</p>
+</li>
+<li><p>주문 목록·상세에서 조회 및 취소</p>
+</li>
+<li><p>16 files checked: 14 present, 2 missing</p>
+</li>
+<li><p>Multiple choice: B, 20/20</p>
+</li>
+<li><p>Project analysis: 50/50</p>
+</li>
+<li><p>Coding challenge: 24/30</p>
+</li>
+</ul>
+<h2>검사 기록</h2>
+<pre><code class="language-powershell">npx tsc --noEmit
+npx eslint .
+</code></pre>
+<p>터미널 스크린샷상 오류·경고 출력 없이 프롬프트로 복귀했다. 종료 코드는 별도 확인하지 않았고, 브라우저 전체 기능 테스트는 수행하지 않았다.</p>
+<h2>발견 사항</h2>
+<p>관리자 API Route Handler 두 개가 존재하지 않으며, 사용자 주문은 브라우저 localStorage에 저장됩니다.</p>
+<h2>학습 성찰</h2>
+<p>서버 API와 브라우저 저장소는 자동으로 연결되지 않습니다.</p>
+<p>실행 위치와 데이터 저장 위치를 먼저 확인하세요.</p>
+</article></section><section class="doc" data-lang="ja" data-kind="summary" id="ja-summary"><div class="section-head"><span class="eyebrow">DAY 31 / 日本語 / 総まとめ</span><h2>総まとめ</h2><p>既存プロジェクトの点検とServer / Clientの区別</p></div><article class="markdown"><h1>Day 31 — 総まとめ</h1>
+<blockquote>
+<p>既存プロジェクトの点検とServer / Clientの区別</p>
+</blockquote>
+<p><strong>学習日:</strong> 2026-11-05  |  <strong>予定学習時間:</strong> 120 min  |  <strong>Score:</strong> 94/100 (PASS)</p>
+<h2>学習目標</h2>
+<p>Next.js App Routerのコンポーネント境界とECサイトの注文データフローを理解する。</p>
+<h2>重要な概念</h2>
+<h3>Server Component</h3>
+<p>サーバー側のデータ取得とレンダリング。App Routerの既定。</p>
+<h3>Client Component</h3>
+<p>&quot;use client&quot;境界。イベント、Reactの状態、ブラウザAPIを扱う。</p>
+<h3>Route Handler</h3>
+<p>app/api/**/route.tsでGET・POST・PATCHを処理。</p>
+<h3>useSyncExternalStore</h3>
+<p>外部ストアを購読し、SSRとハイドレーションのスナップショットを管理。</p>
+<h2>ファイル別の責務</h2>
+<ul>
+<li><code>app/cart/page.tsx</code></li>
+<li><code>app/checkout/page.tsx</code></li>
+<li><code>app/order-complete/page.tsx</code></li>
+<li><code>app/orders/page.tsx</code></li>
+<li><code>app/orders/[id]/page.tsx</code></li>
+<li><code>src/hooks/useCartStorage.ts</code></li>
+<li><code>src/hooks/useOrdersStorage.ts</code></li>
+<li><code>app/admin/orders/hooks/useOrders.ts</code></li>
+</ul>
+<h2>注文データの流れ</h2>
+<ol>
+<li>商品データ(products.ts)を参照</li>
+<li>カートをlocalStorage[&quot;cart&quot;]から取得</li>
+<li>チェックアウトでname・price・quantityのスナップショットを作成</li>
+<li>localStorage[&quot;orders&quot;]へ保存しorders-updatedを通知</li>
+<li>カートを削除してcart-updatedを通知</li>
+<li>注文完了ページへ遷移</li>
+<li>注文履歴・詳細の表示とキャンセル</li>
+</ol>
+<h2>発見した課題</h2>
+<p>管理者APIのRoute Handlerが2件存在せず、ユーザーの注文はブラウザのlocalStorageに保存されます。</p>
+<h2>改善項目</h2>
+<ul>
+<li>管理者APIと共通サーバーストレージの設計</li>
+<li>注文IDによる完了ページの表示</li>
+<li>チェックアウト時のJSON例外処理</li>
+<li>カートの読み込み状態の明確化</li>
+<li>サーバー側の権限と注文状態の検証</li>
+</ul>
+</article></section><section class="doc" data-lang="ja" data-kind="qa" id="ja-qa"><div class="section-head"><span class="eyebrow">DAY 31 / 日本語 / 問題・解答</span><h2>問題・解答</h2><p>既存プロジェクトの点検とServer / Clientの区別</p></div><article class="markdown"><h1>Day 31 — 問題・解答</h1>
+<blockquote>
+<p>既存プロジェクトの点検とServer / Clientの区別</p>
+</blockquote>
+<p><strong>学習日:</strong> 2026-11-05  |  <strong>予定学習時間:</strong> 120 min  |  <strong>Score:</strong> 94/100 (PASS)</p>
+<h2>1. Route HandlerとClient Componentの違いは？</h2>
+<p>正解B：Route HandlerはHTTPリクエストを処理し、Client Componentはユーザー操作を担当。提出解答B、20/20点。</p>
+<h2>2. サーバーでlocalStorageを読めない理由は？</h2>
+<p>サーバー環境にブラウザのlocalStorageが存在しないため。</p>
+<h2>3. &quot;use client&quot;ならブラウザだけで実行される？</h2>
+<p>いいえ。初期HTMLがサーバーでレンダリングされる場合もある。</p>
+<h2>4. useSyncExternalStoreの目的は？</h2>
+<p>外部ストアの購読とサーバー／クライアントのスナップショット管理。</p>
+<h2>5. 注文スナップショットが必要な理由は？</h2>
+<p>商品情報の変更後も購入時の名前や価格を保持するため。</p>
+<h2>6. storageイベントは変更元の文書にも届く？</h2>
+<p>届かないため、独自イベントを併用する。</p>
+<h2>7. 管理者とユーザーの注文データは連携している？</h2>
+<p>確認した実装では未連携。管理者APIのファイルも存在しない。</p>
+<h2>8. 注文完了ページの課題は？</h2>
+<p>配列の最後の注文は必ずしも直前に完了した注文ではない。</p>
+<p><strong>Tip / 팁 / コツ:</strong> 実行環境とデータの保存場所を先に確認しましょう。</p>
+</article></section><section class="doc" data-lang="ja" data-kind="coding" id="ja-coding"><div class="section-head"><span class="eyebrow">DAY 31 / 日本語 / コーディングテスト</span><h2>コーディングテスト</h2><p>既存プロジェクトの点検とServer / Clientの区別</p></div><article class="markdown"><h1>Day 31 — コーディングテスト</h1>
+<blockquote>
+<p>既存プロジェクトの点検とServer / Clientの区別</p>
+</blockquote>
+<p><strong>学習日:</strong> 2026-11-05  |  <strong>予定学習時間:</strong> 120 min  |  <strong>Score:</strong> 94/100 (PASS)</p>
+<h2>問題</h2>
+<pre><code class="language-tsx">export default function CartPage() {
+  const cart = JSON.parse(localStorage.getItem(&quot;cart&quot;) ?? &quot;[]&quot;);
+  return &lt;p&gt;상품 종류: {cart.length}&lt;/p&gt;;
+}
+</code></pre>
+<h2>要件</h2>
+<ul>
+<li>&quot;use client&quot;を宣言</li>
+<li>既存のuseCartStorage Hookを再利用</li>
+<li>レンダリング中にlocalStorageを直接読まない</li>
+<li>SSR・ハイドレーションを考慮</li>
+</ul>
+<h2>提出コード</h2>
+<pre><code class="language-tsx">&quot;use client&quot;;
+
+import { useCartStorage } from &quot;@/hooks/useCartStorage&quot;;
+import { CartItem } from &quot;@/types/cart&quot;;
+
+export default function CartPage() {
+  const cart = useCartStorage();
+  const updateCart = (updatedCart: CartItem[]) =&gt; {
+    localStorage.setItem(&quot;cart&quot;, JSON.stringify(updatedCart));
+    window.dispatchEvent(new Event(&quot;cart-updated&quot;));
+    updateCart(updatedCart);
+  };
+
+  return &lt;p&gt;상품 종류: {cart.length}&lt;/p&gt;;
+}
+</code></pre>
+<h2>採点とフィードバック</h2>
+<p><strong>24 / 30</strong> — 5/5 + 10/10 + 5/5 + 4/10</p>
+<p>未使用のupdateCart関数が終了条件なしで自分自身を呼び出す。現在は呼び出されないため直ちにエラーにはならないが、実行するとスタックオーバーフローにつながる。未使用の関数とimportも削除する。</p>
+<h2>修正後のコード</h2>
+<pre><code class="language-tsx">&quot;use client&quot;;
+
+import { useCartStorage } from &quot;@/hooks/useCartStorage&quot;;
+
+export default function CartPage() {
+  const cart = useCartStorage();
+
+  return &lt;p&gt;상품 종류: {cart.length}&lt;/p&gt;;
+}
+</code></pre>
+<p>実行環境とデータの保存場所を先に確認しましょう。</p>
+</article></section><section class="doc" data-lang="ja" data-kind="log" id="ja-log"><div class="section-head"><span class="eyebrow">DAY 31 / 日本語 / 学習記録</span><h2>学習記録</h2><p>既存プロジェクトの点検とServer / Clientの区別</p></div><article class="markdown"><h1>Day 31 — 学習記録</h1>
+<blockquote>
+<p>既存プロジェクトの点検とServer / Clientの区別</p>
+</blockquote>
+<p><strong>学習日:</strong> 2026-11-05  |  <strong>予定学習時間:</strong> 120 min  |  <strong>Score:</strong> 94/100 (PASS)</p>
+<h2>実施内容</h2>
+<ul>
+<li><p>商品データ(products.ts)を参照</p>
+</li>
+<li><p>カートをlocalStorage[&quot;cart&quot;]から取得</p>
+</li>
+<li><p>チェックアウトでname・price・quantityのスナップショットを作成</p>
+</li>
+<li><p>localStorage[&quot;orders&quot;]へ保存しorders-updatedを通知</p>
+</li>
+<li><p>カートを削除してcart-updatedを通知</p>
+</li>
+<li><p>注文完了ページへ遷移</p>
+</li>
+<li><p>注文履歴・詳細の表示とキャンセル</p>
+</li>
+<li><p>16 files checked: 14 present, 2 missing</p>
+</li>
+<li><p>Multiple choice: B, 20/20</p>
+</li>
+<li><p>Project analysis: 50/50</p>
+</li>
+<li><p>Coding challenge: 24/30</p>
+</li>
+</ul>
+<h2>検証記録</h2>
+<pre><code class="language-powershell">npx tsc --noEmit
+npx eslint .
+</code></pre>
+<p>ターミナルのスクリーンショットではエラー・警告が表示されず、プロンプトに戻った。終了コードは別途確認しておらず、ブラウザでの全機能テストは未実施。</p>
+<h2>発見した課題</h2>
+<p>管理者APIのRoute Handlerが2件存在せず、ユーザーの注文はブラウザのlocalStorageに保存されます。</p>
+<h2>振り返り</h2>
+<p>サーバーAPIとブラウザストレージは自動的には連携しません。</p>
+<p>実行環境とデータの保存場所を先に確認しましょう。</p>
+</article></section><section class="doc" data-lang="en" data-kind="summary" id="en-summary"><div class="section-head"><span class="eyebrow">DAY 31 / English / Complete Review</span><h2>Complete Review</h2><p>Existing Project Review and Server / Client Boundaries</p></div><article class="markdown"><h1>Day 31 — Complete Review</h1>
+<blockquote>
+<p>Existing Project Review and Server / Client Boundaries</p>
+</blockquote>
+<p><strong>Date:</strong> 2026-11-05  |  <strong>Planned study time:</strong> 120 min  |  <strong>Score:</strong> 94/100 (PASS)</p>
+<h2>Learning objective</h2>
+<p>Understand component boundaries in Next.js App Router and trace e-commerce order data.</p>
+<h2>Core concepts</h2>
+<h3>Server Component</h3>
+<p>Default App Router component; supports server-side data access and rendering.</p>
+<h3>Client Component</h3>
+<p>&quot;use client&quot; boundary for events, React state, and browser APIs.</p>
+<h3>Route Handler</h3>
+<p>Handles GET, POST, PATCH in app/api/**/route.ts.</p>
+<h3>useSyncExternalStore</h3>
+<p>Subscribes to external stores with SSR and hydration snapshots.</p>
+<h2>File responsibilities</h2>
+<ul>
+<li><code>app/cart/page.tsx</code></li>
+<li><code>app/checkout/page.tsx</code></li>
+<li><code>app/order-complete/page.tsx</code></li>
+<li><code>app/orders/page.tsx</code></li>
+<li><code>app/orders/[id]/page.tsx</code></li>
+<li><code>src/hooks/useCartStorage.ts</code></li>
+<li><code>src/hooks/useOrdersStorage.ts</code></li>
+<li><code>app/admin/orders/hooks/useOrders.ts</code></li>
+</ul>
+<h2>Order data flow</h2>
+<ol>
+<li>Read product data from products.ts</li>
+<li>Read cart from localStorage[&quot;cart&quot;]</li>
+<li>Create order snapshots of name, price, and quantity</li>
+<li>Save to localStorage[&quot;orders&quot;] and dispatch orders-updated</li>
+<li>Clear cart and dispatch cart-updated</li>
+<li>Navigate to order completion</li>
+<li>Display history/details and handle cancellation</li>
+</ol>
+<h2>Key findings</h2>
+<p>Two admin API Route Handlers are missing, while customer orders are stored in browser localStorage.</p>
+<h2>Improvement backlog</h2>
+<ul>
+<li>Design admin API and shared server-side persistence</li>
+<li>Use order IDs on the completion page</li>
+<li>Handle malformed JSON at checkout</li>
+<li>Expose a distinct cart readiness state</li>
+<li>Validate authorization and order state server-side</li>
+</ul>
+</article></section><section class="doc" data-lang="en" data-kind="qa" id="en-qa"><div class="section-head"><span class="eyebrow">DAY 31 / English / Questions &amp; Answers</span><h2>Questions &amp; Answers</h2><p>Existing Project Review and Server / Client Boundaries</p></div><article class="markdown"><h1>Day 31 — Questions &amp; Answers</h1>
+<blockquote>
+<p>Existing Project Review and Server / Client Boundaries</p>
+</blockquote>
+<p><strong>Date:</strong> 2026-11-05  |  <strong>Planned study time:</strong> 120 min  |  <strong>Score:</strong> 94/100 (PASS)</p>
+<h2>1. What distinguishes a Route Handler from a Client Component?</h2>
+<p>Correct answer B: Route Handlers process HTTP requests; Client Components handle interactions. Submitted B, 20/20.</p>
+<h2>2. Why not read localStorage on the server?</h2>
+<p>The browser localStorage API does not exist in the server environment.</p>
+<h2>3. Does &quot;use client&quot; mean browser-only execution?</h2>
+<p>No. Client Components may be pre-rendered on the server.</p>
+<h2>4. Why use useSyncExternalStore?</h2>
+<p>To subscribe to external stores with server and client snapshots.</p>
+<h2>5. Why snapshot order items?</h2>
+<p>To preserve names and prices as they were when the order was placed.</p>
+<h2>6. Does the storage event fire in the writing document?</h2>
+<p>No. A custom event can notify listeners in the same document.</p>
+<h2>7. Are customer and admin orders connected?</h2>
+<p>Not in the inspected code. The admin API files are also missing.</p>
+<h2>8. What is the order completion page limitation?</h2>
+<p>The last array element is not necessarily the order just completed.</p>
+<p><strong>Tip / 팁 / コツ:</strong> Identify where code runs and where data is stored before making changes.</p>
+</article></section><section class="doc" data-lang="en" data-kind="coding" id="en-coding"><div class="section-head"><span class="eyebrow">DAY 31 / English / Coding Challenge</span><h2>Coding Challenge</h2><p>Existing Project Review and Server / Client Boundaries</p></div><article class="markdown"><h1>Day 31 — Coding Challenge</h1>
+<blockquote>
+<p>Existing Project Review and Server / Client Boundaries</p>
+</blockquote>
+<p><strong>Date:</strong> 2026-11-05  |  <strong>Planned study time:</strong> 120 min  |  <strong>Score:</strong> 94/100 (PASS)</p>
+<h2>Question</h2>
+<pre><code class="language-tsx">export default function CartPage() {
+  const cart = JSON.parse(localStorage.getItem(&quot;cart&quot;) ?? &quot;[]&quot;);
+  return &lt;p&gt;상품 종류: {cart.length}&lt;/p&gt;;
+}
+</code></pre>
+<h2>Requirements</h2>
+<ul>
+<li>Declare &quot;use client&quot;</li>
+<li>Reuse the existing useCartStorage Hook</li>
+<li>Avoid reading localStorage during render</li>
+<li>Account for SSR and hydration</li>
+</ul>
+<h2>Submitted code</h2>
+<pre><code class="language-tsx">&quot;use client&quot;;
+
+import { useCartStorage } from &quot;@/hooks/useCartStorage&quot;;
+import { CartItem } from &quot;@/types/cart&quot;;
+
+export default function CartPage() {
+  const cart = useCartStorage();
+  const updateCart = (updatedCart: CartItem[]) =&gt; {
+    localStorage.setItem(&quot;cart&quot;, JSON.stringify(updatedCart));
+    window.dispatchEvent(new Event(&quot;cart-updated&quot;));
+    updateCart(updatedCart);
+  };
+
+  return &lt;p&gt;상품 종류: {cart.length}&lt;/p&gt;;
+}
+</code></pre>
+<h2>Scoring and feedback</h2>
+<p><strong>24 / 30</strong> — 5/5 + 10/10 + 5/5 + 4/10</p>
+<p>An unused updateCart function recursively calls itself without a base case. It does not fail immediately because it is never invoked, but would risk a stack overflow if called. Remove unused functions and imports.</p>
+<h2>Corrected solution</h2>
+<pre><code class="language-tsx">&quot;use client&quot;;
+
+import { useCartStorage } from &quot;@/hooks/useCartStorage&quot;;
+
+export default function CartPage() {
+  const cart = useCartStorage();
+
+  return &lt;p&gt;상품 종류: {cart.length}&lt;/p&gt;;
+}
+</code></pre>
+<p>Identify where code runs and where data is stored before making changes.</p>
+</article></section><section class="doc" data-lang="en" data-kind="log" id="en-log"><div class="section-head"><span class="eyebrow">DAY 31 / English / Learning Log</span><h2>Learning Log</h2><p>Existing Project Review and Server / Client Boundaries</p></div><article class="markdown"><h1>Day 31 — Learning Log</h1>
+<blockquote>
+<p>Existing Project Review and Server / Client Boundaries</p>
+</blockquote>
+<p><strong>Date:</strong> 2026-11-05  |  <strong>Planned study time:</strong> 120 min  |  <strong>Score:</strong> 94/100 (PASS)</p>
+<h2>Completed activities</h2>
+<ul>
+<li><p>Read product data from products.ts</p>
+</li>
+<li><p>Read cart from localStorage[&quot;cart&quot;]</p>
+</li>
+<li><p>Create order snapshots of name, price, and quantity</p>
+</li>
+<li><p>Save to localStorage[&quot;orders&quot;] and dispatch orders-updated</p>
+</li>
+<li><p>Clear cart and dispatch cart-updated</p>
+</li>
+<li><p>Navigate to order completion</p>
+</li>
+<li><p>Display history/details and handle cancellation</p>
+</li>
+<li><p>16 files checked: 14 present, 2 missing</p>
+</li>
+<li><p>Multiple choice: B, 20/20</p>
+</li>
+<li><p>Project analysis: 50/50</p>
+</li>
+<li><p>Coding challenge: 24/30</p>
+</li>
+</ul>
+<h2>Validation results</h2>
+<pre><code class="language-powershell">npx tsc --noEmit
+npx eslint .
+</code></pre>
+<p>The terminal screenshot showed both commands returning to the prompt without displayed errors or warnings. Exit codes were not independently checked, and full browser functionality was not tested.</p>
+<h2>Key findings</h2>
+<p>Two admin API Route Handlers are missing, while customer orders are stored in browser localStorage.</p>
+<h2>Reflection</h2>
+<p>Server APIs and browser storage do not automatically share data.</p>
+<p>Identify where code runs and where data is stored before making changes.</p>
+</article></section></main></div>
+<footer>DAY 31 · 2026.11.05 · Verified against the shared code and terminal screenshots. Full browser behavior not tested.</footer>
+<script>
+let lang='ko',kind='summary';
+function render(){document.querySelectorAll('.doc').forEach(x=>x.classList.toggle('active',x.dataset.lang===lang&&x.dataset.kind===kind));document.querySelectorAll('[data-lang].chip').forEach(x=>x.classList.toggle('active',x.dataset.lang===lang));document.querySelectorAll('[data-kind].chip').forEach(x=>x.classList.toggle('active',x.dataset.kind===kind));document.querySelectorAll('.navitem').forEach(x=>x.classList.toggle('active',x.dataset.target===lang+'-'+kind));}
+document.querySelectorAll('#langs .chip').forEach(x=>x.onclick=()=>{lang=x.dataset.lang;render()});document.querySelectorAll('#kinds .chip').forEach(x=>x.onclick=()=>{kind=x.dataset.kind;render()});document.querySelectorAll('.navitem').forEach(x=>x.onclick=()=>{[lang,kind]=x.dataset.target.split('-');render();window.scrollTo({top:0,behavior:'smooth'})});render();
+</script>
+<script id="premium-interactions">
+(function(){
+const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const bar=document.getElementById('reading-progress');
+const toast=document.getElementById('toast');
+let toastTimer;
+function showToast(message){toast.textContent=message;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),1900)}
+function updateProgress(){const max=document.documentElement.scrollHeight-innerHeight;bar.style.width=(max>0?Math.min(100,scrollY/max*100):100)+'%'}
+window.addEventListener('scroll',updateProgress,{passive:true});
+window.addEventListener('resize',updateProgress);
+if(!reduce && window.matchMedia('(pointer:fine)').matches){
+let pending=false,x=0,y=0;
+window.addEventListener('pointermove',e=>{x=e.clientX;y=e.clientY;if(!pending){pending=true;requestAnimationFrame(()=>{document.documentElement.style.setProperty('--pointer-x',x+'px');document.documentElement.style.setProperty('--pointer-y',y+'px');pending=false})}},{passive:true});
+}
+document.querySelectorAll('.markdown pre').forEach(pre=>{
+const wrapper=document.createElement('div');wrapper.className='codewrap';
+pre.parentNode.insertBefore(wrapper,pre);wrapper.appendChild(pre);
+const button=document.createElement('button');button.className='copy-code';button.type='button';button.textContent='Copy code';button.setAttribute('aria-label','Copy code snippet');
+button.addEventListener('click',async()=>{
+const code=pre.querySelector('code')?.textContent||pre.textContent;
+try{await navigator.clipboard.writeText(code);showToast('Code copied ✓')}catch(e){showToast('Select and copy the code manually')}
+});wrapper.appendChild(button);
+});
+const toolbar=document.querySelector('.toolbar');
+if(toolbar){const hint=document.createElement('p');hint.className='quick-help';hint.innerHTML='Keyboard: <kbd>1</kbd> 한국어 · <kbd>2</kbd> 日本語 · <kbd>3</kbd> English · <kbd>←</kbd> / <kbd>→</kbd> 문서 이동';toolbar.insertAdjacentElement('afterend',hint)}
+document.addEventListener('keydown',e=>{
+if(e.altKey||e.ctrlKey||e.metaKey||['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName))return;
+if(['1','2','3'].includes(e.key)){const langs=['ko','ja','en'];document.querySelector('#langs .chip[data-lang="'+langs[Number(e.key)-1]+'"]')?.click();showToast('Language switched')}
+if(['ArrowLeft','ArrowRight'].includes(e.key)){
+const kinds=['summary','qa','coding','log'];const current=document.querySelector('#kinds .chip.active')?.dataset.kind;const i=kinds.indexOf(current);
+if(i<0)return;const next=Math.max(0,Math.min(3,i+(e.key==='ArrowRight'?1:-1)));
+if(next!==i){document.querySelector('#kinds .chip[data-kind="'+kinds[next]+'"]')?.click();showToast('Section changed')}
+}
+});
+const score=document.querySelector('.score strong');
+if(score&&!reduce){const target=Number((score.textContent||'').match(/\d+/)?.[0]||94);let start=null;const duration=1300;
+function frame(t){if(start===null)start=t;const progress=Math.min(1,(t-start)/duration);const eased=1-Math.pow(1-progress,3);score.textContent=String(Math.round(target*eased));if(progress<1)requestAnimationFrame(frame)}
+requestAnimationFrame(frame)}
+updateProgress();
+})();
+</script>
+
+<script id="learning-lab-script">
+(()=>{
+"use strict";
+const $=id=>document.getElementById(id);
+const storageKey="day31-lab-v1";
+const taskText={
+ko:["Server Component와 Client Component의 차이를 설명할 수 있다.","Route Handler가 HTTP 요청을 처리한다는 것을 이해한다.","useSyncExternalStore와 하이드레이션 관계를 설명할 수 있다.","장바구니 localStorage 데이터 흐름을 추적했다.","주문 스냅샷의 필요성을 이해했다.","주문 완료·목록·상세·취소 흐름을 확인했다.","관리자 API 파일 부재와 저장소 경계를 확인했다.","TypeScript와 ESLint 검사 결과를 기록했다."],
+ja:["Server ComponentとClient Componentの違いを説明できる。","Route HandlerがHTTPリクエストを処理することを理解した。","useSyncExternalStoreとハイドレーションを説明できる。","カートのlocalStorageデータフローを確認した。","注文スナップショットの必要性を理解した。","注文完了・履歴・詳細・キャンセルの流れを確認した。","管理者APIの不足とストレージの境界を確認した。","TypeScriptとESLintの検査結果を記録した。"],
+en:["Explain the difference between Server and Client Components.","Understand that Route Handlers process HTTP requests.","Explain useSyncExternalStore and hydration.","Trace the cart localStorage data flow.","Explain why order snapshots are needed.","Trace order completion, history, details, and cancellation.","Identify the missing admin API and storage boundary.","Record TypeScript and ESLint check results."]
+};
+const questions=[{"level":"easy","q":{"ko":"App Router에서 페이지 경로를 정의하는 폴더는?","ja":"App Routerでページのルートを定義するディレクトリは？","en":"Which directory defines routes in App Router?"},"a":{"ko":["app/","public/","node_modules/","styles/"],"ja":["app/","public/","node_modules/","styles/"],"en":["app/","public/","node_modules/","styles/"]},"correct":0,"why":{"ko":"app/ 폴더 구조가 페이지와 API 경로를 정의합니다.","ja":"app/の構造がページとAPIルートを定義します。","en":"The app/ directory defines pages and API routes."},"topic":"routing"},{"level":"easy","q":{"ko":"Server Component의 기본 특성은?","ja":"Server Componentの基本的な特徴は？","en":"What is a core Server Component characteristic?"},"a":{"ko":["기본적으로 서버에서 렌더링할 수 있다","항상 localStorage를 읽는다","반드시 useState를 쓴다","브라우저 클릭만 처리한다"],"ja":["サーバーでレンダリング可能","常にlocalStorageを読む","必ずuseStateを使う","クリックだけ処理"],"en":["Can render on the server","Always reads localStorage","Must use useState","Only handles clicks"]},"correct":0,"why":{"ko":"App Router에서는 Server Component가 기본입니다.","ja":"App RouterではServer Componentがデフォルトです。","en":"Server Components are the default in App Router."},"topic":"boundaries"},{"level":"easy","q":{"ko":"Client Component 경계 선언은?","ja":"Client Componentの境界を宣言するには？","en":"How do you declare a Client Component boundary?"},"a":{"ko":["\"use client\"","\"use server only\"","\"browser mode\"","\"client only\""],"ja":["\"use client\"","\"use server only\"","\"browser mode\"","\"client only\""],"en":["\"use client\"","\"use server only\"","\"browser mode\"","\"client only\""]},"correct":0,"why":{"ko":"파일 맨 위에 use client 지시문을 작성합니다。","ja":"ファイル先頭にuse clientを宣言します。","en":"Add the use client directive at the top of the file."},"topic":"boundaries"},{"level":"easy","q":{"ko":"Route Handler가 담당하는 작업은?","ja":"Route Handlerが担当する処理は？","en":"What does a Route Handler do?"},"a":{"ko":["CSS 테마 전환","HTTP 요청·응답 처리","버튼 렌더링","useState 관리"],"ja":["CSSテーマ切替","HTTPリクエストとレスポンス処理","ボタン描画","useState管理"],"en":["Switch CSS themes","Process HTTP requests and responses","Render buttons","Manage useState"]},"correct":1,"why":{"ko":"GET과 PATCH 같은 HTTP 메서드를 서버에서 처리합니다.","ja":"GETやPATCHなどのHTTPメソッドをサーバーで処理します。","en":"It handles HTTP methods such as GET and PATCH on the server."},"topic":"routing"},{"level":"easy","q":{"ko":"장바구니의 localStorage 키는?","ja":"カートのlocalStorageキーは？","en":"What is the cart localStorage key?"},"a":{"ko":["orders","products","cart","checkout"],"ja":["orders","products","cart","checkout"],"en":["orders","products","cart","checkout"]},"correct":2,"why":{"ko":"useCartStorage는 cart 키를 구독합니다.","ja":"useCartStorageはcartキーを購読します。","en":"useCartStorage subscribes to the cart key."},"topic":"storage"},{"level":"easy","q":{"ko":"주문 목록을 저장하는 키는?","ja":"注文履歴の保存キーは？","en":"What key stores customer orders?"},"a":{"ko":["orders","cart","users","status"],"ja":["orders","cart","users","status"],"en":["orders","cart","users","status"]},"correct":0,"why":{"ko":"체크아웃은 orders 키에 주문 배열을 저장합니다.","ja":"チェックアウトはordersキーに注文配列を保存します。","en":"Checkout stores the order array under orders."},"topic":"storage"},{"level":"easy","q":{"ko":"주문 목록 페이지 파일은?","ja":"注文一覧ページのファイルは？","en":"Which file displays order history?"},"a":{"ko":["app/cart/page.tsx","app/orders/page.tsx","app/layout.tsx","src/data/products.ts"],"ja":["app/cart/page.tsx","app/orders/page.tsx","app/layout.tsx","src/data/products.ts"],"en":["app/cart/page.tsx","app/orders/page.tsx","app/layout.tsx","src/data/products.ts"]},"correct":1,"why":{"ko":"app/orders/page.tsx가 주문 내역을 표시합니다.","ja":"app/orders/page.tsxが注文履歴を表示します。","en":"app/orders/page.tsx renders order history."},"topic":"routing"},{"level":"medium","q":{"ko":"useSyncExternalStore의 목적은?","ja":"useSyncExternalStoreの目的は？","en":"Why use useSyncExternalStore?"},"a":{"ko":["외부 저장소 변경 구독","CSS 생성","API 경로 자동 생성","DB 테이블 생성"],"ja":["外部ストアの変更を購読","CSS生成","APIルート自動生成","DBテーブル作成"],"en":["Subscribe to external stores","Generate CSS","Create API routes automatically","Create DB tables"]},"correct":0,"why":{"ko":"외부 저장소를 React와 동기화합니다.","ja":"外部ストアの変更をReactに反映します。","en":"It synchronizes external store changes with React."},"topic":"sync"},{"level":"medium","q":{"ko":"useCartStorage의 서버 스냅샷은?","ja":"useCartStorageのサーバースナップショットは？","en":"What is the cart server snapshot?"},"a":{"ko":["\"[]\"","null","undefined","\"cart\""],"ja":["\"[]\"","null","undefined","\"cart\""],"en":["\"[]\"","null","undefined","\"cart\""]},"correct":0,"why":{"ko":"서버 스냅샷 문자열은 []입니다.","ja":"サーバースナップショット文字列は[]です。","en":"The server snapshot is the string []."},"topic":"sync"},{"level":"medium","q":{"ko":"useOrdersStorage의 준비 상태 판단은?","ja":"useOrdersStorageの準備状態の判定は？","en":"How does useOrdersStorage determine readiness?"},"a":{"ko":["orders.length > 0","snapshot !== null","Boolean(window)","cart.length > 0"],"ja":["orders.length > 0","snapshot !== null","Boolean(window)","cart.length > 0"],"en":["orders.length > 0","snapshot !== null","Boolean(window)","cart.length > 0"]},"correct":1,"why":{"ko":"null 서버 스냅샷과 비교해 isReady를 계산합니다.","ja":"nullのスナップショットと比較してisReadyを算出します。","en":"It computes isReady by checking whether snapshot is non-null."},"topic":"sync"},{"level":"medium","q":{"ko":"같은 문서에서 localStorage 변경을 알리는 방법은?","ja":"同じ文書にlocalStorage変更を通知するには？","en":"How can the same document be notified of storage updates?"},"a":{"ko":["storage 이벤트만 기다린다","페이지를 강제로 새로고침한다","cart-updated 커스텀 이벤트 발행","서버를 재시작한다"],"ja":["storageイベントのみ待つ","ページを強制更新","cart-updated独自イベント","サーバー再起動"],"en":["Wait for storage only","Force a page reload","Dispatch cart-updated","Restart the server"]},"correct":2,"why":{"ko":"같은 문서에는 기본 storage 이벤트가 발생하지 않습니다.","ja":"同じ文書には標準storageイベントが発火しません。","en":"The standard storage event does not fire in the document making the change."},"topic":"sync"},{"level":"medium","q":{"ko":"주문 스냅샷에 저장하는 값은?","ja":"注文スナップショットに保存する値は？","en":"What is stored in an order item snapshot?"},"a":{"ko":["상품명·가격·수량","CSS 클래스","브라우저 쿠키만","서버 비밀번호"],"ja":["商品名・価格・数量","CSSクラス","Cookieのみ","サーバーパスワード"],"en":["Name, price, quantity","CSS classes","Only cookies","Server passwords"]},"correct":0,"why":{"ko":"주문 당시 상품명·가격·수량을 보존합니다.","ja":"購入時の商品名・価格・数量を保持します。","en":"It preserves the name, price, and quantity at order time."},"topic":"orders"},{"level":"medium","q":{"ko":"관리자 주문 목록 요청 방식은?","ja":"管理者の注文一覧取得方法は？","en":"How does the admin Hook load orders?"},"a":{"ko":["localStorage.getItem('orders')","fetch('/api/orders')","useCartStorage()","document.cookie"],"ja":["localStorage.getItem('orders')","fetch('/api/orders')","useCartStorage()","document.cookie"],"en":["localStorage.getItem('orders')","fetch('/api/orders')","useCartStorage()","document.cookie"]},"correct":1,"why":{"ko":"관리자 Hook은 GET /api/orders를 호출합니다.","ja":"管理者HookはGET /api/ordersを呼び出します。","en":"The admin Hook calls GET /api/orders."},"topic":"api"},{"level":"medium","q":{"ko":"주문 취소 페이지에서 바뀌는 것은?","ja":"注文キャンセル時に変わるものは？","en":"What changes during customer order cancellation?"},"a":{"ko":["상품 원본 가격","주문 상태를 취소완료로 변경","DB 자동 삭제","상품 목록 삭제"],"ja":["商品の元価格","注文状態をキャンセル完了に変更","DBを自動削除","商品一覧を削除"],"en":["Original product price","Set status to cancelled","Automatically delete database","Delete product catalog"]},"correct":1,"why":{"ko":"현재 구현은 브라우저 주문 상태만 변경합니다.","ja":"現実装ではブラウザ側の注文ステータスのみ変更します。","en":"The current implementation updates the browser-stored order status."},"topic":"orders"},{"level":"hard","q":{"ko":"Client Component의 초기 렌더링에 대한 올바른 설명은?","ja":"Client Componentの初期レンダリングについて正しい説明は？","en":"Which statement about initial Client Component rendering is correct?"},"a":{"ko":["항상 브라우저에서만 실행된다","서버에서 미리 렌더링될 수 있다","localStorage가 서버에 존재한다","항상 DB에 직접 접근한다"],"ja":["必ずブラウザのみ","サーバーで事前レンダリング可能","サーバーにlocalStorageがある","常にDBへ直接アクセス"],"en":["Always browser-only","May be pre-rendered on server","Server has localStorage","Always direct DB access"]},"correct":1,"why":{"ko":"Client Component도 서버에서 초기 HTML이 생성될 수 있습니다.","ja":"Client Componentもサーバーで初期HTMLを生成できます。","en":"Client Components can be pre-rendered on the server."},"topic":"boundaries"},{"level":"hard","q":{"ko":"관리자 API와 사용자 주문 저장소가 자동 연결되지 않는 이유는?","ja":"管理者APIとユーザー注文が自動連携しない理由は？","en":"Why are the admin API and customer orders not automatically connected?"},"a":{"ko":["파일 확장자가 다르기 때문","localStorage는 브라우저별 저장소이기 때문","TypeScript를 사용하기 때문","CSS가 없기 때문"],"ja":["ファイル拡張子が違う","localStorageはブラウザ側の保存領域","TypeScriptを使う","CSSがない"],"en":["Different extensions","localStorage is browser-specific","Uses TypeScript","No CSS"]},"correct":1,"why":{"ko":"서버는 브라우저 localStorage를 직접 읽을 수 없습니다.","ja":"サーバーはブラウザのlocalStorageを直接読めません。","en":"A server cannot directly read a browser's localStorage."},"topic":"storage"},{"level":"hard","q":{"ko":"확인한 관리자 Route Handler 파일 상태는?","ja":"確認した管理者用Route Handlerファイルの状態は？","en":"What was found about the admin Route Handler files?"},"a":{"ko":["두 파일 모두 존재","두 파일 모두 미발견","둘 다 Client Component","두 파일 모두 DB 연결 완료"],"ja":["両方存在","両方見つからない","両方Client Component","DB連携済み"],"en":["Both exist","Both missing","Both Client Components","Both connected to DB"]},"correct":1,"why":{"ko":"app/api/orders/route.ts와 app/api/orders/[id]/route.ts가 없었습니다.","ja":"両方のRoute Handlerファイルは見つかりませんでした。","en":"Both expected Route Handler files were missing."},"topic":"api"},{"level":"hard","q":{"ko":"orders[orders.length - 1]의 한계는?","ja":"orders[orders.length - 1]の限界は？","en":"What is a limitation of orders[orders.length - 1]?"},"a":{"ko":["반드시 방금 주문한 내역이다","항상 첫 주문이다","마지막 저장 주문일 뿐 현재 완료 주문 보장은 없다","항상 undefined이다"],"ja":["必ず直前の注文","必ず最初の注文","最後に保存された注文であり直前とは限らない","常にundefined"],"en":["Always the just-completed order","Always the first order","Last stored order, not necessarily the just-completed one","Always undefined"]},"correct":2,"why":{"ko":"완료 주문 ID를 명시적으로 전달하는 방식이 더 안전합니다.","ja":"完了した注文IDを明示的に渡す方が安全です。","en":"Passing the completed order ID is more reliable."},"topic":"orders"},{"level":"hard","q":{"ko":"종료 조건 없는 updateCart 자기 호출의 위험은?","ja":"終了条件のないupdateCartの自己呼び出しの危険は？","en":"What is the risk of updateCart calling itself without a base case?"},"a":{"ko":["정상적인 종료","스택 초과 오류","자동 API 생성","SSR 개선"],"ja":["正常に終了","スタックオーバーフロー","API自動生成","SSR改善"],"en":["Terminates normally","Call stack overflow","Creates API automatically","Improves SSR"]},"correct":1,"why":{"ko":"호출되면 무한 재귀로 스택이 초과될 수 있습니다.","ja":"呼び出すと無限再帰でスタックがあふれる可能性があります。","en":"If invoked, infinite recursion can overflow the call stack."},"topic":"coding"},{"level":"hard","q":{"ko":"실제 코딩 테스트에서 가장 적절한 수정은?","ja":"コーディングテストの最適な修正は？","en":"What is the best fix for the coding challenge?"},"a":{"ko":["불필요한 updateCart 함수를 제거하고 Hook만 사용","모든 컴포넌트에서 localStorage 직접 읽기","useCartStorage 제거","API 파일을 UI 파일로 변경"],"ja":["不要なupdateCartを削除してHookを利用","レンダリング中に直接localStorageを読む","Hookを削除","APIをUIファイルに変更"],"en":["Remove unnecessary updateCart and use Hook","Read localStorage directly in render","Remove Hook","Turn API into UI file"]},"correct":0,"why":{"ko":"문제는 장바구니 개수 표시이므로 기존 Hook만 사용하면 됩니다.","ja":"課題はカート件数表示なので既存Hookだけで十分です。","en":"The challenge only requires displaying the count using the existing Hook."},"topic":"coding"}];
+const extraQuestions=[{"level":"hard","topic":"routing","q":{"ko":"새 주문 API GET 경로를 만들 파일은?","ja":"注文一覧GET APIを作るファイルは？","en":"Which file defines the GET orders API?"},"a":{"ko":["app/api/orders/route.ts","app/orders/page.tsx","app/layout.tsx","src/hooks/useOrdersStorage.ts"],"ja":["app/api/orders/route.ts","app/orders/page.tsx","app/layout.tsx","src/hooks/useOrdersStorage.ts"],"en":["app/api/orders/route.ts","app/orders/page.tsx","app/layout.tsx","src/hooks/useOrdersStorage.ts"]},"correct":0,"why":{"ko":"Route Handler는 app/api/orders/route.ts에 작성합니다.","ja":"Route Handlerはapp/api/orders/route.tsに作成します。","en":"Define the Route Handler in app/api/orders/route.ts."}},{"level":"hard","topic":"boundaries","q":{"ko":"렌더링 중 window를 읽어야 한다면 가장 안전한 접근은?","ja":"レンダリング中にwindowが必要な場合の安全な方法は？","en":"What is the safer way to access window-dependent data?"},"a":{"ko":["Server Component에서 바로 접근","클라이언트 효과 또는 안전한 구독 경계에서 접근","route.ts에 use client 추가","항상 window가 있다고 가정"],"ja":["Server Componentで直接アクセス","クライアントのeffectや安全な購読でアクセス","route.tsにuse clientを追加","windowは常にあると仮定"],"en":["Access directly in Server Component","Access in client effects or safe subscriptions","Add use client to route.ts","Assume window always exists"]},"correct":1,"why":{"ko":"브라우저 전용 코드는 클라이언트 실행 시점에 접근해야 합니다.","ja":"ブラウザAPIはクライアント側の適切なタイミングで使用します。","en":"Access browser-only APIs at an appropriate client-side execution point."}},{"level":"hard","topic":"storage","q":{"ko":"관리자와 사용자 주문을 일관되게 공유하려면?","ja":"管理者とユーザーで注文を共有するには？","en":"How should customer and admin orders be shared reliably?"},"a":{"ko":["각 브라우저 localStorage만 사용","공통 서버 저장소와 API 사용","이벤트 이름만 변경","컴포넌트 파일명 통일"],"ja":["各ブラウザのlocalStorageのみ","共通サーバーストアとAPI","イベント名だけ変更","ファイル名を統一"],"en":["Only localStorage in each browser","Shared server store and API","Rename events only","Use identical filenames"]},"correct":1,"why":{"ko":"서버 저장소를 단일 데이터 원본으로 두어야 합니다.","ja":"サーバー側の共通ストアをデータの基準にします。","en":"Use a shared server-side source of truth through an API."}},{"level":"hard","topic":"sync","q":{"ko":"getServerSnapshot의 핵심 목적은?","ja":"getServerSnapshotの主な目的は？","en":"What is the purpose of getServerSnapshot?"},"a":{"ko":["SSR와 하이드레이션에 일관된 초기 값 제공","API 인증 자동 처리","DB 자동 동기화","컴포넌트 삭제"],"ja":["SSRとハイドレーションに一貫した初期値","API認証を自動処理","DB自動同期","コンポーネント削除"],"en":["Consistent initial value for SSR and hydration","Automatic API authentication","Automatic DB synchronization","Delete components"]},"correct":0,"why":{"ko":"서버 렌더링과 초기 하이드레이션 값의 일관성을 돕습니다.","ja":"SSRと初期ハイドレーションの値を一致させます。","en":"It provides a consistent snapshot for server rendering and hydration."}},{"level":"hard","topic":"orders","q":{"ko":"주문 완료 후 해당 주문만 정확히 보여주는 방법은?","ja":"注文完了後に対象注文だけを表示するには？","en":"How do you reliably show the just-completed order?"},"a":{"ko":["배열의 마지막 요소만 사용","주문 ID로 해당 주문 조회","가장 비싼 주문 선택","주문 목록 전체 삭제"],"ja":["配列の最後だけを使用","注文IDで対象を取得","最高額の注文を選択","全注文を削除"],"en":["Always use the last array item","Look up the order by ID","Choose most expensive order","Delete all orders"]},"correct":1,"why":{"ko":"생성한 주문 ID를 전달하고 해당 주문을 조회합니다.","ja":"作成した注文IDを渡して対象の注文を取得します。","en":"Pass the created order ID and retrieve that specific order."}},{"level":"hard","topic":"api","q":{"ko":"PATCH /api/orders/[id]에서 서버가 검증할 것은?","ja":"PATCH /api/orders/[id]でサーバーが検証するものは？","en":"What should the server validate for PATCH /api/orders/[id]?"},"a":{"ko":["버튼 색상","요청 권한과 상태 전이","브라우저 테마","사용자 화면 너비"],"ja":["ボタンの色","権限と状態遷移","ブラウザテーマ","画面幅"],"en":["Button color","Authorization and status transitions","Browser theme","Viewport width"]},"correct":1,"why":{"ko":"서버는 권한과 허용된 주문 상태 변경을 검증해야 합니다.","ja":"サーバーで権限と許可された状態変更を検証します。","en":"Validate authorization and allowed order status transitions."}},{"level":"hard","topic":"coding","q":{"ko":"재귀 함수에서 스택 초과를 방지하는 기본 조건은?","ja":"再帰関数でスタックオーバーフローを防ぐ基本条件は？","en":"What is essential for safe recursion?"},"a":{"ko":["함수명 변경","종료 조건과 종료 조건을 향한 진행","console.log 추가","use client 선언"],"ja":["関数名の変更","終了条件と終了への進行","console.log追加","use client宣言"],"en":["Rename function","Base case and progress toward it","Add console.log","Declare use client"]},"correct":1,"why":{"ko":"종료 조건과 매 호출마다 종료에 가까워지는 변화가 필요합니다.","ja":"終了条件とそこに近づく処理が必要です。","en":"Provide a base case and progress toward it."}}];
+questions.push(...extraQuestions);
+const coreQuestions=questions.slice(0,20);
+
+
+const diagnosticText={
+ko:{title:"성적 분석 · 오답노트",retry:"오답만 다시 풀기",clear:"분석 기록 초기화",askClear:"퀴즈 응시 기록과 오답노트를 모두 지울까요?",attempt:"응시 횟수",accuracy:"누적 정답률",weak:"취약 영역",wrong:"누적 오답",none:"아직 응시 기록이 없습니다. 퀴즈를 풀면 취약점을 분석합니다.",clean:"기록된 오답이 없습니다.",weakLabel:"집중 복습 필요",okLabel:"양호",lowSample:"표본 부족 · 추가 풀이 권장",picked:"선택한 답",right:"정답",why:"해설",times:"오답 횟수",rate:"오답률",latest:"최근 점수",byLevel:"난이도별 성적",noWrong:"복습할 오답이 없습니다.",retryTitle:"오답 재도전",topics:{routing:["라우팅·파일 구조","app/의 page.tsx와 route.ts를 비교하고 파일 경로를 직접 설명하세요."],boundaries:["Server / Client 실행 경계","서버에서 window·localStorage를 읽을 수 없는 이유와 use client의 범위를 설명하세요."],storage:["브라우저 저장소·데이터 경계","localStorage와 서버 API가 서로 다른 저장소인 이유를 정리하세요."],sync:["React 상태 동기화·하이드레이션","useSyncExternalStore의 subscribe/getSnapshot/getServerSnapshot을 비교하세요."],orders:["주문 데이터·상태 흐름","주문 스냅샷, 취소 상태, 완료 주문 ID의 흐름을 그려보세요."],api:["관리자 API·서버 연동","GET /api/orders와 PATCH /api/orders/[id]의 서버 구현 책임을 점검하세요."],coding:["TypeScript·코드 안정성","재귀 종료 조건과 미사용 함수, Hook 재사용 여부를 확인하세요."]}},
+ja:{title:"成績分析・間違いノート",retry:"間違えた問題を再挑戦",clear:"履歴を削除",askClear:"クイズの履歴と間違いノートを削除しますか？",attempt:"受験回数",accuracy:"累積正答率",weak:"苦手分野",wrong:"累積誤答",none:"まだ解答履歴がありません。クイズに挑戦すると分析できます。",clean:"間違いの記録はありません。",weakLabel:"重点復習",okLabel:"良好",lowSample:"回答数が少ないため追加練習を推奨",picked:"選んだ答え",right:"正解",why:"解説",times:"間違えた回数",rate:"誤答率",latest:"直近の得点",byLevel:"難易度別成績",noWrong:"復習対象の誤答はありません。",retryTitle:"間違いの再挑戦",topics:{routing:["ルーティングとファイル構成","app/のpage.tsxとroute.tsの違いを説明しましょう。"],boundaries:["Server / Clientの実行境界","サーバーでwindowやlocalStorageが使えない理由を確認しましょう。"],storage:["ブラウザストレージとデータ境界","localStorageとサーバーAPIが別の保存領域である理由を整理しましょう。"],sync:["React状態同期とハイドレーション","useSyncExternalStoreの3つの主要引数を比較しましょう。"],orders:["注文データと状態遷移","注文スナップショット、キャンセル、注文IDの流れを描きましょう。"],api:["管理者APIとサーバー連携","GETとPATCHのRoute Handlerの責務を確認しましょう。"],coding:["TypeScriptとコードの安全性","再帰の終了条件、未使用関数、Hookの再利用を確認しましょう。"]}},
+en:{title:"Score Analysis & Mistake Notebook",retry:"Retry missed questions",clear:"Clear learning history",askClear:"Delete all quiz attempts and mistake history?",attempt:"Attempts",accuracy:"Overall accuracy",weak:"Weak areas",wrong:"Total wrong answers",none:"No attempts yet. Take the quiz to identify weak areas.",clean:"No mistakes recorded yet.",weakLabel:"Needs focused review",okLabel:"Doing well",lowSample:"Limited data · practice more",picked:"Your answer",right:"Correct answer",why:"Explanation",times:"Times missed",rate:"Error rate",latest:"Latest score",byLevel:"Performance by difficulty",noWrong:"No missed questions to retry.",retryTitle:"Mistake retry",topics:{routing:["Routing & file structure","Compare page.tsx and route.ts under app/ and explain their routes."],boundaries:["Server / Client execution boundaries","Explain why window and localStorage are unavailable on the server."],storage:["Browser storage & data boundaries","Explain why localStorage and a server API do not share data automatically."],sync:["React synchronization & hydration","Compare subscribe, getSnapshot, and getServerSnapshot."],orders:["Order data & state transitions","Diagram snapshots, cancellations, and completed order IDs."],api:["Admin API & server integration","Review GET and PATCH Route Handler responsibilities."],coding:["TypeScript & code safety","Check recursion base cases, unused functions, and Hook reuse."]}}
+};
+function loadHistory(){try{const x=JSON.parse(localStorage.getItem("day31-quiz-history-v2")||"[]");return Array.isArray(x)?x.filter(a=>a&&Array.isArray(a.answers)).slice(-80):[]}catch(e){return []}}
+let history=loadHistory(),runAnswers=[],retryIds=null;
+function persistHistory(){try{localStorage.setItem("day31-quiz-history-v2",JSON.stringify(history))}catch(e){}}
+function getQuestionId(q){return questions.indexOf(q)}
+function makeStat(value,label){const box=document.createElement("div");box.className="diag-stat";const v=document.createElement("strong");v.textContent=value;const l=document.createElement("span");l.textContent=label;box.append(v,l);return box}
+const adaptiveText={
+ko:{title:"취약점 기반 맞춤 추가 문제",desc:"최근 응시 기록의 개념별 오답률과 반복 오답을 분석해 추가 문제를 추천합니다. 기존 문제와 다른 심화 문제를 풀어보세요.",empty:"아직 응시 기록이 없습니다. 전체 퀴즈를 먼저 풀어보세요.",strong:"취약 영역이 뚜렷하지 않아 균형 복습 문제를 추천합니다.",count:"추천",start:"추천 문제 풀기",quizTitle:"맞춤 심화",miss:"오답률"},
+ja:{title:"苦手分野に合わせた追加問題",desc:"過去の誤答率と繰り返しの間違いを分析し、別の応用問題をおすすめします。",empty:"解答履歴がありません。まず通常クイズを解いてください。",strong:"明確な苦手分野がないため、バランスよく復習します。",count:"おすすめ",start:"おすすめ問題に挑戦",quizTitle:"個別演習",miss:"誤答率"},
+en:{title:"Personalized Extra Practice",desc:"Recommendations use your topic-level error rates and repeated mistakes. Try new follow-up questions instead of repeating the original ones.",empty:"No attempts yet. Take the main quiz first.",strong:"No clear weak area found; balanced practice is recommended.",count:"Recommended",start:"Start recommended practice",quizTitle:"ADAPTIVE PRACTICE",miss:"error rate"}};
+let recommendedIds=[];
+function renderAdaptive(){
+ const t=adaptiveText[currentLang],all=history.flatMap(h=>h.answers).filter(a=>a.id<20),host=$("adaptive-recommendations");
+ $("adaptive-title").textContent=t.title;$("adaptive-description").textContent=all.length?t.desc:t.empty;$("adaptive-start").textContent=t.start;
+ host.replaceChildren();recommendedIds=[];
+ if(!all.length){$("adaptive-count").textContent="0";$("adaptive-start").disabled=true;return}
+ const ranked=extraQuestions.map((q,i)=>{const topic=q.topic,arr=all.filter(a=>questions[a.id]?.topic===topic),wrong=arr.filter(a=>!a.correct),unique=new Set(wrong.map(a=>a.id)).size;return {id:20+i,topic,n:arr.length,errors:wrong.length,rate:arr.length?wrong.length/arr.length:0,score:arr.length?wrong.length/arr.length+Math.min(unique,3)*.12+Math.min(wrong.length,5)*.05:0}}).sort((a,b)=>b.score-a.score);
+ const weak=ranked.filter(x=>x.errors>0);const chosen=(weak.length?weak:ranked).slice(0,Math.min(5,weak.length||3));
+ recommendedIds=chosen.map(x=>x.id);$("adaptive-count").textContent=t.count+" "+chosen.length;
+ if(!weak.length){const p=document.createElement("p");p.textContent=t.strong;host.append(p)}
+ for(const item of chosen){const chip=document.createElement("span");chip.className="adaptive-chip";const label=document.createElement("span");label.textContent=diagnosticText[currentLang].topics[item.topic][0];const score=document.createElement("strong");score.textContent=item.n?Math.round(item.rate*100)+"% "+t.miss:"NEW";chip.append(label,score);host.append(chip)}
+ $("adaptive-start").disabled=!chosen.length
+}
+$("adaptive-start").addEventListener("click",()=>{if(!recommendedIds.length)return;adaptiveIds=[...recommendedIds];retryIds=null;resetQuiz();document.getElementById("quiz-question").scrollIntoView({behavior:"smooth",block:"center"})});
+const growthText={
+ko:{title:"학습 성장 분석",subtitle:"응시 기록으로 점수와 개념별 이해도 변화를 확인합니다.",none:"응시 기록 없음",up:"개선 중",down:"추가 복습 필요",flat:"유지 중",insufficient:"추가 응시 필요",attempt:"기록된 응시",latest:"최근 정답률",change:"이전 대비",chart:"응시별 정답률 추이",topics:"영역별 정답률 · 최근 기록",noData:"퀴즈를 한 번 이상 완료하면 성장 그래프가 표시됩니다.",sample:"성장 추이는 퀴즈별 문항 구성이 다를 수 있어 참고용입니다. 개념별 비교는 각 기간의 답변 수가 충분할 때만 해석하세요.",recent:"최근",prior:"이전",noPrior:"비교 기록 부족",n:"문항"},
+ja:{title:"学習成長分析",subtitle:"受験履歴から正答率と分野別の変化を確認します。",none:"履歴なし",up:"改善傾向",down:"復習が必要",flat:"横ばい",insufficient:"追加受験が必要",attempt:"受験回数",latest:"直近の正答率",change:"前回との差",chart:"受験ごとの正答率",topics:"分野別正答率・最近の履歴",noData:"クイズを完了すると成長グラフが表示されます。",sample:"問題構成が異なるため推移は参考値です。回答数が少ない分野は慎重に判断してください。",recent:"最近",prior:"以前",noPrior:"比較データ不足",n:"問"},
+en:{title:"Learning Growth Analytics",subtitle:"Track quiz accuracy and topic-level performance over time.",none:"No attempts",up:"Improving",down:"Needs review",flat:"Holding steady",insufficient:"More attempts needed",attempt:"Attempts",latest:"Latest accuracy",change:"Change vs previous",chart:"Quiz accuracy over time",topics:"Topic accuracy · recent history",noData:"Complete a quiz to unlock your growth chart.",sample:"Quizzes can contain different questions, so trends are indicative rather than strictly comparable. Small topic samples need caution.",recent:"Recent",prior:"Earlier",noPrior:"Not enough data",n:"answers"}};
+const goalText={
+ko:{label:"목표 정답률",save:"목표 저장",current:"최근 전체 퀴즈",gap:"목표까지",forecast:"목표 달성 예상",need:"기록 부족",done:"목표 달성",trend:"현재 추세 유지 시",attempts:"회 추가 응시",caution:"예측 불가 · 최근 점수가 하락하거나 정체 중입니다.",sample:"예측은 전체 20문제 모드의 최근 기록(최소 3회)만 이용한 단순 추세 추정입니다. 동일 문제 반복에 따른 암기 효과가 있으며, 미래 성적을 보장하지 않습니다.",empty:"전체 20문제 퀴즈를 완료하면 목표 진행률이 표시됩니다.",saved:"목표를 저장했습니다."},
+ja:{label:"目標正答率",save:"目標を保存",current:"直近の全20問",gap:"目標まで",forecast:"目標到達予測",need:"データ不足",done:"目標達成",trend:"現在の傾向なら",attempts:"回の追加受験",caution:"予測不可・成績が横ばいまたは低下しています。",sample:"予測は全20問モードの直近3回以上の結果による簡易推定です。問題の記憶による影響があり、将来の成績を保証しません。",empty:"全20問を解くと目標への進捗が表示されます。",saved:"目標を保存しました。"},
+en:{label:"Target accuracy",save:"Save goal",current:"Latest full quiz",gap:"Points to target",forecast:"Estimated to target",need:"Not enough data",done:"Goal reached",trend:"At current trend",attempts:"more attempts",caution:"No reliable estimate: scores are flat or declining.",sample:"Estimate uses a simple trend from at least three recent full 20-question attempts. Repeated questions may inflate scores; this is not a prediction guarantee.",empty:"Complete a full 20-question quiz to see goal progress.",saved:"Goal saved."}};
+const goalStorageKey="day31-growth-goal-v1";
+let goalTarget=90;
+try{const stored=Number(localStorage.getItem(goalStorageKey));if(Number.isInteger(stored)&&stored>=50&&stored<=100)goalTarget=stored}catch(e){}
+$("goal-target").value=goalTarget;
+function renderGoal(){
+ const t=goalText[currentLang],full=history.filter(h=>h.mode==="all"&&h.total===20),recent=full.slice(-5),last=recent.at(-1),rate=h=>100*h.score/h.total,latest=last?rate(last):null;
+ $("goal-label").textContent=t.label;$("goal-save").textContent=t.save;$("goal-target").value=goalTarget;$("goal-method").textContent=t.sample;
+ $("goal-meter-fill").style.width=(latest===null?0:Math.min(100,latest/goalTarget*100))+"%";$("goal-meter").setAttribute("aria-valuenow",String(latest===null?0:Math.round(latest/goalTarget*100)));
+ const host=$("goal-insights");host.replaceChildren();
+ const add=(value,label,extra=false)=>{const box=document.createElement("div");box.className="goal-insight"+(extra?" note":"");const strong=document.createElement("strong");strong.textContent=value;const span=document.createElement("span");span.textContent=label;box.append(strong,span);host.append(box)};
+ add(latest===null?"—":Math.round(latest)+"%",t.current);
+ add(latest===null?"—":Math.max(0,Math.round(goalTarget-latest))+" pp",t.gap);
+ let estimate=t.need;
+ if(latest!==null&&latest>=goalTarget)estimate=t.done;
+ else if(recent.length>=3){
+  // Least-squares slope in percentage points per completed full-quiz attempt.
+  const values=recent.map(rate),n=values.length,meanX=(n-1)/2,meanY=values.reduce((a,b)=>a+b,0)/n;
+  const numerator=values.reduce((acc,v,i)=>acc+(i-meanX)*(v-meanY),0),denominator=values.reduce((acc,v,i)=>acc+(i-meanX)**2,0);
+  const slope=numerator/denominator;
+  if(slope>0.5){const needed=Math.ceil((goalTarget-latest)/slope);estimate=needed<=20?needed+" "+t.attempts:t.caution}else estimate=t.caution;
+ }
+ add(estimate,t.forecast);
+ if(!full.length)add(t.empty,t.trend,true)
+}
+$("goal-save").addEventListener("click",()=>{const v=Number($("goal-target").value);if(!Number.isInteger(v)||v<50||v>100){$("goal-target").focus();return}goalTarget=v;try{localStorage.setItem(goalStorageKey,String(v))}catch(e){}renderGoal()});
+function renderGrowth(){
+ const t=growthText[currentLang],entries=history.filter(h=>h.total>0&&Array.isArray(h.answers)),chart=$("growth-chart"),stats=$("growth-stats"),topics=$("growth-topics");
+ $("growth-title").textContent=t.title;$("growth-subtitle").textContent=t.subtitle;$("growth-chart-title").textContent=t.chart;$("growth-topic-title").textContent=t.topics;$("growth-disclaimer").textContent=t.sample;
+ stats.replaceChildren();topics.replaceChildren();while(chart.firstChild)chart.removeChild(chart.firstChild);
+ const latest=entries.at(-1),prev=entries.at(-2),pct=h=>Math.round(h.score/h.total*100),delta=prev&&latest?pct(latest)-pct(prev):null;
+ $("growth-status").textContent=delta===null?t.insufficient:delta>4?t.up:delta< -4?t.down:t.flat;
+ [[entries.length,t.attempt],[latest?pct(latest)+"%":"—",t.latest],[delta===null?"—":(delta>0?"+":"")+delta+" pp",t.change]].forEach(([v,label])=>{const el=document.createElement("div");el.className="growth-stat";const a=document.createElement("strong");a.textContent=v;const b=document.createElement("span");b.textContent=label;el.append(a,b);stats.append(el)});
+ const svgNS="http://www.w3.org/2000/svg",make=(tag,attrs)=>{const el=document.createElementNS(svgNS,tag);for(const [k,v] of Object.entries(attrs))el.setAttribute(k,String(v));chart.append(el);return el};
+ const W=720,H=245,left=48,right=18,top=24,bottom=40,plotW=W-left-right,plotH=H-top-bottom;
+ for(const tick of [0,25,50,75,100]){const y=top+(100-tick)/100*plotH;make("line",{x1:left,y1:y,x2:W-right,y2:y,stroke:"#53617c", "stroke-opacity":".38","stroke-dasharray":"4 6"});const label=make("text",{x:8,y:y+4,fill:"#9fb0d2","font-size":12});label.textContent=tick+"%"}
+ if(!entries.length){const msg=make("text",{x:W/2,y:130,"text-anchor":"middle",fill:"#b7c5e4","font-size":15});msg.textContent=t.noData;return}
+ const visible=entries.slice(-16),coords=visible.map((h,i)=>({x:left+(visible.length===1?plotW/2:i/(visible.length-1)*plotW),y:top+(100-pct(h))/100*plotH,h}));
+ if(coords.length>1){make("polyline",{points:coords.map(o=>o.x+","+o.y).join(" "),fill:"none",stroke:"#69eee1","stroke-width":3.5,"stroke-linejoin":"round","stroke-linecap":"round"})}
+ coords.forEach((o,i)=>{const c=make("circle",{cx:o.x,cy:o.y,r:5.5,fill:"#b3a2ff",stroke:"#e2ffff","stroke-width":2});const title=document.createElementNS(svgNS,"title");title.textContent=`${visible.length===entries.length?i+1:entries.length-visible.length+i+1}: ${pct(o.h)}% (${o.h.score}/${o.h.total})`;c.append(title);const label=make("text",{x:o.x,y:H-12,"text-anchor":"middle",fill:"#9fb0d2","font-size":11});label.textContent=String(entries.length-visible.length+i+1)});
+ const early=entries.slice(0,Math.ceil(entries.length/2)),recent=entries.slice(Math.ceil(entries.length/2));
+ const allEarly=early.flatMap(h=>h.answers),allRecent=(recent.length?recent:early).flatMap(h=>h.answers);
+ const defs=diagnosticText[currentLang].topics;
+ for(const [key,definition] of Object.entries(defs)){
+  const old=allEarly.filter(a=>questions[a.id]?.topic===key),now=allRecent.filter(a=>questions[a.id]?.topic===key);
+  if(!old.length&&!now.length)continue;
+  const rate=arr=>arr.length?Math.round(arr.filter(a=>a.correct).length/arr.length*100):null;
+  const r=rate(now),before=rate(old),change=recent.length&&old.length&&now.length?r-before:null;
+  const row=document.createElement("div");row.className="growth-topic";
+  const label=document.createElement("span");label.className="growth-topic-label";label.textContent=definition[0];
+  const track=document.createElement("div");track.className="growth-topic-track";const fill=document.createElement("div");fill.className="growth-topic-fill";fill.style.width=(r??0)+"%";track.append(fill);
+  const note=document.createElement("span");note.className="growth-topic-note";note.textContent=(r===null?"—":r+"%")+" · "+now.length+" "+t.n+(change===null?"":` · ${change>0?"+":""}${change} pp`);
+  row.append(label,track,note);topics.append(row)
+ }
+}
+function renderDiagnostics(){
+ const t=diagnosticText[currentLang],all=history.flatMap(h=>h.answers),correct=all.filter(a=>a.correct).length,wrong=all.filter(a=>!a.correct);
+ $("diag-title").textContent=t.title;$("retry-wrong").textContent=t.retry;$("clear-history").textContent=t.clear;$("diag-wrong-title").textContent=t.wrong;
+ const summary=$("diag-summary");summary.replaceChildren();
+ if(!history.length){summary.append(makeStat("—",t.none))}else{
+ const weakTopics=Object.keys(t.topics).filter(topic=>{const group=all.filter(a=>questions[a.id]?.topic===topic);return group.length>=2&&group.filter(a=>!a.correct).length/group.length>=.4});
+ const last=history[history.length-1];
+ [ [String(history.length),t.attempt],[(all.length?Math.round(correct/all.length*100):0)+"%",t.accuracy],[String(weakTopics.length),t.weak],[String(wrong.length),t.wrong], [last.score+" / "+last.total,t.latest] ].forEach(x=>summary.append(makeStat(...x)));
+ }
+ const topics=$("diag-topics");topics.replaceChildren();
+ if(all.length){const grouped=Object.entries(t.topics).map(([key,v])=>{const subset=all.filter(a=>questions[a.id]?.topic===key);return {key,v,n:subset.length,miss:subset.filter(a=>!a.correct).length}}).filter(x=>x.n).sort((a,b)=>(b.miss/b.n)-(a.miss/a.n));
+ for(const item of grouped){const rate=Math.round(item.miss/item.n*100);const box=document.createElement("div");box.className="diag-topic";const head=document.createElement("div");head.className="diag-topic-head";const name=document.createElement("span");name.textContent=item.v[0];const stat=document.createElement("span");stat.textContent=rate+"% · "+item.miss+"/"+item.n;head.append(name,stat);const bar=document.createElement("div");bar.className="diag-bar";const fill=document.createElement("span");fill.style.width=rate+"%";bar.append(fill);const tip=document.createElement("div");tip.className="diag-tip";tip.textContent=(item.n<2?t.lowSample:rate>=40?t.weakLabel:t.okLabel)+" — "+item.v[1];box.append(head,bar,tip);topics.append(box)}}
+ const notes=$("diag-wrong");notes.replaceChildren();
+ const byId=new Map();for(const a of wrong){const old=byId.get(a.id)||{id:a.id,n:0,last:a};old.n++;old.last=a;byId.set(a.id,old)}
+ const sorted=[...byId.values()].sort((a,b)=>b.n-a.n);
+ if(!sorted.length){const el=document.createElement("div");el.className="diag-empty";el.textContent=t.clean;notes.append(el)}
+ else for(const item of sorted){const q=questions[item.id];if(!q)continue;const card=document.createElement("article");card.className="wrong-card";const title=document.createElement("h5");title.textContent=q.q[currentLang];const selectedOption=document.createElement("p");selectedOption.className="wrong-choice";selectedOption.textContent=t.picked+": "+String.fromCharCode(65+item.last.selected)+". "+q.a[currentLang][item.last.selected];const right=document.createElement("p");right.className="right-choice";right.textContent=t.right+": "+String.fromCharCode(65+q.correct)+". "+q.a[currentLang][q.correct];const explain=document.createElement("p");explain.textContent=t.why+": "+q.why[currentLang];const count=document.createElement("p");count.textContent=t.times+": "+item.n;card.append(title,selectedOption,right,explain,count);notes.append(card)}
+ $("retry-wrong").disabled=sorted.length===0;
+ renderAdaptive();
+ renderGrowth();
+ renderGoal();
+}
+const ui={
+ko:{title:"학습 진도 & 실전 퀴즈",intro:"오늘 배운 내용을 체크하고, 퀴즈로 이해도를 확인하세요. 진행 상황은 이 브라우저에 저장됩니다.",tasks:"체크리스트",best:"최고 퀴즈 점수",tabTasks:"✓ 학습 체크",tabQuiz:"⚡ 실전 퀴즈",reset:"체크 초기화",submit:"정답 확인",next:"다음 문제 →",restart:"다시 풀기",note:"* 추가 복습용 퀴즈이며 Day 31 공식 평가 94/100점과 별개입니다.",correct:"정답입니다!",incorrect:"아쉽지만 오답입니다.",choose:"답을 먼저 선택하세요.",finished:"퀴즈 완료!",score:"정답",question:"문제",confirmReset:"체크리스트를 초기화할까요?"},
+ja:{title:"学習進捗と実践クイズ",intro:"学習内容をチェックしてクイズで理解度を確認しましょう。進捗はこのブラウザに保存されます。",tasks:"チェックリスト",best:"クイズ最高得点",tabTasks:"✓ 学習チェック",tabQuiz:"⚡ 実践クイズ",reset:"チェックをリセット",submit:"答えを確認",next:"次の問題 →",restart:"もう一度挑戦",note:"* 復習用クイズです。Day 31の正式評価94/100点には影響しません。",correct:"正解！",incorrect:"不正解です。",choose:"選択肢を選んでください。",finished:"クイズ完了！",score:"正解数",question:"問題",confirmReset:"チェックリストをリセットしますか？"},
+en:{title:"Study Progress & Practice Quiz",intro:"Track your learning and test your knowledge. Progress is saved in this browser.",tasks:"Checklist",best:"Best quiz score",tabTasks:"✓ Study checklist",tabQuiz:"⚡ Practice quiz",reset:"Reset checklist",submit:"Check answer",next:"Next question →",restart:"Try again",note:"* This practice quiz is separate from the official Day 31 score of 94/100.",correct:"Correct!",incorrect:"Not quite.",choose:"Select an answer first.",finished:"Quiz completed!",score:"Correct",question:"Question",confirmReset:"Reset your checklist?"}
+};
+let state={checked:Array(8).fill(false),best:null};
+try{const saved=JSON.parse(localStorage.getItem(storageKey)||"null");if(saved&&Array.isArray(saved.checked)&&saved.checked.length===8){state.checked=saved.checked.map(Boolean);state.best=Number.isInteger(saved.best)?saved.best:null}}catch(e){}
+const save=()=>{try{localStorage.setItem(storageKey,JSON.stringify(state))}catch(e){}};
+let currentLang="ko",qIndex=0,correctCount=0,selected=null,graded=false,finished=false;
+function drawTasks(){const host=$("lab-task-list");host.replaceChildren();taskText[currentLang].forEach((label,i)=>{const wrap=document.createElement("label");wrap.className="task";const input=document.createElement("input");input.type="checkbox";input.checked=state.checked[i];input.addEventListener("change",()=>{state.checked[i]=input.checked;save();drawProgress()});const span=document.createElement("span");span.textContent=label;wrap.append(input,span);host.append(wrap)});drawProgress()}
+function drawProgress(){const count=state.checked.filter(Boolean).length;$("task-count").textContent=count+" / 8";$("lab-fill").style.width=(count/8*100)+"%";$("lab-progress").setAttribute("aria-valuenow",String(count));$("quiz-best").textContent=state.best===null?"—":state.best+" / 20"}
+let difficulty="all";let adaptiveIds=null;
+function activeQuestions(){return adaptiveIds!==null?adaptiveIds.map(i=>questions[i]).filter(Boolean):retryIds!==null?retryIds.map(i=>questions[i]).filter(Boolean):difficulty==="all"?coreQuestions:coreQuestions.filter(q=>q.level===difficulty)}
+function drawQuiz(){
+ const t=ui[currentLang],qs=activeQuestions(),q=qs[qIndex];
+ document.querySelectorAll(".difficulty-btn").forEach(b=>b.classList.toggle("active",retryIds===null&&adaptiveIds===null&&b.dataset.level===difficulty));
+ $("quiz-meter-fill").style.width=(finished?100:(qIndex/qs.length)*100)+"%";
+ $("quiz-count").textContent=finished?t.finished:`${t.question} ${qIndex+1} / ${qs.length} · ${adaptiveIds!==null?adaptiveText[currentLang].quizTitle:retryIds!==null?diagnosticText[currentLang].retryTitle:difficulty.toUpperCase()}`;
+ $("quiz-result").hidden=!finished;$("quiz-options").replaceChildren();$("quiz-feedback").hidden=true;$("quiz-next").hidden=true;$("quiz-submit").hidden=finished;
+ $("quiz-question").replaceChildren();
+ if(finished){$("quiz-question").textContent=`${correctCount} / ${qs.length}`;$("quiz-result").textContent=`${t.score}: ${correctCount} / ${qs.length}`;return}
+ const tag=document.createElement("span");tag.className="level-tag level-"+q.level;tag.textContent=q.level.toUpperCase();
+ $("quiz-question").append(tag,document.createTextNode(q.q[currentLang]));
+ q.a[currentLang].forEach((label,i)=>{const item=document.createElement("label");item.className="quiz-option";const radio=document.createElement("input");radio.type="radio";radio.name="day31-quiz";radio.value=i;radio.checked=selected===i;radio.disabled=graded;radio.addEventListener("change",()=>selected=i);const span=document.createElement("span");span.textContent=String.fromCharCode(65+i)+". "+label;item.append(radio,span);$("quiz-options").append(item)});
+ if(graded)showFeedback()
+}
+function showFeedback(){
+ const t=ui[currentLang],qs=activeQuestions(),q=qs[qIndex],good=selected===q.correct,f=$("quiz-feedback");
+ f.hidden=false;f.className="quiz-feedback "+(good?"good":"bad");f.textContent=(good?t.correct:t.incorrect)+" "+q.why[currentLang];
+ $("quiz-submit").hidden=true;$("quiz-next").hidden=false;$("quiz-next").textContent=qIndex===qs.length-1?t.finished:t.next
+}
+$("quiz-submit").addEventListener("click",()=>{
+ if(selected===null){const f=$("quiz-feedback");f.hidden=false;f.className="quiz-feedback bad";f.textContent=ui[currentLang].choose;return}
+ if(graded)return;graded=true;const q=activeQuestions()[qIndex];const good=selected===q.correct;if(good)correctCount++;runAnswers.push({id:getQuestionId(q),selected,correct:good});drawQuiz()
+});
+$("quiz-next").addEventListener("click",()=>{
+ if(qIndex===activeQuestions().length-1){finished=true;history.push({date:new Date().toISOString(),mode:adaptiveIds!==null?"adaptive":retryIds!==null?"retry":difficulty,score:correctCount,total:activeQuestions().length,answers:runAnswers.slice()});history=history.slice(-80);persistHistory();if(difficulty==="all"&&retryIds===null&&adaptiveIds===null){state.best=Math.max(state.best??0,correctCount);save();drawProgress()}renderDiagnostics()}
+ else{qIndex++;selected=null;graded=false}drawQuiz()
+});
+function resetQuiz(){qIndex=0;correctCount=0;selected=null;graded=false;finished=false;runAnswers=[];drawQuiz()}
+$("quiz-restart").addEventListener("click",resetQuiz);
+document.querySelectorAll(".difficulty-btn").forEach(b=>b.addEventListener("click",()=>{difficulty=b.dataset.level;retryIds=null;adaptiveIds=null;resetQuiz()}));
+$("retry-wrong").addEventListener("click",()=>{const ids=[...new Set(history.flatMap(h=>h.answers).filter(a=>!a.correct).map(a=>a.id))].filter(i=>questions[i]);if(!ids.length)return;retryIds=ids;adaptiveIds=null;resetQuiz();$("quiz-question").scrollIntoView({behavior:"smooth",block:"center"})});
+$("clear-history").addEventListener("click",()=>{if(!confirm(diagnosticText[currentLang].askClear))return;history=[];persistHistory();renderDiagnostics()});
+$("reset-tasks").addEventListener("click",()=>{if(!confirm(ui[currentLang].confirmReset))return;state.checked.fill(false);save();drawTasks()});
+function selectTab(name){const checks=name==="checks";$("lab-checks").hidden=!checks;$("lab-quiz").hidden=checks;$("tab-checks").setAttribute("aria-selected",String(checks));$("tab-quiz").setAttribute("aria-selected",String(!checks))}
+$("tab-checks").addEventListener("click",()=>selectTab("checks"));$("tab-quiz").addEventListener("click",()=>selectTab("quiz"));
+function translate(l){if(!ui[l])return;currentLang=l;const t=ui[l];$("lab-heading").textContent=t.title;$("lab-intro").textContent=t.intro;$("task-caption").textContent=t.tasks;$("quiz-caption").textContent=t.best;$("tab-checks").textContent=t.tabTasks;$("tab-quiz").textContent=t.tabQuiz;$("reset-tasks").textContent=t.reset;$("quiz-submit").textContent=t.submit;$("quiz-restart").textContent=t.restart;$("lab-note").textContent=t.note;drawTasks();drawQuiz();renderDiagnostics()}
+document.querySelectorAll("#langs .chip").forEach(b=>b.addEventListener("click",()=>translate(b.dataset.lang)));
+document.querySelectorAll(".navitem").forEach(b=>b.addEventListener("click",()=>translate(b.dataset.target.split("-")[0])));
+translate("ko");selectTab("checks");
+})();
+</script>
+</body></html>
