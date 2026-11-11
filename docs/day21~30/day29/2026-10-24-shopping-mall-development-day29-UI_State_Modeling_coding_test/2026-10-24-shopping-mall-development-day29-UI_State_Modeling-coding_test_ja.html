@@ -1,0 +1,59 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Day 29 — UI状態モデリングと条件付きレンダリング — コーディングテスト</title>
+<style>:root{font-family:system-ui,-apple-system,"Noto Sans",sans-serif;color-scheme:light dark}body{margin:0;background:#f5f7fb;color:#172235}main{max-width:860px;margin:auto;padding:32px 18px 70px}header{background:#172b4d;color:white;padding:24px;border-radius:18px}h1{font-size:1.65rem}.card{background:white;border:1px solid #dce3ed;border-radius:14px;margin-top:18px;padding:20px;box-shadow:0 2px 8px #0d1c3010}textarea{box-sizing:border-box;width:100%;min-height:160px;font:14px/1.5 ui-monospace,Consolas,monospace;border:1px solid #a8b8cc;border-radius:9px;padding:12px;resize:vertical;background:#fafcff;color:#172235}button{background:#2366c1;color:white;border:0;padding:10px 16px;border-radius:8px;cursor:pointer}.actions{display:flex;justify-content:space-between;align-items:center;margin-top:12px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#101d30;color:#e7f2ff;border-radius:10px;padding:16px;font-size:13px;line-height:1.5}.meta{color:#58677b}.bar{height:9px;background:#dbe3ef;border-radius:10px;overflow:hidden;margin:12px 0}#fill{height:100%;width:0;background:#2d8f69;transition:width .2s}@media(prefers-color-scheme:dark){body{background:#101722;color:#e8eff8}.card{background:#192538;border-color:#36435a}textarea{background:#101a2b;color:#edf4ff;border-color:#55637a}.meta{color:#b2c1d6}}</style></head>
+<body><main><header><h1>Day 29 — UI状態モデリングと条件付きレンダリング — コーディングテスト</h1><p>コードを書いてから模範解答と比較してください。自動採点ではなく自己評価用です。</p></header>
+<p class="meta">セルフチェック: <strong id="count">0 / 5</strong></p><div class="bar"><div id="fill"></div></div>
+<section class="card"><h2>Q1. useOrders() のオブジェクト分割代入を修正してください。</h2>
+<textarea id="a1" spellcheck="false" placeholder="ここにコードを書いてください"></textarea>
+<div class="actions"><button onclick="toggle(1,this)">解答を表示</button><label><input type="checkbox" class="done" onchange="progress()"> ✓</label></div>
+<pre id="s1" class="solution" hidden><code>function AdminOrdersPage() {
+  const { orders, isLoading, error } = useOrders();
+  return &lt;p&gt;{orders.length}&lt;/p&gt;;
+}</code></pre></section><section class="card"><h2>Q2. WelcomePage に不足している return を追加してください。</h2>
+<textarea id="a2" spellcheck="false" placeholder="ここにコードを書いてください"></textarea>
+<div class="actions"><button onclick="toggle(2,this)">解答を表示</button><label><input type="checkbox" class="done" onchange="progress()"> ✓</label></div>
+<pre id="s2" class="solution" hidden><code>function WelcomePage() {
+  return (
+    &lt;main&gt;
+      &lt;h1&gt;Welcome&lt;/h1&gt;
+    &lt;/main&gt;
+  );
+}</code></pre></section><section class="card"><h2>Q3. &amp;&amp; で Loading を表示してください。</h2>
+<textarea id="a3" spellcheck="false" placeholder="ここにコードを書いてください"></textarea>
+<div class="actions"><button onclick="toggle(3,this)">解答を表示</button><label><input type="checkbox" class="done" onchange="progress()"> ✓</label></div>
+<pre id="s3" class="solution" hidden><code>function LoadingPage({ isLoading }: { isLoading: boolean }) {
+  return &lt;main&gt;{isLoading &amp;&amp; &lt;p&gt;Loading...&lt;/p&gt;}&lt;/main&gt;;
+}</code></pre></section><section class="card"><h2>Q4. &amp;&amp; で Error と Empty を表示してください。</h2>
+<textarea id="a4" spellcheck="false" placeholder="ここにコードを書いてください"></textarea>
+<div class="actions"><button onclick="toggle(4,this)">解答を表示</button><label><input type="checkbox" class="done" onchange="progress()"> ✓</label></div>
+<pre id="s4" class="solution" hidden><code>function StatePage({ orders, isLoading, error }: {
+  orders: Order[]; isLoading: boolean; error: string | null;
+}) {
+  return (
+    &lt;main&gt;
+      {!isLoading &amp;&amp; error &amp;&amp; &lt;p&gt;Error: {error}&lt;/p&gt;}
+      {!isLoading &amp;&amp; !error &amp;&amp; orders.length === 0 &amp;&amp; &lt;p&gt;Empty&lt;/p&gt;}
+    &lt;/main&gt;
+  );
+}</code></pre></section><section class="card"><h2>Q5. &amp;&amp; で4つのUI状態を統合してください。</h2>
+<textarea id="a5" spellcheck="false" placeholder="ここにコードを書いてください"></textarea>
+<div class="actions"><button onclick="toggle(5,this)">解答を表示</button><label><input type="checkbox" class="done" onchange="progress()"> ✓</label></div>
+<pre id="s5" class="solution" hidden><code>function AdminOrdersPage() {
+  const { orders, isLoading, error } = useOrders();
+
+  return (
+    &lt;main&gt;
+      {isLoading &amp;&amp; &lt;p&gt;Loading...&lt;/p&gt;}
+      {!isLoading &amp;&amp; error &amp;&amp; &lt;p&gt;Error: {error}&lt;/p&gt;}
+      {!isLoading &amp;&amp; !error &amp;&amp; orders.length === 0 &amp;&amp; &lt;p&gt;Empty&lt;/p&gt;}
+      {!isLoading &amp;&amp; !error &amp;&amp; orders.length &gt; 0 &amp;&amp; (
+        &lt;OrderList orders={orders} /&gt;
+      )}
+    &lt;/main&gt;
+  );
+}</code></pre></section>
+<p class="meta">コードを書いてから模範解答と比較してください。自動採点ではなく自己評価用です。</p>
+</main><script>
+function toggle(n,btn){const el=document.getElementById('s'+n);el.hidden=!el.hidden;btn.textContent=el.hidden?"解答を表示":"解答を隠す";}
+function progress(){const n=document.querySelectorAll('.done:checked').length;document.getElementById('count').textContent=n+' / 5';document.getElementById('fill').style.width=(n*20)+'%';}
+</script></body></html>

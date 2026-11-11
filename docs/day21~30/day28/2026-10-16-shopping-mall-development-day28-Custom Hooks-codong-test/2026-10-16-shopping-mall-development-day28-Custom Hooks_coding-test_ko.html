@@ -1,0 +1,165 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Day 28 — 주관식 코딩 테스트</title><style>
+:root{color-scheme:light}*{box-sizing:border-box}body{margin:0;background:#f4f6fa;color:#202938;font:16px/1.7 system-ui,-apple-system,"Noto Sans",sans-serif}main{max-width:900px;margin:auto;padding:35px 18px 90px}header{background:#172c46;color:white;padding:30px;border-radius:16px;margin-bottom:22px}h1{font-size:clamp(24px,4vw,34px);line-height:1.3;margin:0 0 10px}header p{color:#d5e4f3;margin:0}.panel{background:white;border:1px solid #dde4ee;border-radius:14px;padding:24px;margin:17px 0;box-shadow:0 3px 15px #1a304308}h2{font-size:19px;line-height:1.45;margin:0 0 12px}p{white-space:pre-line}aside{border-left:4px solid #2b8068;padding:10px 15px;background:#edf7f3;border-radius:5px}pre{font:13px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;background:#f1f5fa;padding:16px;border-radius:9px}textarea{width:100%;min-height:160px;padding:14px;border:1px solid #b8c6d6;border-radius:9px;font:14px/1.6 ui-monospace,Consolas,monospace;resize:vertical}label{display:block;font-weight:600;margin:8px 0}label.check{font-weight:400}button{border:1px solid #c4d1dd;background:#e8f0f7;padding:9px 13px;border-radius:8px;cursor:pointer;font-weight:600}button:hover{background:#dbe9f5}summary{cursor:pointer;font-weight:650;color:#225e7d;padding:10px 0}details{margin:10px 0}.comparison{display:grid;grid-template-columns:1fr 1fr;gap:10px}.comparison pre{height:100%}.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:20px 0}.muted{color:#596a7d}@media(max-width:620px){.comparison{grid-template-columns:1fr}.panel{padding:16px}}</style></head><body data-kind="coding"><main><header><h1>Day 28 — 주관식 코딩 테스트</h1><p>실제 주문 관리 프로젝트 기반 복습 자료 · Next.js / React / TypeScript</p></header><p class="muted">답안은 이 브라우저에 자동 저장됩니다. 모범 답안은 여러 가능한 해법 중 하나입니다. 코드 실행 자동 채점은 제공하지 않습니다.</p><div class="toolbar"><span id="progress"></span><button id="export">답안 내보내기</button><button id="reset">답안 초기화</button></div><section class="panel item"><h2>1. OrderCardProps 타입을 실제 Hook 반환 타입에 맞게 작성하라.</h2><label for="a0">내 답안</label><textarea id="a0" data-i="0" spellcheck="false" placeholder="..."></textarea><label class="check"><input type="checkbox" data-done="0"> 완료</label><details><summary>정답 펼치기</summary><pre>type OrderCardProps = {
+  order: Order;
+  onStatusChange: (id: number, status: OrderStatus) =&gt; Promise&lt;Order | null&gt;;
+};</pre></details><button type="button" data-compare="0">답안 비교</button><div class="comparison" id="c0" hidden><div><b>내 답안</b><pre id="own0"></pre></div><div><b>모범 답안</b><pre>type OrderCardProps = {
+  order: Order;
+  onStatusChange: (id: number, status: OrderStatus) =&gt; Promise&lt;Order | null&gt;;
+};</pre></div></div></section><section class="panel item"><h2>2. AdminOrdersPage에서 OrderCard에 Props와 Callback을 전달하는 JSX를 작성하라.</h2><label for="a1">내 답안</label><textarea id="a1" data-i="1" spellcheck="false" placeholder="..."></textarea><label class="check"><input type="checkbox" data-done="1"> 완료</label><details><summary>정답 펼치기</summary><pre>&lt;OrderCard
+  key={order.id}
+  order={order}
+  onStatusChange={updateOrderStatus}
+/&gt;</pre></details><button type="button" data-compare="1">답안 비교</button><div class="comparison" id="c1" hidden><div><b>내 답안</b><pre id="own1"></pre></div><div><b>모범 답안</b><pre>&lt;OrderCard
+  key={order.id}
+  order={order}
+  onStatusChange={updateOrderStatus}
+/&gt;</pre></div></div></section><section class="panel item"><h2>3. OrderCard의 select에 value와 onChange를 연결하라.</h2><label for="a2">내 답안</label><textarea id="a2" data-i="2" spellcheck="false" placeholder="..."></textarea><label class="check"><input type="checkbox" data-done="2"> 완료</label><details><summary>정답 펼치기</summary><pre>&lt;select
+  value={order.status}
+  onChange={(e) =&gt; {
+    void onStatusChange(order.id, e.target.value as OrderStatus);
+  }}
+/&gt;</pre></details><button type="button" data-compare="2">답안 비교</button><div class="comparison" id="c2" hidden><div><b>내 답안</b><pre id="own2"></pre></div><div><b>모범 답안</b><pre>&lt;select
+  value={order.status}
+  onChange={(e) =&gt; {
+    void onStatusChange(order.id, e.target.value as OrderStatus);
+  }}
+/&gt;</pre></div></div></section><section class="panel item"><h2>4. updatedOrder를 사용해 주문 목록을 불변 업데이트하라.</h2><label for="a3">내 답안</label><textarea id="a3" data-i="3" spellcheck="false" placeholder="..."></textarea><label class="check"><input type="checkbox" data-done="3"> 완료</label><details><summary>정답 펼치기</summary><pre>setOrders((prev) =&gt;
+  prev.map((order) =&gt;
+    order.id === updatedOrder.id ? updatedOrder : order
+  )
+);</pre></details><button type="button" data-compare="3">답안 비교</button><div class="comparison" id="c3" hidden><div><b>내 답안</b><pre id="own3"></pre></div><div><b>모범 답안</b><pre>setOrders((prev) =&gt;
+  prev.map((order) =&gt;
+    order.id === updatedOrder.id ? updatedOrder : order
+  )
+);</pre></div></div></section><section class="panel item"><h2>5. id와 status를 이용해 해당 주문만 전개 문법으로 갱신하라.</h2><label for="a4">내 답안</label><textarea id="a4" data-i="4" spellcheck="false" placeholder="..."></textarea><label class="check"><input type="checkbox" data-done="4"> 완료</label><details><summary>정답 펼치기</summary><pre>setOrders((prev) =&gt;
+  prev.map((order) =&gt;
+    order.id === id ? { ...order, status } : order
+  )
+);</pre></details><button type="button" data-compare="4">답안 비교</button><div class="comparison" id="c4" hidden><div><b>내 답안</b><pre id="own4"></pre></div><div><b>모범 답안</b><pre>setOrders((prev) =&gt;
+  prev.map((order) =&gt;
+    order.id === id ? { ...order, status } : order
+  )
+);</pre></div></div></section><section class="panel item"><h2>6. PATCH 요청의 URL, method, headers, body를 모두 작성하라.</h2><label for="a5">내 답안</label><textarea id="a5" data-i="5" spellcheck="false" placeholder="..."></textarea><label class="check"><input type="checkbox" data-done="5"> 완료</label><details><summary>정답 펼치기</summary><pre>const response = await fetch(`/api/orders/${id}`, {
+  method: &quot;PATCH&quot;,
+  headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+  body: JSON.stringify({ status }),
+});</pre></details><button type="button" data-compare="5">답안 비교</button><div class="comparison" id="c5" hidden><div><b>내 답안</b><pre id="own5"></pre></div><div><b>모범 답안</b><pre>const response = await fetch(`/api/orders/${id}`, {
+  method: &quot;PATCH&quot;,
+  headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+  body: JSON.stringify({ status }),
+});</pre></div></div></section><section class="panel item"><h2>7. response.ok를 검사하고 실패 시 오류를 던지는 코드를 작성하라.</h2><label for="a6">내 답안</label><textarea id="a6" data-i="6" spellcheck="false" placeholder="..."></textarea><label class="check"><input type="checkbox" data-done="6"> 완료</label><details><summary>정답 펼치기</summary><pre>if (!response.ok) {
+  throw new Error(`주문 상태 변경 실패: ${response.status}`);
+}</pre></details><button type="button" data-compare="6">답안 비교</button><div class="comparison" id="c6" hidden><div><b>내 답안</b><pre id="own6"></pre></div><div><b>모범 답안</b><pre>if (!response.ok) {
+  throw new Error(`주문 상태 변경 실패: ${response.status}`);
+}</pre></div></div></section><section class="panel item"><h2>8. 서버 JSON을 Order로 읽고 목록을 갱신한 뒤 결과를 반환하라.</h2><label for="a7">내 답안</label><textarea id="a7" data-i="7" spellcheck="false" placeholder="..."></textarea><label class="check"><input type="checkbox" data-done="7"> 완료</label><details><summary>정답 펼치기</summary><pre>const updatedOrder: Order = await response.json();
+setOrders((prev) =&gt;
+  prev.map((order) =&gt;
+    order.id === updatedOrder.id ? updatedOrder : order
+  )
+);
+return updatedOrder;</pre></details><button type="button" data-compare="7">답안 비교</button><div class="comparison" id="c7" hidden><div><b>내 답안</b><pre id="own7"></pre></div><div><b>모범 답안</b><pre>const updatedOrder: Order = await response.json();
+setOrders((prev) =&gt;
+  prev.map((order) =&gt;
+    order.id === updatedOrder.id ? updatedOrder : order
+  )
+);
+return updatedOrder;</pre></div></div></section><section class="panel item"><h2>9. unknown 오류를 처리하고 null을 반환하는 catch 블록을 작성하라.</h2><label for="a8">내 답안</label><textarea id="a8" data-i="8" spellcheck="false" placeholder="..."></textarea><label class="check"><input type="checkbox" data-done="8"> 완료</label><details><summary>정답 펼치기</summary><pre>catch (error: unknown) {
+  setError(getErrorMessage(error));
+  return null;
+}</pre></details><button type="button" data-compare="8">답안 비교</button><div class="comparison" id="c8" hidden><div><b>내 답안</b><pre id="own8"></pre></div><div><b>모범 답안</b><pre>catch (error: unknown) {
+  setError(getErrorMessage(error));
+  return null;
+}</pre></div></div></section><section class="panel item"><h2>10. unknown 오류에서 문자열 메시지를 추출하는 함수를 작성하라.</h2><label for="a9">내 답안</label><textarea id="a9" data-i="9" spellcheck="false" placeholder="..."></textarea><label class="check"><input type="checkbox" data-done="9"> 완료</label><details><summary>정답 펼치기</summary><pre>function getErrorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : &quot;알 수 없는 오류가 발생했습니다.&quot;;
+}</pre></details><button type="button" data-compare="9">답안 비교</button><div class="comparison" id="c9" hidden><div><b>내 답안</b><pre id="own9"></pre></div><div><b>모범 답안</b><pre>function getErrorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : &quot;알 수 없는 오류가 발생했습니다.&quot;;
+}</pre></div></div></section><section class="panel item"><h2>11. updatingId를 사용해 중복 요청을 막는 핸들러를 작성하라.</h2><label for="a10">내 답안</label><textarea id="a10" data-i="10" spellcheck="false" placeholder="..."></textarea><label class="check"><input type="checkbox" data-done="10"> 완료</label><details><summary>정답 펼치기</summary><pre>const [updatingId, setUpdatingId] = useState&lt;number | null&gt;(null);
+async function handleChange(status: OrderStatus) {
+  if (updatingId !== null) return;
+  setUpdatingId(order.id);
+  try {
+    await onStatusChange(order.id, status);
+  } finally {
+    setUpdatingId(null);
+  }
+}</pre></details><button type="button" data-compare="10">답안 비교</button><div class="comparison" id="c10" hidden><div><b>내 답안</b><pre id="own10"></pre></div><div><b>모범 답안</b><pre>const [updatingId, setUpdatingId] = useState&lt;number | null&gt;(null);
+async function handleChange(status: OrderStatus) {
+  if (updatingId !== null) return;
+  setUpdatingId(order.id);
+  try {
+    await onStatusChange(order.id, status);
+  } finally {
+    setUpdatingId(null);
+  }
+}</pre></div></div></section><section class="panel item"><h2>12. Callback의 Promise 결과가 null인지 검사하는 코드를 작성하라.</h2><label for="a11">내 답안</label><textarea id="a11" data-i="11" spellcheck="false" placeholder="..."></textarea><label class="check"><input type="checkbox" data-done="11"> 완료</label><details><summary>정답 펼치기</summary><pre>const result = await onStatusChange(order.id, nextStatus);
+if (result === null) {
+  // 실패 메시지는 Hook의 error State로 처리 가능
+  return;
+}
+// 성공 후 추가 UI 작업</pre></details><button type="button" data-compare="11">답안 비교</button><div class="comparison" id="c11" hidden><div><b>내 답안</b><pre id="own11"></pre></div><div><b>모범 답안</b><pre>const result = await onStatusChange(order.id, nextStatus);
+if (result === null) {
+  // 실패 메시지는 Hook의 error State로 처리 가능
+  return;
+}
+// 성공 후 추가 UI 작업</pre></div></div></section><section class="panel item"><h2>13. PATCH 오류가 나도 주문 카드가 숨겨지지 않도록 렌더링 조건을 수정하라.</h2><label for="a12">내 답안</label><textarea id="a12" data-i="12" spellcheck="false" placeholder="..."></textarea><label class="check"><input type="checkbox" data-done="12"> 완료</label><details><summary>정답 펼치기</summary><pre>{isLoading &amp;&amp; &lt;p&gt;주문을 불러오는 중입니다...&lt;/p&gt;}
+{error &amp;&amp; &lt;p role=&quot;alert&quot;&gt;{error}&lt;/p&gt;}
+{!isLoading &amp;&amp; orders.length &gt; 0 &amp;&amp;
+  orders.map((order) =&gt; (
+    &lt;OrderCard key={order.id} order={order} onStatusChange={updateOrderStatus} /&gt;
+  ))}</pre></details><button type="button" data-compare="12">답안 비교</button><div class="comparison" id="c12" hidden><div><b>내 답안</b><pre id="own12"></pre></div><div><b>모범 답안</b><pre>{isLoading &amp;&amp; &lt;p&gt;주문을 불러오는 중입니다...&lt;/p&gt;}
+{error &amp;&amp; &lt;p role=&quot;alert&quot;&gt;{error}&lt;/p&gt;}
+{!isLoading &amp;&amp; orders.length &gt; 0 &amp;&amp;
+  orders.map((order) =&gt; (
+    &lt;OrderCard key={order.id} order={order} onStatusChange={updateOrderStatus} /&gt;
+  ))}</pre></div></div></section><section class="panel item"><h2>14. 백틱·쉼표·response.ok 순서를 지킨 PATCH 갱신 코드를 작성하라.</h2><label for="a13">내 답안</label><textarea id="a13" data-i="13" spellcheck="false" placeholder="..."></textarea><label class="check"><input type="checkbox" data-done="13"> 완료</label><details><summary>정답 펼치기</summary><pre>const response = await fetch(`/api/orders/${id}`, {
+  method: &quot;PATCH&quot;,
+  headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+  body: JSON.stringify({ status }),
+});
+if (!response.ok) throw new Error(&quot;변경 실패&quot;);
+const updatedOrder: Order = await response.json();
+setOrders((prev) =&gt; prev.map((o) =&gt; o.id === updatedOrder.id ? updatedOrder : o));</pre></details><button type="button" data-compare="13">답안 비교</button><div class="comparison" id="c13" hidden><div><b>내 답안</b><pre id="own13"></pre></div><div><b>모범 답안</b><pre>const response = await fetch(`/api/orders/${id}`, {
+  method: &quot;PATCH&quot;,
+  headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+  body: JSON.stringify({ status }),
+});
+if (!response.ok) throw new Error(&quot;변경 실패&quot;);
+const updatedOrder: Order = await response.json();
+setOrders((prev) =&gt; prev.map((o) =&gt; o.id === updatedOrder.id ? updatedOrder : o));</pre></div></div></section><section class="panel item"><h2>15. PATCH의 성공·실패 전체 흐름을 try/catch로 작성하라.</h2><label for="a14">내 답안</label><textarea id="a14" data-i="14" spellcheck="false" placeholder="..."></textarea><label class="check"><input type="checkbox" data-done="14"> 완료</label><details><summary>정답 펼치기</summary><pre>try {
+  const response = await fetch(`/api/orders/${id}`, {
+    method: &quot;PATCH&quot;,
+    headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+    body: JSON.stringify({ status }),
+  });
+  if (!response.ok) throw new Error(&quot;변경 실패&quot;);
+  const updatedOrder: Order = await response.json();
+  setOrders((prev) =&gt; prev.map((o) =&gt; o.id === updatedOrder.id ? updatedOrder : o));
+  return updatedOrder;
+} catch (error: unknown) {
+  setError(getErrorMessage(error));
+  return null;
+}</pre></details><button type="button" data-compare="14">답안 비교</button><div class="comparison" id="c14" hidden><div><b>내 답안</b><pre id="own14"></pre></div><div><b>모범 답안</b><pre>try {
+  const response = await fetch(`/api/orders/${id}`, {
+    method: &quot;PATCH&quot;,
+    headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+    body: JSON.stringify({ status }),
+  });
+  if (!response.ok) throw new Error(&quot;변경 실패&quot;);
+  const updatedOrder: Order = await response.json();
+  setOrders((prev) =&gt; prev.map((o) =&gt; o.id === updatedOrder.id ? updatedOrder : o));
+  return updatedOrder;
+} catch (error: unknown) {
+  setError(getErrorMessage(error));
+  return null;
+}</pre></div></div></section></main>
+<script>
+const prefix='day28-'+document.documentElement.lang+'-'+document.body.dataset.kind+'-v1';
+const fields=[...document.querySelectorAll('textarea[data-i]')];
+const checks=[...document.querySelectorAll('input[data-done]')];
+function update(){document.getElementById('progress').textContent=checks.filter(x=>x.checked).length+' / '+checks.length;}
+fields.forEach(el=>{el.value=localStorage.getItem(prefix+'-answer-'+el.dataset.i)||'';el.addEventListener('input',()=>localStorage.setItem(prefix+'-answer-'+el.dataset.i,el.value));});
+checks.forEach(el=>{el.checked=localStorage.getItem(prefix+'-done-'+el.dataset.done)==='1';el.addEventListener('change',()=>{localStorage.setItem(prefix+'-done-'+el.dataset.done,el.checked?'1':'0');update()})});update();
+document.querySelectorAll('[data-compare]').forEach(btn=>btn.addEventListener('click',()=>{const i=btn.dataset.compare,box=document.getElementById('c'+i);document.getElementById('own'+i).textContent=document.getElementById('a'+i).value;box.hidden=!box.hidden;}));
+document.getElementById('export').addEventListener('click',()=>{const payload={lang:document.documentElement.lang,kind:document.body.dataset.kind,answers:fields.map(x=>x.value),completed:checks.map(x=>x.checked)};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=prefix+'-answers.json';a.click();URL.revokeObjectURL(a.href)});
+document.getElementById('reset').addEventListener('click',()=>{if(!confirm('Clear all answers? / 모든 답안 삭제? / 解答をすべて削除しますか？'))return;fields.forEach(x=>{x.value='';localStorage.removeItem(prefix+'-answer-'+x.dataset.i)});checks.forEach(x=>{x.checked=false;localStorage.removeItem(prefix+'-done-'+x.dataset.done)});update()});
+</script></body></html>
